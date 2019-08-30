@@ -30,6 +30,13 @@
             fill: blue;
             stroke: grey;
         }
+        .scatterChart {
+            fill:red;
+        }
+        .trendLineChart {
+            fill:none;
+            stroke:blue;
+        }
 
     </style>
 </head>
@@ -130,7 +137,7 @@
             </path>
             </g>
 
-            <g transform="translate(235, 118) rotate(-90, 132.0, 0.0)">
+            <g transform="translate(240, 118) rotate(-90, 132.0, 0.0)">
                 <!--Scaled the Y-Dimension (the Y coordiantes) by multiples of 25-->
                 <!-- Scaled the X axis by multiples of 12-->
                 <path class="areaChartRight" d="m 0, 0
@@ -145,15 +152,27 @@
                 L 108.0, 271.0
                 L 120.0, 120.5
                 L 132.0, 142.0
-                L 132.0, 0.0
-                L -0.5, 0">
+                L 132.0, 0.0">
             </path>
             </g>
         </svg>
 
         <!--Scatterplot Charts-->
         <h1>Scatterplot</h1>
-        <svg width="800" height="200">
+        <svg width="800" height="300">
+            <g transform="scale(17, -14) translate(0, -15)">
+                <circle class="scatterChart" cx="10.0" cy="8.04" r="0.3"></circle>
+                <circle class="scatterChart" cx="8.0" cy="6.95" r="0.3"></circle>
+                <circle class="scatterChart" cx="13.0" cy="7.58" r="0.3"></circle>
+                <circle class="scatterChart" cx="9.0" cy="8.81" r="0.3"></circle>
+                <circle class="scatterChart" cx="11.0" cy="8.33" r="0.3"></circle>
+                <circle class="scatterChart" cx="14.0" cy="9.96" r="0.3"></circle>
+                <circle class="scatterChart" cx="6.0" cy="7.24" r="0.3"></circle>
+                <circle class="scatterChart" cx="4.0" cy="4.26" r="0.3"></circle>
+                <circle class="scatterChart" cx="12.0" cy="10.84" r="0.3"></circle>
+                <circle class="scatterChart" cx="7.0" cy="4.82" r="0.3"></circle>
+                <circle class="scatterChart" cx="5.0" cy="5.68" r="0.3"></circle>
+            </g>
         </svg>
     </body>
 </html>
