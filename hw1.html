@@ -1,0 +1,92 @@
+<!--
+    Name: Pranav Rajan
+    email:u1136324@utah.edu
+    uID:u1136324
+-->
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>CS 5630 Homework 1</title>
+    <style>
+        .barChartLeft {
+            fill:red;
+        }
+        .barChartRight {
+            fill:blue;
+        }
+        .pathLineChart {
+            stroke:red;
+            fill:none;
+        }
+        .lineElementChart {
+            stroke:blue;
+            fill:none;
+        }
+
+    </style>
+</head>
+<html>
+    <body>
+        <!-- BAR CHARTS-->
+        <h1>Bar Charts</h1>
+        <svg width="800" height="200">
+            <g transform="translate(400,0) scale(-20, 5)">
+                <rect class="barChartLeft" x="0" y="0" width="10.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="4" width="8.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="8" width="13.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="12" width="9.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="16" width="11.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="20" width="14.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="24" width="6.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="28" width="4.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="32" width="12.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="36" width="7.0" height="3.0"/>
+                <rect class="barChartLeft" x="0" y="40" width="5.0" height="3.0"/>
+            </g>
+            <g transform="translate(403, -220) scale(20,5)">
+                <rect class="barChartRight" x="0" y="44" width="8.04" height="3.0"/>
+                <rect class="barChartRight" x="0" y="48" width="6.95" height="3.0"/>
+                <rect class="barChartRight" x="0" y="52" width="7.58" height="3.0"/>
+                <rect class="barChartRight" x="0" y="56" width="8.81" height="3.0"/>
+                <rect class="barChartRight" x="0" y="60" width="8.33" height="3.0"/>
+                <rect class="barChartRight" x="0" y="64" width="9.96" height="3.0"/>
+                <rect class="barChartRight" x="0" y="68" width="7.24" height="3.0"/>
+                <rect class="barChartRight" x="0" y="72" width="4.26" height="3.0"/>
+                <rect class="barChartRight" x="0" y="76" width="10.84" height="3.0"/>
+                <rect class="barChartRight" x="0" y="80" width="4.82" height="3.0"/>
+                <rect class="barChartRight" x="0" y="84" width="5.68" height="3.0"/>
+            </g>
+        </svg>
+
+        <!-- LINE CHARTS-->
+        <h1>Line Charts</h1>
+        <svg width="800" height="300">
+            <g>
+                <!--Scaled the X-Dimension (the Y coordinates) by 10-->
+                <!--Scaled the X axis by multiples of 12-->
+                <path class="pathLineChart"d="M 0, 0
+                L 12.0, 200.0 
+                L 24.0, 160.0
+                L 36.0, 260.0
+                L 48.0, 180.0
+                L 60.0, 220.0
+                L 72.0, 280.0
+                L 84.0, 120.0
+                L 96.0, 160.0
+                L 108.0, 240.0,
+                L 120.0, 140.0,
+                L 132.0, 100.0"></path>
+            </g>
+        </svg>
+
+        <!--Area Charts-->
+        <h1>Area Charts</h1>
+        <svg width="800" height="200">
+        </svg>
+
+        <!--Scatterplot Charts-->
+        <h1>Scatterplot</h1>
+        <svg width="800" height="200">
+        </svg>
+    </body>
+</html>
