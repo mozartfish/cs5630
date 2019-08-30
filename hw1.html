@@ -22,6 +22,13 @@
             stroke:blue;
             fill:none;
         }
+        .areaChartLeft {
+            fill:red;
+            stroke:grey;
+        }
+        .areaChartRight {
+            fill:blue;
+        }
 
     </style>
 </head>
@@ -61,8 +68,8 @@
         <!-- LINE CHARTS-->
         <h1>Line Charts</h1>
         <svg width="800" height="300">
-            <g>
-                <!--Scaled the X-Dimension (the Y coordinates) by 10-->
+            <g transform="translate(200,0)">
+                <!--Scaled the X-Dimension (the Y coordinates) by multiples of 20-->
                 <!--Scaled the X axis by multiples of 12-->
                 <path class="pathLineChart"d="M 0, 0
                 L 12.0, 200.0 
@@ -77,11 +84,45 @@
                 L 120.0, 140.0,
                 L 132.0, 100.0"></path>
             </g>
+            <g transform="translate(403,50)">
+                <!--Scaled the X coordinates by 24-->
+                <!--Scaled the Y Dimension (the Y coordinates) by 20-->
+                <line class="lineElementChart" x1="0.0" y1="0.0" x2="24.0" y2="160.8"/>
+                <line class="lineElementChart" x1="24.0" y1="160.8" x2="48.0" y2="139.0"/>
+                <line class="lineElementChart" x1="48.0" y1="139.0" x2="72.0" y2="151.6"/>
+                <line class="lineElementChart" x1="72.0" y1="151.6" x2="96.0" y2="176.2"/>
+                <line class="lineElementChart" x1="96.0" y1="176.2" x2="120.0" y2="166.6"/>
+                <line class="lineElementChart" x1="120.0" y1="166.6" x2="144.0" y2="199.2"/>
+                <line class="lineElementChart" x1="144.0" y1="199.2" x2="168.0" y2="144.8"/>
+                <line class="lineElementChart" x1="168.0" y1="144.8" x2="192.0" y2="85.2"/>
+                <line class="lineElementChart" x1="192.0" y1="85.2" x2="216.0" y2="216.8"/>
+                <line class="lineElementChart" x1="216.0" y1="216.8" x2="240.0" y2="96.4"/>
+                <line class="lineElementChart" x1="240.0" y1="96.4" x2="264.0" y2="113.6"/>
+            </g>
         </svg>
 
         <!--Area Charts-->
         <h1>Area Charts</h1>
-        <svg width="800" height="200">
+        <svg width="800" height="400">
+            <g transform="translate(200,250) rotate(90, 132.0, 0.0)">
+                <!--Scaled the X-Dimension (the Y coordinates) by multiples of 25-->
+                <!--Scaled the X axis by multiples of 12-->
+                <path class="areaChartLeft"d="M 0, 0
+                L 12.0, 250.0 
+                L 24.0, 200.0
+                L 36.0, 325.0
+                L 48.0, 225.0
+                L 60.0, 275.0
+                L 72.0, 350.0
+                L 84.0, 150.0
+                L 96.0, 100.0
+                L 108.0, 300.0,
+                L 120.0, 175.0,
+                L 132.0, 125.0
+                L 132.0, 0.0
+                L -0.5.0, 0.0
+                "></path>
+            </g>
         </svg>
 
         <!--Scatterplot Charts-->
