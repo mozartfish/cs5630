@@ -8,12 +8,16 @@ class Tree {
      */
     constructor(json) {
         //List for storing nodes
-        let nodeList = [];
+        this.nodeList = [];
 
-        for (i = 0; i < json.length; i++)
+        for (var i = 0; i < json.length; i++)
         {
-            
+            let newNode = new Node(json[i].name, json[i].parent);
+            this.nodeList.push(newNode);
         }
+        
+        // For debugging purposes
+        console.log(this.nodeList);
 
 
     }
