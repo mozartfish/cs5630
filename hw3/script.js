@@ -5,6 +5,25 @@
  */
 function staircase() {
   // ****** TODO: PART II ******
+
+  // list that contains the children of the aBarChart
+  let aBarList = document.getElementById("aBarChart").childNodes;
+  for (var i  = 0; i < aBarList.length; i++)
+  {
+    let node = aBarList[i];
+    //console.log(node.localName);
+    if (node.localName === "rect")
+    {
+      let rectTransform = node.getAttribute("transform");
+      let transformArray = rectTransform.split("scale");
+      let newTransform = transformArray[0] + "scale(-10, 1.0)";
+      node.setAttribute("transform", newTransform);
+      //console.log(newTransform);
+      //console.log(transformArray[0]);
+      //console.log(rectTransform);
+    }
+  }
+  console.log(document.getElementById("aBarChart").childNodes);
 }
 
 /**
