@@ -8,22 +8,50 @@ function staircase() {
 
   // list that contains the children of the aBarChart
   let aBarList = document.getElementById("aBarChart").childNodes;
-  for (var i  = 0; i < aBarList.length; i++)
+  
+  // list that stores the widths of the aBarChart
+  let rectWidthList = [];
+
+  // for (var i  = 0; i < aBarList.length; i++)
+  // {
+  //   let node = aBarList[i];
+  //   if (node.localName === "rect")
+  //   {
+  //     let rectWidth = node.getAttribute("width");
+  //     //console.log(newTransform);
+  //     //console.log(transformArray[0]);
+  //     //console.log(rectTransform);
+ 
+  for (var i = 0; i < aBarList.length; i++)
   {
     let node = aBarList[i];
-    //console.log(node.localName);
     if (node.localName === "rect")
     {
-      let rectTransform = node.getAttribute("transform");
-      let transformArray = rectTransform.split("scale");
-      let newTransform = transformArray[0] + "scale(-10, 1.0)";
-      node.setAttribute("transform", newTransform);
-      //console.log(newTransform);
-      //console.log(transformArray[0]);
-      //console.log(rectTransform);
+      let rectWidth = node.getAttribute("width");
+      rectWidthList.push(rectWidth);
     }
   }
-  console.log(document.getElementById("aBarChart").childNodes);
+
+  // sort the elements
+  rectWidthList.sort(function(a, b){return a - b;});
+
+  // update the bar chart widths
+  var counter = 0;
+  for (var j = 0; j < aBarList.length; j++)
+  {
+    let node = aBarList[j];
+    if (node.localName === "rect")
+    {
+      node.setAttribute("width", rectWidthList[counter]);
+      // For debugging purposes
+      // let rectWidth = node.getAttribute("width");
+      let rectTransform = node.getAttribute("transform");
+      let transformArray = rectTransform.split("scale");
+      let newTransform = transformArray[0] + "scale(-25, 1.01)";
+      node.setAttribute("transform", newTransform);
+      counter++;
+    }
+  }
 }
 
 /**
