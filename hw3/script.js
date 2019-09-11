@@ -12,16 +12,7 @@ function staircase() {
   // list that stores the widths of the aBarChart
   let rectWidthList = [];
 
-  // for (var i  = 0; i < aBarList.length; i++)
-  // {
-  //   let node = aBarList[i];
-  //   if (node.localName === "rect")
-  //   {
-  //     let rectWidth = node.getAttribute("width");
-  //     //console.log(newTransform);
-  //     //console.log(transformArray[0]);
-  //     //console.log(rectTransform);
- 
+  // collect all the widths associated with the bar chart
   for (var i = 0; i < aBarList.length; i++)
   {
     let node = aBarList[i];
