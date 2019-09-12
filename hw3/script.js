@@ -5,44 +5,6 @@
  */
 function staircase() {
   // ****** TODO: PART II ******
-
-  // list that contains the children of the aBarChart
-  let aBarList = document.getElementById("aBarChart").childNodes;
-  
-  // list that stores the widths of the aBarChart
-  let rectWidthList = [];
-
-  // collect all the widths associated with the bar chart
-  for (var i = 0; i < aBarList.length; i++)
-  {
-    let node = aBarList[i];
-    if (node.localName === "rect")
-    {
-      let rectWidth = node.getAttribute("width");
-      rectWidthList.push(rectWidth);
-    }
-  }
-
-  // sort the elements
-  rectWidthList.sort(function(a, b){return a - b;});
-
-  // update the bar chart widths
-  var counter = 0;
-  for (var j = 0; j < aBarList.length; j++)
-  {
-    let node = aBarList[j];
-    if (node.localName === "rect")
-    {
-      node.setAttribute("width", rectWidthList[counter]);
-      // For debugging purposes
-      // let rectWidth = node.getAttribute("width");
-      let rectTransform = node.getAttribute("transform");
-      let transformArray = rectTransform.split("scale");
-      let newTransform = transformArray[0] + "scale(-25, 1.01)";
-      node.setAttribute("transform", newTransform);
-      counter++;
-    }
-  }
 }
 
 /**
