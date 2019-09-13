@@ -74,6 +74,12 @@
         stroke-width: 1;
       }
 
+      #regression-line {
+        fill:none;
+        stroke: blue;
+        stroke-width:1.5;
+      }
+
       .row {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -84,7 +90,7 @@
     <script src="script.js"></script>
   </head>
 
-  <body>
+  <body onload="changeData()">
     <h3>CS-5630 / CS-6630 Homework 3</h3>
     <address>
       <span>Pranav Rajan</span>
@@ -249,9 +255,9 @@
 
       <div>
         <h2>Scatterplot</h2>
-        <svg class="scatter-plot" width="300" height="300">
-          <rect width="300" height="300" />
-          <g transform="translate(50, 50) " id="scatterplot">
+        <svg class="scatter-plot" width="320" height="300">
+          <rect width="320" height="300" />
+          <g transform="scale(1, 1) translate(80,200)" id="scatterplot">
             <circle cx="10.0" cy="8.04" r="0.4">
               <title>10.0, 8.04</title>
             </circle>
@@ -285,10 +291,10 @@
             <circle cx="5.0" cy="5.68" r="0.4">
               <title>5.0, 5.68</title>
             </circle>
-            <g class="line-chart">
-              <line id="regression-line" x1="2" y1="4" x2="16" y2="11" />
+            <g class="line-chart" transform="scale(0.75, -1) translate(25, 50)">
+              <line id="regression-line" x1="2" y1="4" x2="240" y2="123" />
             </g>
-            <g id="x-axis" transform="translate(0, 200)"></g>
+            <g id="x-axis" transform="translate(0,0)"></g>
             <g id="y-axis" transform="translate(0, 0)"></g>
           </g>
         </svg>

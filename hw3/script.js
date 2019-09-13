@@ -76,6 +76,11 @@ function update(data) {
     .scaleLinear()
     .domain([0, d3.max(data, d => d.b)])
     .range([0, 140]);
+  
+    let bYScale= d3
+    .scaleLinear()
+    .domain([0, d3.max(data, d => d.b)])
+    .range([140, 10]);
 
   // maps indexes to a certain value
   let iScale = d3
@@ -160,9 +165,62 @@ function update(data) {
 
   let bAreaChart = d3.select("#bAreaChart");
   let updateBAreaChart = bAreaChart.attr("d", bAreaGenerator(data));
+
   // TODO: Select and update the scatterplot points
+  // Prepare the scatter plot axis
+  let scatterplotXAxis = d3.select(".scatter-plot");
+  let xAxis = d3.axisBottom();
+  xAxis.scale(aScale);
+  scatterplotXAxis.append("g")
+                  .attr("transform", "translate(20,216) scale(1.3,1.2)")
+                  .call(xAxis);
+
+  let scatterplotYAxis = d3.select(".scatter-plot");
+  let yAxis = d3.axisLeft();
+  yAxis.scale(bYScale);
+  scatterplotYAxis.append("g")
+                  .attr("transform", "translate(20, 35) scale(1.05, 1.3)")
+                  .call(yAxis);
+  
+  
+  // Plot and update the points
+  let circle = d3.select("#scatterplot");
+  let circles = circle.selectAll("circle").data(data); // Update
+  let circlesEnter = circles.enter().append("circle"); // Enter
+  circles.exit().remove() // Exit
+  circles = circlesEnter.merge(circles); // Merge
+
+
+  circles.attr("cx", d => aScale(d.a))
+         .attr("cy", d => -1 * bScale(d.b))
+         .attr("r", 2.5)
+         .on("click", function (d, i) { // D3 event for obtaining the coordinates of a data point when it is clicked
+           console.log("X Coord: "+ d.a + " " + "Y Coord: " + d.b);
+         });
+  
+  let regressionLine = d3.select("regression-line");
+  regressionLine.attr("stroke-width", 1.5);
+
 
   // ****** TODO: PART IV ******
+
+  // Mouse Events for Bar Chart
+  let leftBarCharts = document.getElementById("aBarChart");
+  let rightBarCharts = document.getElementById("bBarChart");
+
+leftBarCharts.addEventListener("mouseover", function(event) {
+  event.target.style.fill = "green";
+  setTimeout(function() {
+    event.target.style.fill = "";
+  }, 800);
+}, false);
+
+  rightBarCharts.addEventListener("mouseover", function (event){
+    event.target.style.fill = "turquoise";
+    setTimeout(function() {
+      event.target.style.fill = "";
+    }, 800);
+  }, false);
 }
 
 /**
