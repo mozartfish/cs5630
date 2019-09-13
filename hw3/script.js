@@ -149,8 +149,7 @@ function update(data) {
     .y1(d => aScale(d.a));
 
   let aAreaChart = d3.select("#aAreaChart");
-  let updateAAreaChart = aAreaChart.attr("d", aAreaGenerator(data))
-                                   .attr("stroke-width", 1.0);
+  let updateAAreaChart = aAreaChart.attr("d", aAreaGenerator(data));
 
   // TODO: Select and update the 'b' area chart path (create your own generator)
   let bAreaGenerator = d3
@@ -160,8 +159,7 @@ function update(data) {
      .y1(d => bScale(d.b));
 
   let bAreaChart = d3.select("#bAreaChart");
-  let updateBAreaChart = bAreaChart.attr("d", bAreaGenerator(data))
-                                   .attr("stroke-width", 1.0);
+  let updateBAreaChart = bAreaChart.attr("d", bAreaGenerator(data));
   // TODO: Select and update the scatterplot points
 
   // ****** TODO: PART IV ******
