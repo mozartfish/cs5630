@@ -171,7 +171,8 @@ function update(data) {
   let scatterplotXAxis = d3.select(".scatter-plot");
   let xAxis = d3.axisBottom();
   xAxis.scale(aScale);
-  scatterplotXAxis.append("g")
+  
+  d3.select('#x-axis')
                   .attr("transform", "translate(20,216) scale(1.3,1.2)")
                   .call(xAxis);
 
