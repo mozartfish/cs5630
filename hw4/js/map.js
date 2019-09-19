@@ -117,13 +117,10 @@ class Map {
         let graticule = d3.geoGraticule();
         d3.select("#mapLayer").append("path")
                               .datum(graticule)
-                              .attr("class", "grat")
-                              .attr("d", "path")
+                              .attr("class", "graticule")
+                              .attr("d", path)
                               .attr("fill", "none");
-
         console.log(countryData);
-
-
 
     }
 
