@@ -109,20 +109,9 @@ class Map {
                               .data(countryData)
                               .join("path")
                               .attr("d", path)
-                              .attr("class", p => {
-                                console.log(p)  
-                                return p.region});
-// console.log(countryData)
-//         d3.select("#mapLayer").selectAll("path")
-//                               .data(countryData)
-//                               .enter()
-//                               .append("path")
-//                               .attr("d", path)
-//                               .attr("class", d =>{
-//                                 console.log(d);  
-//                                 d.region});
-                              
-                              
+                              .attr("class", p => p.region);
+
+
 
         // add longitude and latitude lines
         let graticule = d3.geoGraticule();
