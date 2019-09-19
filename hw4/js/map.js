@@ -88,10 +88,13 @@ class Map {
         });
 
         // Set up the up the svg for drawing the map
+        let mapSVGWidth = 800;
+        let mapSVGHeight = 800;
+
         let worldMap = d3.select("#map-chart")
                          .append("svg");
-        worldMap.attr("width", 800)
-                .attr("height", 800)
+        worldMap.attr("width", mapSVGWidth)
+                .attr("height", mapSVGHeight)
                 .attr("id", "world-map");
         
         worldMap.append("g")
@@ -112,10 +115,6 @@ class Map {
                               .attr("class", "grat")
                               .attr("d", "path")
                               .attr("fill", "none");
-
-
-        
-        
 
         console.log(countryData);
 
