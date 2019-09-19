@@ -105,6 +105,15 @@ class Map {
                               .join("path")
                               .attr("d", path);
 
+        // add longitude and latitude lines
+        let graticule = d3.geoGraticule();
+        d3.select("#mapLayer").append("path")
+                              .datum(graticule)
+                              .attr("class", "grat")
+                              .attr("d", "path")
+                              .attr("fill", "none");
+
+
         
         
 
