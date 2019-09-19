@@ -64,7 +64,9 @@ class Map {
 
         //TODO - Your code goes here - 
 
-
+        // Code written by Professor Lex and Staff
+        // This code parses the features of world data for a world map for drawing
+        // with the winkel triple projection in d3
         let geojson = topojson.feature(world, world.objects.countries);
         // console.log(geojson.features);
         // console.log(this.populationData);
@@ -84,6 +86,27 @@ class Map {
             }
 
         });
+
+        // Set up the up the svg for drawing the map
+        let worldMap = d3.select("#map-chart")
+                         .append("svg");
+        worldMap.attr("width", 800)
+                .attr("height", 800)
+                .attr("id", "world-map");
+        
+        worldMap.append("g")
+                .attr("id", "mapLayer");
+        
+        // draw the map as a projection
+        let path = d3.geoPath()
+                     .projection(this.projection);
+        d3.select("#mapLayer").selectAll("path")
+                              .data(countryData)
+                              .join("path")
+                              .attr("d", path);
+
+        
+        
 
         console.log(countryData);
 
