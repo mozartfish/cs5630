@@ -33,9 +33,13 @@ class Map {
      */
     constructor(data, updateCountry) {
         // ******* TODO: PART I *******
+        // The projection 
         this.projection = d3.geoWinkel3().scale(140).translate([365, 225]);
+        // Array that contains a name
         this.nameArray = data.population.map(d => d.geo.toUpperCase());
+        // The population data
         this.populationData = data.population;
+        // The update country
         this.updateCountry = updateCountry;
     }
 
@@ -83,7 +87,8 @@ class Map {
                 return new CountryData(country.type, country.id, country.properties, country.geometry, region);
             } else {
                 console.log('not found');
-                return new CountryData(null, null, country.properties, country.geometry, null);
+                
+                return new CountryData(country.type, country.id, country.properties, country.geometry, "countries");
 
             }
 
