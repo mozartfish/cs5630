@@ -66,7 +66,8 @@ class Map {
 
         // Code written by Professor Lex and Staff
         // This code parses the features of world data for a world map for drawing
-        // with the winkel triple projection in d3
+        // the world map (winkel triple projection) and coloring the map according to regions
+
         let geojson = topojson.feature(world, world.objects.countries);
         // console.log(geojson.features);
         // console.log(this.populationData);
@@ -82,6 +83,7 @@ class Map {
                 return new CountryData(country.type, country.id, country.properties, country.geometry, region);
             } else {
                 console.log('not found');
+                return new CountryData(null, null, country.properties, country.geometry, null);
 
             }
 
@@ -106,7 +108,21 @@ class Map {
         d3.select("#mapLayer").selectAll("path")
                               .data(countryData)
                               .join("path")
-                              .attr("d", path);
+                              .attr("d", path)
+                              .attr("class", p => {
+                                console.log(p)  
+                                return p.region});
+// console.log(countryData)
+//         d3.select("#mapLayer").selectAll("path")
+//                               .data(countryData)
+//                               .enter()
+//                               .append("path")
+//                               .attr("d", path)
+//                               .attr("class", d =>{
+//                                 console.log(d);  
+//                                 d.region});
+                              
+                              
 
         // add longitude and latitude lines
         let graticule = d3.geoGraticule();
