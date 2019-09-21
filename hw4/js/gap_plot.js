@@ -82,7 +82,7 @@ class GapPlot {
          1). Create the x and y axes
          2). Create the activeYear background text
 
-
+        
          The dropdown menus have been created for you!
 
          */
@@ -105,7 +105,14 @@ class GapPlot {
 
         let svgGroup = d3.select('#chart-view').select('.plot-svg').append('g').classed('wrapper-group', true);
 
-        //YOUR CODE HERE  
+        //YOUR CODE HERE
+
+        // Create the axes
+        svgGroup.append("g")
+                .attr("id", "x-axis");
+        svgGroup.append("g")
+                .attr("id", "y-axis")
+               
 
         /* This is the setup for the dropdown menu- no need to change this */
 
