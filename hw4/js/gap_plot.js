@@ -111,7 +111,17 @@ class GapPlot {
         svgGroup.append("g")
                 .attr("id", "x-axis");
         svgGroup.append("g")
-                .attr("id", "y-axis")
+                .attr("id", "y-axis");
+        
+        let xShift = 10;
+        let yShift = 50;
+        // Create the active year background text
+        svgGroup.append("text")
+                .text(this.activeYear)
+                .classed("activeYear-background", true)
+                .attr("x", this.margin.right + xShift)
+                .attr("y", this.margin.top + yShift);
+
                
 
         /* This is the setup for the dropdown menu- no need to change this */
@@ -120,7 +130,7 @@ class GapPlot {
 
         let cWrap = dropdownWrap.append('div').classed('dropdown-panel', true);
 
-        cWrap.append('div').classed('c-label', true)
+            cWrap.append('div').classed('c-label', true)
             .append('text')
             .text('Circle Size');
 
