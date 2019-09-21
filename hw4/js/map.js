@@ -114,7 +114,7 @@ class Map {
                               .data(countryData)
                               .join("path")
                               .attr("d", path)
-                              .attr("class", p => p.region);
+                              .attr("class", d => d.region);
 
 
 
@@ -125,6 +125,8 @@ class Map {
                               .attr("class", "graticule")
                               .attr("d", path)
                               .attr("fill", "none");
+
+
         console.log(countryData);
 
     }

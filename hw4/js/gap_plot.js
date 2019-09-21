@@ -50,8 +50,10 @@ class GapPlot {
 
         this.data = data;
 
-        //YOUR CODE HERE  
+        //YOUR CODE HERE
 
+        // call the draw plot function
+        this.drawPlot();
 
         // ******* TODO: PART 3 *******
         /**
