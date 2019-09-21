@@ -113,9 +113,11 @@ class GapPlot {
         svgGroup.append("g")
                 .attr("id", "y-axis");
         
-        let xShift = 10;
-        let yShift = 50;
+     
         // Create the active year background text
+           // Values for customizing the location of the text
+        let xShift = 60;
+        let yShift = 50;
         svgGroup.append("text")
                 .text(this.activeYear)
                 .classed("activeYear-background", true)
