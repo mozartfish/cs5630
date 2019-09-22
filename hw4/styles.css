@@ -413,3 +413,8 @@ i.europe {
     font-size: 80px;
     opacity: .4;
 }
+
+.graticule-outline {
+    stroke: #000;
+    stroke-width: 2px;
+}

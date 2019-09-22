@@ -162,7 +162,9 @@ class GapPlot {
             .append('g')
             .attr('transform', 'translate(10, 0)');
 
-        this.updatePlot(2000, "gpd", "fertility-rate", "population")
+        // Here we call the update plot function to display stuff when the page loads
+        // I chose these categories based on the images provided in the README
+        this.updatePlot(2000, "fertility-rate", "gdp", "life-expectancy");
     }
 
     
@@ -208,7 +210,24 @@ class GapPlot {
         */
 
         // STRUCTURING THE PLOT DATA OBJECTS
-        console.log("hello");
+        // List of Plot Data Objects
+        let plotDataObjectList = [];
+        // Map the elements associated with the XIndicator with their name from the name array
+        let countryList = this.data[xIndicator].map(d => d.geo);
+        //console.log(countryList);
+        // Generate a list of all the countries using the name array
+
+
+
+
+
+
+
+
+
+
+        //
+
 
         /**
          *  Function to determine the circle radius by circle size
