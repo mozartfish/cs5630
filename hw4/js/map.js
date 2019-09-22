@@ -74,7 +74,7 @@ class Map {
 
         let geojson = topojson.feature(world, world.objects.countries);
         // console.log(geojson.features);
-        // console.log(this.populationData);
+         //.log(this.populationData);
         //console.log(this.nameArray);
         let countryData = geojson.features.map(country => {
 
@@ -127,7 +127,7 @@ class Map {
                               .attr("fill", "none");
 
 
-        console.log(countryData);
+        //console.log(countryData);
 
     }
 

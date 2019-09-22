@@ -109,13 +109,13 @@ class GapPlot {
 
         // Create the axes
         svgGroup.append("g")
-                .attr("id", "x-axis");
+                .classed("x-axis", true);
         svgGroup.append("g")
-                .attr("id", "y-axis");
+                .classed("y-axis", true);
         
      
         // Create the active year background text
-           // Values for customizing the location of the text
+        // Values for customizing the location of the text
         let xShift = 60;
         let yShift = 50;
         svgGroup.append("text")
@@ -123,8 +123,6 @@ class GapPlot {
                 .classed("activeYear-background", true)
                 .attr("x", this.margin.right + xShift)
                 .attr("y", this.margin.top + yShift);
-
-               
 
         /* This is the setup for the dropdown menu- no need to change this */
 
@@ -164,9 +162,10 @@ class GapPlot {
             .append('g')
             .attr('transform', 'translate(10, 0)');
 
-
+        this.updatePlot(2000, "gpd", "fertility-rate", "population")
     }
 
+    
     /**
      * Renders the plot for the parameters specified
      *
@@ -207,6 +206,9 @@ class GapPlot {
         Pay attention to the parameters needed in each of the functions
         
         */
+
+        // STRUCTURING THE PLOT DATA OBJECTS
+        console.log("hello");
 
         /**
          *  Function to determine the circle radius by circle size
