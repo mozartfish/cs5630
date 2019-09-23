@@ -35,7 +35,7 @@ class Map {
         // ******* TODO: PART I *******
         // The projection 
         this.projection = d3.geoWinkel3().scale(140).translate([365, 225]);
-        // Array that contains a name (All the country names)
+        // Array that contains a name (All the country names for geography capitalized)
         this.nameArray = data.population.map(d => d.geo.toUpperCase());
         // The population data
         this.populationData = data.population;
@@ -82,7 +82,7 @@ class Map {
             let region = 'countries';
 
             if (index > -1) {
-                //  console.log(this.populationData[index].geo, country.id);
+                //console.log(this.populationData[index].geo, country.id);
                 region = this.populationData[index].region;
                 return new CountryData(country.type, country.id, country.properties, country.geometry, region);
             } else {
@@ -127,6 +127,7 @@ class Map {
                               .attr("d", path)
                               .attr("fill", "none");
 
+        // add in the border for the map
         d3.select("#mapLayer").append("path")
                               .datum(graticule.outline)
                               .attr("class", "graticule-outline")
@@ -134,7 +135,7 @@ class Map {
                               .attr("fill", "none");
 
 
-        console.log(countryData);
+        //console.log(countryData);
 
     }
 

@@ -164,7 +164,8 @@ class GapPlot {
 
         // Here we call the update plot function to display stuff when the page loads
         // I chose these categories based on the images provided in the README
-        this.updatePlot(2000, "fertility-rate", "gdp", "life-expectancy");
+        // The population CSV file is the only file that contains information about the regions
+        this.updatePlot(2000, "fertility-rate", "gdp", "population");
     }
 
     
@@ -211,23 +212,73 @@ class GapPlot {
 
         // STRUCTURING THE PLOT DATA OBJECTS
         // List of Plot Data Objects
-        let plotDataObjectList = [];
-        // Map the elements associated with the XIndicator with their name from the name array
+     
+        // Map the data associated with xIndicator with their name
+        // This mapping is similar to the mapping of the data to the country name in map
         let countryList = this.data[xIndicator].map(d => d.geo);
-        //console.log(countryList);
-        // Generate a list of all the countries using the name array
+        let plotDataObjectList = [];
 
+        countryList.forEach(element => {
+            // COUNTRY
+            // NOTE: EXCEPT FOR THE POPULATION CSV FILE, ALL OTHER CSV FILES CONTAIN COUNTRY NAMES
+            let country = this.data[xIndicator].find(d => d.geo === element);
+            let countryName = country.country;
 
+            // the X VALUE
+            let xVal = this.data[xIndicator].find(d => d.geo === element);
+            if (xVal != undefined)
+            {
+                xVal = xVal[activeYear];
+            }
+            // the Y VALUE
+            let yVal = this.data[yIndicator].find(d => d.geo === element);
+            if (yVal != undefined)
+            {
+                yVal = yVal[activeYear];
+            }
+            // COUNTRY ID
+            // From map.js the country id is the same as d.geo
+            // which in this case is element
+            let countryID = element;
 
+            // REGION
+            // NOTE: ONLY THE POPULATION FILE CONTAINS REGIONS WHICH MEANS THAT
+            // YOU HAVE TO HARD CODE THE POPULATION FOR REGIONS FOR THE CODE TO WORK
+            let countryRegion = this.data["population"].find(d => d.geo === element);
+            if (countryRegion != undefined)
+            {
+                countryRegion = countryRegion.region;
+            }
 
+            // CIRCLE SIZE INDICATOR
+            let theCircleSizeIndicator = this.data[circleSizeIndicator].find(d => d.geo === element);
+            if (theCircleSizeIndicator != undefined)
+            {
+                theCircleSizeIndicator = theCircleSizeIndicator[activeYear];
+            }
 
+            //console.log(countryName);
+            //console.log(xVal);
+            //console.log(yVal);
+            //consol.log(countryID)
+            //console.log(countryRegion);
+            //console.log(theCircleSizeIndicator);
 
+            let plotDataObject = new PlotData(countryName, xVal, yVal, countryID, countryRegion, theCircleSizeIndicator);
+            plotDataObjectList.push(plotDataObject);
+        });
+        console.log(plotDataObjectList);
 
-
-
-
-        //
-
+             /**
+     *
+     * @param country country name from the x data object
+     * @param xVal value from the data object chosen for x at the active year
+     * @param yVal value from the data object chosen for y at the active year
+     * @param id country id
+     * @param region country region
+     * @param circleSize value for r from data object chosen for circleSizeIndicator
+     */
+      
 
         /**
          *  Function to determine the circle radius by circle size
@@ -244,8 +295,7 @@ class GapPlot {
         ///////////////////////////////////////////////////////////////////
 
         //YOUR CODE HERE  
-
-    }
+}
 
     /**
      * Setting up the drop-downs
