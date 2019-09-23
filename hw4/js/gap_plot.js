@@ -216,6 +216,7 @@ class GapPlot {
         // Map the data associated with xIndicator with their name
         // This mapping is similar to the mapping of the data to the country name in map
         let countryList = this.data[xIndicator].map(d => d.geo);
+        // list for storing PLOT DATA OBJECTS
         let plotDataObjectList = [];
 
         countryList.forEach(element => {
@@ -228,6 +229,7 @@ class GapPlot {
             let xVal = this.data[xIndicator].find(d => d.geo === element);
             if (xVal != undefined)
             {
+                // if the if statement is entered, xVal matches and we look up the value associated with the year
                 xVal = xVal[activeYear];
             }
             // the Y VALUE
@@ -247,6 +249,7 @@ class GapPlot {
             let countryRegion = this.data["population"].find(d => d.geo === element);
             if (countryRegion != undefined)
             {
+                // if the if statement is reached and the region is not countries we assign the region
                 countryRegion = countryRegion.region;
             }
 
@@ -267,19 +270,50 @@ class GapPlot {
             let plotDataObject = new PlotData(countryName, xVal, yVal, countryID, countryRegion, theCircleSizeIndicator);
             plotDataObjectList.push(plotDataObject);
         });
-        console.log(plotDataObjectList);
 
-             /**
-     *
-     * @param country country name from the x data object
-     * @param xVal value from the data object chosen for x at the active year
-     * @param yVal value from the data object chosen for y at the active year
-     * @param id country id
-     * @param region country region
-     * @param circleSize value for r from data object chosen for circleSizeIndicator
-     */
-      
+        // SCALES FOR DATA STRUCTURES
+        //let foo = this.data;
+        //let foo = this.data["population"];
+        //console.log(foo["0"]);
+        //console.log(Object.values(foo["0"]));
 
+        console.log(this.data);
+
+        for (let category of Object.keys(this.data))
+        {
+            if (category === "population")
+            {
+                let populationMin = Infinity;
+                let populationMax = -Infinity;
+                let populationData = this.data[category];
+                //console.log(populationData.length);
+                for (let i = 0; i < populationData.length; i++)
+                {
+                    let iString = "" + i;
+                    
+                }
+            }
+            else if (category === "gdp")
+            {
+                let gdpData = this.data[category];
+            }
+            else if (category === "child-mortality")
+            {
+                let childMortalityData = this.data[category];
+            }
+            else if (category === "life-expectancy")
+            {
+                let lifExpectancyData = this.data[category];
+            }
+            else
+            {
+                let fertilityRateData = this.data[category];
+            }
+        }
+
+        
+
+        
         /**
          *  Function to determine the circle radius by circle size
          *  This is the function to size your circles, you don't need to do anything to this
