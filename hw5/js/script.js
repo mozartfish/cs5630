@@ -38,6 +38,7 @@
 
 
 d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
+
      // CONSTANTS FOR ACCESSING DATA FROM OBJECTS
      const GOALS_MADE = 'Goals Made';
      const GOALS_CONCEDED = 'Goals Conceded';
@@ -45,7 +46,9 @@ d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
      const WINS = 'Wins';
      const LOSSES = 'Losses';
      const OPPONENT = 'Opponent';
-    // An object for assign the ranking and the label for data objects
+     const RESULT = 'Result';
+
+    // An object that maps the team ranking with the label
      let ranking = {
          "Group": 0,
          "Round 16" : 1,
@@ -75,6 +78,25 @@ d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
                         //  retObj['Result'] = {'label': leaves};
                         //  return retObj;
 
+                        // Determine the Result object which contains a label and a rank
+                        let highestRank = d3.max(leaves, d => ranking[d.Result]);
+                        //console.log(highestRank);
+                        let label = "Group";
+                        let highRank = 0;
+                        leaves.forEach(element => {
+                            if (ranking[element.result] > highRank)
+                            {
+                                label = d.Result;
+                                highRank = ranking[element.result];
+
+                            }
+                            
+                            let resultObj = {
+                                "label" : result,
+                                "ranking" : highestRank
+                            };
+                        });
+
                         // CREATE OBJECT FOR STORING MATCH INFORMATION
                         let dataObj = {};
                         dataObj[GOALS_MADE] = goalsMade;
@@ -89,7 +111,7 @@ d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
                      })
                      .entries(matchesCSV);
 
-    console.log(teamData);
+    //console.log(teamData);
 
     /**
      * Loads in the tree information from fifa-tree-2018.csv and calls createTree(csvData) to render the tree.
