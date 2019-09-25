@@ -55,7 +55,9 @@ d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
                      })
                      .rollup(leaves => {
                           
-                        let goalsMade = d3.sum(leaves, p => p.GoalsMade)
+                        let goalsMade = d3.sum(leaves, p => p['Goals Made']);
+                        let goalsConceded = d3.sum(leaves, p => p['Goals Conceded']);
+                        let deltaGoals = d3.sum(leaves, p => p['Delta Goals']);
                         let matchWins = d3.sum(leaves, p => p.Wins);
                         let matchLosses = d3.sum(leaves, p => p.Losses);
                          //console.log(matchWins);
@@ -68,6 +70,8 @@ d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
                         //  return retObj;
                         let dataObj = {};
                         dataObj['Goals Made'] = goalsMade;
+                        dataObj['Goals Conceded'] = goalsConceded;
+                        dataObj['Delta Goals'] = deltaGoals;
                         dataObj['Wins'] = matchWins;
                         dataObj['Losses'] = matchLosses;
 
