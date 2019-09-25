@@ -37,18 +37,43 @@
  */
 
 d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
+    // An object for assign the ranking and the label for data objects
+     let ranking = {
+         "Group": 0,
+         "Round 16" : 1,
+         "Quarter Final" : 2,
+         "Semi Finals" : 3,
+         "Fourth Place" : 4,
+         "Third Place" : 5,
+         "Runner-Up" : 6,
+         "Winner" : 7,
+     }
+     console.log(ranking);
     let teamData = d3.nest()
                      .key(d => {
-                         return d.team;
+                         return d.Team;
                      })
                      .rollup(leaves => {
-                         let goalsMade = 0;
-                         let goalsConceded = 0;
-                         let deltaGoals = 0;
-                         let matchWins = d3.sum(leaves, p => p.Wins);
-                         let matchLosses = d3.sum(leaves, p => p.Losses);
+                          
+                        let goalsMade = d3.sum(leaves, p => p.GoalsMade)
+                        let matchWins = d3.sum(leaves, p => p.Wins);
+                        let matchLosses = d3.sum(leaves, p => p.Losses);
                          //console.log(matchWins);
                          //console.log(matchLosses);
+
+                        //  let retObj = {};
+                        //  retObj['Wins'] = matchWins;
+                        //  retObj['Losses'] = matchLosses;
+                        //  retObj['Result'] = {'label': leaves};
+                        //  return retObj;
+                        let dataObj = {};
+                        dataObj['Goals Made'] = goalsMade;
+                        dataObj['Wins'] = matchWins;
+                        dataObj['Losses'] = matchLosses;
+
+
+                        return dataObj;
+
                      })
                      .entries(matchesCSV);
 
