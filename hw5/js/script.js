@@ -92,7 +92,7 @@ d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
                             }
                             
                             let resultObj = {
-                                "label" : result,
+                                "label" : label,
                                 "ranking" : highestRank
                             };
                         });
