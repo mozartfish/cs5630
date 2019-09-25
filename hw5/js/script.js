@@ -38,10 +38,13 @@
 
 
 d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
-     // CONSTANTS FOR ACCESING DATA FROM OBJECTS
+     // CONSTANTS FOR ACCESSING DATA FROM OBJECTS
      const GOALS_MADE = 'Goals Made';
      const GOALS_CONCEDED = 'Goals Conceded';
-     const DELTA_GOALS = 'Delta Goals'
+     const DELTA_GOALS = 'Delta Goals';
+     const WINS = 'Wins';
+     const LOSSES = 'Losses';
+     const OPPONENT = 'Opponent';
     // An object for assign the ranking and the label for data objects
      let ranking = {
          "Group": 0,
@@ -65,20 +68,20 @@ d3.csv("data/fifa-matches-2018.csv").then( matchesCSV => {
                         let deltaGoals = d3.sum(leaves, p => p[DELTA_GOALS]);
                         let matchWins = d3.sum(leaves, p => p.Wins);
                         let matchLosses = d3.sum(leaves, p => p.Losses);
-                         //console.log(matchWins);
-                         //console.log(matchLosses);
 
                         //  let retObj = {};
                         //  retObj['Wins'] = matchWins;
                         //  retObj['Losses'] = matchLosses;
                         //  retObj['Result'] = {'label': leaves};
                         //  return retObj;
+
+                        // CREATE OBJECT FOR STORING MATCH INFORMATION
                         let dataObj = {};
-                        dataObj['Goals Made'] = goalsMade;
-                        dataObj['Goals Conceded'] = goalsConceded;
-                        dataObj['Delta Goals'] = deltaGoals;
-                        dataObj['Wins'] = matchWins;
-                        dataObj['Losses'] = matchLosses;
+                        dataObj[GOALS_MADE] = goalsMade;
+                        dataObj[GOALS_CONCEDED] = goalsConceded;
+                        dataObj[DELTA_GOALS] = deltaGoals;
+                        dataObj[WINS] = matchWins;
+                        dataObj[LOSSES] = matchLosses;
 
 
                         return dataObj;
