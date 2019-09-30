@@ -34,6 +34,8 @@ class Table {
         /** Set variables for commonly accessed data columns*/
         this.goalsMadeHeader = 'Goals Made';
         this.goalsConcededHeader = 'Goals Conceded';
+        this.deltaGamesHeader = 'Delta Goals';
+        //console.log(this.deltaGamesHeader);
 
         /** Setup the scales*/
         this.goalScale = null;
@@ -63,7 +65,24 @@ class Table {
 
         // ******* TODO: PART II *******
 
+   
         //Update Scale Domains
+        console.log("The Scale Domains");
+        // print the data
+        console.log("Team Data");
+        // console.log(this.teamData);
+        // get all the values associated with the keys in team data
+        console.log("Printing elements");
+        this.teamData.forEach(element => {
+            //console.log(element);
+            let foo = element.value[this.goalsMadeHeader];
+            console.log(foo);
+            
+        });
+
+
+        // get all the values associated with the keys which are numbers
+
         
         // Create the axes
         
