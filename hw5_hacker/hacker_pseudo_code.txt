@@ -1,0 +1,28 @@
+
+                        //  let retObj = {};
+                        //  retObj['Wins'] = matchWins;
+                        //  retObj['Losses'] = matchLosses;
+                        //  retObj['Result'] = {'label': leaves};
+                        //  return retObj;
+
+                        // // Determine the Result object which contains a label and a rank
+                        // let highestRank = d3.max(leaves, d => ranking[d.Result]);
+                        // //console.log(highestRank);
+                        // // Array for storing the result objects
+                        // let resultObjList = [];
+                        // let label = "Group";
+                        // let highRank = 0;
+                        // leaves.forEach(element => {
+                        //     if (ranking[element.result] > highRank)
+                        //     {
+                        //         label = d.Result;
+                        //         highRank = ranking[element.result];
+
+                        //     }
+                            
+                        //     let resultObj = {
+                        //         "label" : label,
+                        //         "ranking" : highestRank
+                        //     };
+                        //     resultObjList.push(resultObj);
+                        // });

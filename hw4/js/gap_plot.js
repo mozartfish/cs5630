@@ -115,7 +115,7 @@ class GapPlot {
         
      
         // Create the active year background text
-        // Values for customizing the location of the text
+        // Values for placing text
         let xShift = 60;
         let yShift = 50;
         svgGroup.append("text")
@@ -273,9 +273,9 @@ class GapPlot {
 
         // SCALES FOR DATA STRUCTURES
         //let foo = this.data;
-        //let foo = this.data["population"];
-        //console.log(foo["0"]);
-        //console.log(Object.values(foo["0"]));
+        let foo = this.data["population"];
+        console.log(foo["0"]);
+        console.log(Object.values(foo["0"]));
 
         console.log(this.data);
 
@@ -290,7 +290,7 @@ class GapPlot {
                 for (let i = 0; i < populationData.length; i++)
                 {
                     let iString = "" + i;
-                    
+
                 }
             }
             else if (category === "gdp")
