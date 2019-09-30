@@ -66,7 +66,8 @@ class Table {
         // ******* TODO: PART II *******
 
         /*
-            A helper function for finding the max value for the for scale
+            A helper function for finding the max value for the for scale.
+            The attribute refers to any of the properties associated with a country object
          */
         function findMax(dataObject, attribute)
         {
@@ -86,8 +87,17 @@ class Table {
         console.log("Team Data");
        //console.log(this.teamData)
         console.log("finding the max value for the scale");
-        let maxValue = findMax(this.teamData, this.goalsMadeHeader);
-        console.log(maxValue);
+        let goalsMadeMaxValue = findMax(this.teamData, this.goalsMadeHeader);
+        let goalsConcededMaxValue = findMax(this.teamData, this.goalsConcededHeader);
+        let deltaGoalsMaxValue = findMax(this.teamData, this.deltaGamesHeader);
+
+        
+        console.log("The max value for goals conceded");
+        console.log(goalsConcededMaxValue);
+        console.log("The max value for goals made");
+        console.log(goalsMadeMaxValue);
+        console.log("The max value for delta goals")
+        console.log(deltaGoalsMaxValue);
         
         // Create the axes
         
