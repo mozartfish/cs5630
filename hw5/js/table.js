@@ -64,10 +64,11 @@ class Table {
     createTable() {
 
         // ******* TODO: PART II *******
-
-        /*
-            A helper function for finding the max value for the for scale.
-            The attribute refers to any of the properties associated with a country object
+        /**
+         * A helper function for finding the max value for scales.
+         * The attribute refers to any of the properties associated with the country
+         * @param {*}dataObject - dataset containing objects
+         * @param {*} attribute - property of the objects in the data Object
          */
         function findMax(dataObject, attribute)
         {
@@ -77,11 +78,35 @@ class Table {
                 let value = element.value[attribute];
                 objectValueList.push(value);
             });
-            console.log("the objectValueList")
+            console.log("the objectValueList for Max");
             console.log(objectValueList);
             let maxValue = d3.max(objectValueList);
             return maxValue;
         }
+
+        /**
+         * A helper function for finding the min value for scales.
+         * The attribute refers to any of the properties associated with the country
+         * @param {*} dataObject - dataset containing objects
+         * @param {*} attribute - attributes that are part of the objects in the dataset
+         */
+        function findMin(dataObject, attribute)
+        {
+            // List for storing all the objects associated with a particular property
+            let objectValueList = [];
+            dataObject.forEach(element => {
+                let value = element.value[attribute];
+                objectValueList.push(value);                
+            });
+            console.log("the object valueList for Min");
+            console.log(objectValueList);
+            let minValue = d3.min(objectValueList);
+            return minValue;
+        }
+
+
+
+
         //Update Scale Domains
         console.log("The Scale Domains");
         console.log("Team Data");
