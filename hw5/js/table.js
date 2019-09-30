@@ -6,18 +6,21 @@ class Table {
     constructor(teamData, treeObject) {
 
         // Maintain reference to the tree object
+        //this.tree = null;
         this.tree = treeObject;
 
         /**List of all elements that will populate the table.*/
         // Initially, the tableElements will be identical to the teamData
+        //this.tableElements = null;
         this.tableElements = teamData;
 
         ///** Store all match data for the 2018 Fifa cup */
+        //this.teamData = null;
         this.teamData = teamData;
 
         this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
 
-        /** letiables to be used when sizing the svgs in the table cells.*/
+        /** Variables to be used when sizing the svgs in the table cells.*/
         this.cell = {
             "width": 70,
             "height": 20,
