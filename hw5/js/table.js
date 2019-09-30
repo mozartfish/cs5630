@@ -83,25 +83,11 @@ class Table {
         }
         //Update Scale Domains
         console.log("The Scale Domains");
-        // print the data
         console.log("Team Data");
-        // console.log(this.teamData);
-        // get all the values associated with the keys in team data
-        // console.log("Printing elements");
+       //console.log(this.teamData)
         console.log("finding the max value for the scale");
         let maxValue = findMax(this.teamData, this.goalsMadeHeader);
         console.log(maxValue);
-        // // let bar = teamData.value[this.goalsMadeHeader];
-        // // console.log(bar);
-        // this.teamData.forEach(element => {
-        //     //console.log(element);
-        //     let foo = element.value[this.goalsMadeHeader];
-        //     console.log(foo);
-        // });
-
-
-        // get all the values associated with the keys which are numbers
-
         
         // Create the axes
         
