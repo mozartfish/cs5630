@@ -77,7 +77,7 @@ class Table {
                 let value = element.value[attribute];
                 objectValueList.push(value);
             });
-            // console.log(attribute, "Max");
+            // // console.log(attribute, "Max");
             // console.log(objectValueList);
             let maxValue = d3.max(objectValueList);
             return maxValue;
@@ -103,16 +103,37 @@ class Table {
             return minValue;
         }
 
+        // figure out the number of wins and losses for each country 
+        console.log("Calculate the number of wins");
+        let numWins = findMax(this.teamData, 'Wins');
+
+        console.log(numWins);
         //Update Scale Domains
         console.log("Team Data");
         console.log(this.teamData)
         console.log("Update the Scale Domain");
         console.log("Goal Scale Max Value");
-        let goalDomainMax = findMax(this.teamData, this.goalsMadeHeader);
+        let goalScaleDomainMax = findMax(this.teamData, this.goalsMadeHeader);
         console.log("Updating the goal scale");
         this.goalScale = d3.scaleLinear()
-                           .domain([0, goalDomainMax])
-                           .range([0, this.cell.width]);
+                           .domain([0, goalScaleDomainMax])
+                           .range([0, this.cell.width])
+                           .nice();
+        console.log("Updating the game scale");
+        let gameScaleDomainMax= findMax(this.teamData, 'Wins');
+        this.gameScale = d3.scaleLinear()
+                           .domain([0, gameScaleDomainMax])
+                           .range([0, this.cell.width])
+                           .nice();
+        console.log("Updating the color scales")
+        this.aggregateColorScale = d3.scaleLinear()
+                                     .domain([0, goalScaleDomainMax])
+                                     .range(['#feebe2', '#690000']);
+        console.log("Updating the goal color scale");
+        this.goalColorScale = d3.scaleLinear()
+                                .domain([0, goalScaleDomainMax])
+                                .range(['#cb181d', '#034e7b']);
+        
         
    
 
