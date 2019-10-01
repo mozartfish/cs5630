@@ -34,8 +34,7 @@ class Table {
         /** Set variables for commonly accessed data columns*/
         this.goalsMadeHeader = 'Goals Made';
         this.goalsConcededHeader = 'Goals Conceded';
-        this.deltaGamesHeader = 'Delta Goals';
-        //console.log(this.deltaGamesHeader);
+        // this.deltaGamesHeader = 'Delta Goals';
 
         /** Setup the scales*/
         this.goalScale = null;
@@ -78,8 +77,8 @@ class Table {
                 let value = element.value[attribute];
                 objectValueList.push(value);
             });
-            console.log("the objectValueList for Max");
-            console.log(objectValueList);
+            // console.log(attribute, "Max");
+            // console.log(objectValueList);
             let maxValue = d3.max(objectValueList);
             return maxValue;
         }
@@ -98,31 +97,49 @@ class Table {
                 let value = element.value[attribute];
                 objectValueList.push(value);                
             });
-            console.log("the object valueList for Min");
-            console.log(objectValueList);
+            // console.log(attribute, "Min");
+            // console.log(objectValueList);
             let minValue = d3.min(objectValueList);
             return minValue;
         }
 
-
-
-
         //Update Scale Domains
-        console.log("The Scale Domains");
         console.log("Team Data");
-       //console.log(this.teamData)
-        console.log("finding the max value for the scale");
-        let goalsMadeMaxValue = findMax(this.teamData, this.goalsMadeHeader);
-        let goalsConcededMaxValue = findMax(this.teamData, this.goalsConcededHeader);
-        let deltaGoalsMaxValue = findMax(this.teamData, this.deltaGamesHeader);
+        console.log(this.teamData)
+        console.log("Update the Scale Domain");
+        console.log("Goal Scale Max Value");
+        let goalDomainMax = findMax(this.teamData, this.goalsMadeHeader);
+        console.log(goalDomainMax);
+
+
+        // console.log("finding the max value for the scale");
+        // let goalsMadeMaxValue = findMax(this.teamData, this.goalsMadeHeader);
+        // let goalsConcededMaxValue = findMax(this.teamData, this.goalsConcededHeader);
+        // let deltaGoalsMaxValue = findMax(this.teamData, this.deltaGamesHeader);
+
+        // console.log("finding the min value for the scale");
+        // let goalsMadeMinValue = findMin(this.teamData, this.goalsMadeHeader);
+        // let goalsConcededMinValue = findMin(this.teamData, this.goalsConcededHeader);
+        // let deltaGoalsMinValue = findMin(this.teamData, this.deltaGamesHeader);
 
         
-        console.log("The max value for goals conceded");
-        console.log(goalsConcededMaxValue);
-        console.log("The max value for goals made");
-        console.log(goalsMadeMaxValue);
-        console.log("The max value for delta goals")
-        console.log(deltaGoalsMaxValue);
+        // console.log("The max value for goals conceded");
+        // console.log(goalsConcededMaxValue);
+
+        // console.log("The min value for goals conceded");
+        // console.log(goalsConcededMinValue);
+
+        // console.log("The max value for goals made");
+        // console.log(goalsMadeMaxValue);
+
+        // console.log("The min value for goals made");
+        // console.log(goalsMadeMinValue);
+
+        // console.log("The max value for delta goals");
+        // console.log(deltaGoalsMaxValue);
+
+        // console.log("The min value for delta goals");
+        // console.log(deltaGoalsMinValue);
         
         // Create the axes
         
