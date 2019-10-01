@@ -135,6 +135,7 @@ class Table {
                                .ticks(10);
         
         //add GoalAxis to header of col 1.
+        console.log("Adding the goalAxis to header of column 1");
         let goalAxisHeader = d3.select('#goalHeader');
         goalAxisHeader.append('svg')
                       .attr('width',  this.cell.width - 100)
