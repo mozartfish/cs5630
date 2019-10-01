@@ -109,7 +109,16 @@ class Table {
         console.log("Update the Scale Domain");
         console.log("Goal Scale Max Value");
         let goalDomainMax = findMax(this.teamData, this.goalsMadeHeader);
-        console.log(goalDomainMax);
+        console.log("Updating the goal scale");
+        this.goalScale = d3.scaleLinear()
+                           .domain([0, goalDomainMax])
+                           .range([0, this.cell.width]);
+        
+   
+
+
+        //
+        //console.log(goalDomainMax);
 
 
         // console.log("finding the max value for the scale");
