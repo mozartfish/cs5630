@@ -129,8 +129,11 @@ class Table {
                                 .domain([0, goalScaleDomainMax])
                                 .range(['#cb181d', '#034e7b']);        
         // Create the axes
+        console.log("Creating the axes");
         
         //add GoalAxis to header of col 1.
+        let goalAxis = d3.select('#goalHeader')
+                         .call(d3.axisTop(this.goalScale));
 
         // ******* TODO: PART V *******
 
