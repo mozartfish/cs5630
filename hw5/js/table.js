@@ -130,10 +130,21 @@ class Table {
                                 .range(['#cb181d', '#034e7b']);        
         // Create the axes
         console.log("Creating the axes");
+        let goalScaleXAxis = d3.axisTop()
+                               .scale(this.goalScale)
+                               .ticks(10);
         
         //add GoalAxis to header of col 1.
-        let goalAxis = d3.select('#goalHeader')
-                         .call(d3.axisTop(this.goalScale));
+        let goalAxisHeader = d3.select('#goalHeader');
+        goalAxisHeader.append('svg')
+                      .attr('width',  this.cell.width - 100)
+                      .attr('height', this.cell.height);
+
+        goalAxisHeader.append('g')
+                      .attr('id', 'goalXAxis')
+                      .call(goalScaleXAxis)
+                      .attr("transform", "translate(0," + this.cell.height+ ")");
+
 
         // ******* TODO: PART V *******
 
