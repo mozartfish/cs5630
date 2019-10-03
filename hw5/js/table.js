@@ -112,7 +112,7 @@ class Table {
         console.log("Updating the goal scale");
         this.goalScale = d3.scaleLinear()
                            .domain([0, goalScaleDomainMax])
-                           .range([0, this.cell.width])
+                           .range([0, 2*this.cell.width + 10])
                            .nice();
         console.log("Updating the game scale");
         let gameScaleDomainMax= findMax(this.teamData, 'Wins');
@@ -138,13 +138,12 @@ class Table {
         console.log("Adding the goalAxis to header of column 1");
         let goalAxisHeader = d3.select('#goalHeader');
         goalAxisHeader.append('svg')
-                      .attr('width',  this.cell.width - 100)
-                      .attr('height', this.cell.height);
-
-        goalAxisHeader.append('g')
+                      .attr('width',  4 * this.cell.width)
+                      .attr('height', 3 * this.cell.height)
+                      .append('g')
                       .attr('id', 'goalXAxis')
                       .call(goalScaleXAxis)
-                      .attr("transform", "translate(0," + this.cell.height+ ")");
+                      .attr("transform", "translate(60," + this.cell.height+ ")");
 
 
         // ******* TODO: PART V *******
@@ -163,9 +162,18 @@ class Table {
      */
     updateTable() {
         // ******* TODO: PART III *******
-        //Create table rows
-
+        // //Create table rows
+        // console.log("Creating the table rows");
+        let table = d3.select('#matchTable');
+        
+        let tableRows = table.select('tbody')
+                             .selectAll('tr')
+                             .data(this.tableElements)
+                             .join('tr');
         //Append th elements for the Team Names
+        let headers = table.select('thead')
+                           .selectAll('th')
+        //                   .data()
 
         //Append td elements for the remaining columns. 
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
