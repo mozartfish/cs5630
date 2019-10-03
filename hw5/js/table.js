@@ -143,8 +143,7 @@ class Table {
                       .append('g')
                       .attr('id', 'goalXAxis')
                       .call(goalScaleXAxis)
-                      .attr("transform", "translate(60," + this.cell.height+ ")");
-
+                      .attr("transform", "translate(70," + this.cell.height+ ")");
 
         // ******* TODO: PART V *******
 
@@ -164,16 +163,16 @@ class Table {
         // ******* TODO: PART III *******
         // //Create table rows
         // console.log("Creating the table rows");
-        let table = d3.select('#matchTable');
+        // let table = d3.select('#matchTable');
         
-        let tableRows = table.select('tbody')
-                             .selectAll('tr')
-                             .data(this.tableElements)
-                             .join('tr');
-        //Append th elements for the Team Names
-        let headers = table.select('thead')
-                           .selectAll('th')
-        //                   .data()
+        // let tableRows = table.select('tbody')
+        //                      .selectAll('tr')
+        //                      .data(this.tableElements)
+        //                      .join('tr');
+        // //Append th elements for the Team Names
+        // let headers = table.select('thead')
+        //                    .selectAll('th')
+        // //                   .data()
 
         //Append td elements for the remaining columns. 
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
