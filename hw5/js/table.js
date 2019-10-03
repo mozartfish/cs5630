@@ -162,8 +162,21 @@ class Table {
     updateTable() {
         // ******* TODO: PART III *******
         // //Create table rows
-        // console.log("Creating the table rows");
-        // let table = d3.select('#matchTable');
+        console.log("Creating the table rows");
+        let table = d3.select('#matchTable');
+        console.log("selected the table");
+        let tableRows = table.select('tbody')
+                             .selectAll('tr')
+                             .data(this.tableElements)
+                             .join('tr');
+        
+        let cells = tableRows.selectAll("td")
+                             .data(d => {
+                                 return d3.entries(d);
+                             })
+                             .join('td');
+        
+        cells.html(d => d.value);
         
         // let tableRows = table.select('tbody')
         //                      .selectAll('tr')
