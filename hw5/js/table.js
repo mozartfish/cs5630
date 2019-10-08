@@ -143,16 +143,18 @@ class Table {
 
     //add GoalAxis to header of col 1.
     console.log("Add goal axis to header of column 1");
-    let goalAxisHeader = d3.select('#goalHeader');
+    let goalAxisHeader = d3.select("#goalHeader");
     // Set up the SVG for the axis
-    let goalAxisHeaderSVG = goalAxisHeader.append('svg')
-                                          .attr('width', 4 * this.cell.width)
-                                          .attr('height', 3 * this.cell.height);
+    let goalAxisHeaderSVG = goalAxisHeader
+      .append("svg")
+      .attr("width", 4 * this.cell.width)
+      .attr("height", 3 * this.cell.height);
     //Set up the group and add the axis
-    let goalAxisHeaderGroup = goalAxisHeaderSVG.append('g')
-                                               .attr('id', 'goalXAxis')
-                                               .call(goalScaleXAxis)
-                                               .attr("transform", "translate(70," + this.cell.height + ")");
+    let goalAxisHeaderGroup = goalAxisHeaderSVG
+      .append("g")
+      .attr("id", "goalXAxis")
+      .call(goalScaleXAxis)
+      .attr("transform", "translate(70," + this.cell.height + ")");
     // ******* TODO: PART V *******
 
     // Set sorting callback for clicking on headers
@@ -167,7 +169,20 @@ class Table {
   updateTable() {
     // ******* TODO: PART III *******
     //Create table rows
+    console.log("Create table rows");
+    let table = d3.select('#matchTable');
+    let tableRows = table.select('tbody')
+                         .selectAll('tr')
+                         .data(this.tableElements)
+                         .join('tr');
     //Append th elements for the Team Names
+    console.log("Append th elements for the Team Names");
+    let teamElements = this.tableElements;
+    console.log("The team data");
+    console.log(teamElements);
+    console.log("Accessing the first element of the teamElements")
+    let bar = teamElements[0];
+    console.log(bar.key);
     //Append td elements for the remaining columns.
     //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
     //Add scores as title property to appear on hover
