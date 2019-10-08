@@ -139,11 +139,20 @@ class Table {
 
     // Create the axes
     console.log("Create the axes");
-    let goalScaleXAxis = d3.axisTop()
-                           .scale(this.goalScale);
+    let goalScaleXAxis = d3.axisTop().scale(this.goalScale);
 
     //add GoalAxis to header of col 1.
-
+    console.log("Add goal axis to header of column 1");
+    let goalAxisHeader = d3.select('#goalHeader');
+    // Set up the SVG for the axis
+    let goalAxisHeaderSVG = goalAxisHeader.append('svg')
+                                          .attr('width', 4 * this.cell.width)
+                                          .attr('height', 3 * this.cell.height);
+    //Set up the group and add the axis
+    let goalAxisHeaderGroup = goalAxisHeaderSVG.append('g')
+                                               .attr('id', 'goalXAxis')
+                                               .call(goalScaleXAxis)
+                                               .attr("transform", "translate(70," + this.cell.height + ")");
     // ******* TODO: PART V *******
 
     // Set sorting callback for clicking on headers
