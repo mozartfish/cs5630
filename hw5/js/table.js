@@ -6,21 +6,18 @@ class Table {
     constructor(teamData, treeObject) {
 
         // Maintain reference to the tree object
-        //this.tree = null;
-        this.tree = treeObject;
+        this.tree = null;
 
         /**List of all elements that will populate the table.*/
         // Initially, the tableElements will be identical to the teamData
-        //this.tableElements = null;
-        this.tableElements = teamData;
+        this.tableElements = null;
 
         ///** Store all match data for the 2018 Fifa cup */
-        //this.teamData = null;
-        this.teamData = teamData;
+        this.teamData = null;
 
         this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
 
-        /** Variables to be used when sizing the svgs in the table cells.*/
+        /** letiables to be used when sizing the svgs in the table cells.*/
         this.cell = {
             "width": 70,
             "height": 20,
@@ -34,7 +31,6 @@ class Table {
         /** Set variables for commonly accessed data columns*/
         this.goalsMadeHeader = 'Goals Made';
         this.goalsConcededHeader = 'Goals Conceded';
-        // this.deltaGamesHeader = 'Delta Goals';
 
         /** Setup the scales*/
         this.goalScale = null;
@@ -63,87 +59,12 @@ class Table {
     createTable() {
 
         // ******* TODO: PART II *******
-        /**
-         * A helper function for finding the max value for scales.
-         * The attribute refers to any of the properties associated with the country
-         * @param {*}dataObject - dataset containing objects
-         * @param {*} attribute - property of the objects in the data Object
-         */
-        function findMax(dataObject, attribute)
-        {
-            // List for storing all the objects associated with a particular property
-            let objectValueList = [];
-            dataObject.forEach(element => {
-                let value = element.value[attribute];
-                objectValueList.push(value);
-            });
-            // // console.log(attribute, "Max");
-            // console.log(objectValueList);
-            let maxValue = d3.max(objectValueList);
-            return maxValue;
-        }
-
-        /**
-         * A helper function for finding the min value for scales.
-         * The attribute refers to any of the properties associated with the country
-         * @param {*} dataObject - dataset containing objects
-         * @param {*} attribute - attributes that are part of the objects in the dataset
-         */
-        function findMin(dataObject, attribute)
-        {
-            // List for storing all the objects associated with a particular property
-            let objectValueList = [];
-            dataObject.forEach(element => {
-                let value = element.value[attribute];
-                objectValueList.push(value);                
-            });
-            // console.log(attribute, "Min");
-            // console.log(objectValueList);
-            let minValue = d3.min(objectValueList);
-            return minValue;
-        }
 
         //Update Scale Domains
-        console.log("Team Data");
-        console.log(this.teamData)
-        console.log("Update the Scale Domain");
-        console.log("Goal Scale Max Value");
-        let goalScaleDomainMax = findMax(this.teamData, this.goalsMadeHeader);
-        console.log("Updating the goal scale");
-        this.goalScale = d3.scaleLinear()
-                           .domain([0, goalScaleDomainMax])
-                           .range([0, 2*this.cell.width + 10])
-                           .nice();
-        console.log("Updating the game scale");
-        let gameScaleDomainMax= findMax(this.teamData, 'Wins');
-        this.gameScale = d3.scaleLinear()
-                           .domain([0, gameScaleDomainMax])
-                           .range([0, this.cell.width])
-                           .nice();
-        console.log("Updating the color scales")
-        this.aggregateColorScale = d3.scaleLinear()
-                                     .domain([0, goalScaleDomainMax])
-                                     .range(['#feebe2', '#690000']);
-        console.log("Updating the goal color scale");
-        this.goalColorScale = d3.scaleLinear()
-                                .domain([0, goalScaleDomainMax])
-                                .range(['#cb181d', '#034e7b']);        
+        
         // Create the axes
-        console.log("Creating the axes");
-        let goalScaleXAxis = d3.axisTop()
-                               .scale(this.goalScale)
-                               .ticks(10);
         
         //add GoalAxis to header of col 1.
-        console.log("Adding the goalAxis to header of column 1");
-        let goalAxisHeader = d3.select('#goalHeader');
-        goalAxisHeader.append('svg')
-                      .attr('width',  4 * this.cell.width)
-                      .attr('height', 3 * this.cell.height)
-                      .append('g')
-                      .attr('id', 'goalXAxis')
-                      .call(goalScaleXAxis)
-                      .attr("transform", "translate(70," + this.cell.height+ ")");
 
         // ******* TODO: PART V *******
 
@@ -161,31 +82,9 @@ class Table {
      */
     updateTable() {
         // ******* TODO: PART III *******
-        // //Create table rows
-        console.log("Creating the table rows");
-        let table = d3.select('#matchTable');
-        console.log("selected the table");
-        let tableRows = table.select('tbody')
-                             .selectAll('tr')
-                             .data(this.tableElements)
-                             .join('tr');
-        
-        let cells = tableRows.selectAll("td")
-                             .data(d => {
-                                 return d3.entries(d);
-                             })
-                             .join('td');
-        
-        cells.html(d => d.value);
-        
-        // let tableRows = table.select('tbody')
-        //                      .selectAll('tr')
-        //                      .data(this.tableElements)
-        //                      .join('tr');
-        // //Append th elements for the Team Names
-        // let headers = table.select('thead')
-        //                    .selectAll('th')
-        // //                   .data()
+        //Create table rows
+
+        //Append th elements for the Team Names
 
         //Append td elements for the remaining columns. 
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
