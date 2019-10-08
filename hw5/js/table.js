@@ -102,39 +102,45 @@ class Table {
     }
 
     // View the team data
-    console.log("View the team data")
+    console.log("View the team data");
     console.log("Team Data");
     console.log(this.teamData);
 
     // ******* TODO: PART II *******
 
     //Update Scale Domains
-    console.log("Update Scale Domains")
-    // Based on the max values for each of the attributes, decided to go with 
+    console.log("Update Scale Domains");
+    // Based on the max values for each of the attributes, decided to go with
     // goalsMade attribute for goal scale domain
-    console.log("Updating the goal scale")
+    console.log("Updating the goal scale");
     let goalScaleDomainMax = findMax(this.teamData, this.goalsMadeHeader);
-    this.goalScale = d3.scaleLinear()
-                       .domain([0, goalScaleDomainMax])
-                       .range([0, 2 * this.cell.width + 20])
-                       .nice();
+    this.goalScale = d3
+      .scaleLinear()
+      .domain([0, goalScaleDomainMax])
+      .range([0, 2 * this.cell.width + 20])
+      .nice();
     console.log("Updating the game scale");
-    let gameScaleDomainMax = findMax(this.teamData,'Wins');
-    this.gameScale = d3.scaleLinear()
-                       .domain([0, gameScaleDomainMax])
-                       .range([0, 2 * this.cell.width + 20])
-                       .nice();
-    console.log("Updating the color scales")
-    this.aggregateColorScale = d3.scaleLinear()
-                                 .domain([0, goalScaleDomainMax])
-                                 .range(['#feebe2', '#690000']);
+    let gameScaleDomainMax = findMax(this.teamData, "Wins");
+    this.gameScale = d3
+      .scaleLinear()
+      .domain([0, gameScaleDomainMax])
+      .range([0, 2 * this.cell.width + 20])
+      .nice();
+    console.log("Updating the color scales");
+    this.aggregateColorScale = d3
+      .scaleLinear()
+      .domain([0, goalScaleDomainMax])
+      .range(["#feebe2", "#690000"]);
     console.log("Updating the goal color scale");
-    this.goalColorScale = d3.scaleLinear()
-                            .domain([0, goalScaleDomainMax])
-                            .range('#cb181d', '#034e7b');
-                         
+    this.goalColorScale = d3
+      .scaleLinear()
+      .domain([0, goalScaleDomainMax])
+      .range("#cb181d", "#034e7b");
 
     // Create the axes
+    console.log("Create the axes");
+    let goalScaleXAxis = d3.axisTop()
+                           .scale(this.goalScale);
 
     //add GoalAxis to header of col 1.
 
