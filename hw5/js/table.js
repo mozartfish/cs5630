@@ -6,14 +6,17 @@ class Table {
     constructor(teamData, treeObject) {
 
         // Maintain reference to the tree object
-        this.tree = null;
+        // this.tree = null;
+        this.tree = treeObject;
 
         /**List of all elements that will populate the table.*/
         // Initially, the tableElements will be identical to the teamData
-        this.tableElements = null;
+        // this.tableElements = null;
+        this.tableElements = teamData;
 
         ///** Store all match data for the 2018 Fifa cup */
-        this.teamData = null;
+        // this.teamData = null;
+        this.teamData = teamData;
 
         this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
 
@@ -21,7 +24,7 @@ class Table {
         this.cell = {
             "width": 70,
             "height": 20,
-            "buffer": 15
+            "buffer": 15 // the padding for cells
         };
 
         this.bar = {
@@ -57,6 +60,27 @@ class Table {
      *
      */
     createTable() {
+        /**
+         * Function for determining the max for a scale 
+         * @param {*} dataObject - dataset containing objects
+         * @param {*} attribute - a particular property of the dataObject
+         */
+        function findMax(dataObject, attribute)
+        {
+            // List for storing all the object associated with the specified attribute
+            let objectValueList = [];
+            dataObject.forEach(element => {
+                let value = element.value[attribute];
+                objectValueList.push(value);
+                
+            });
+
+            // console.log(attribute, "Max");
+            // console.log(objectValueList);
+            let maxValue = d3.max(objectValueList);
+            
+            return maxValue;
+        }
 
         // ******* TODO: PART II *******
 
