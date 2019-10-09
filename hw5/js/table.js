@@ -177,6 +177,11 @@ class Table {
                          .join('tr'); // enter, exit and update
     //Append th elements for the Team Names
     console.log("Appending the th elements for team Names");
+    let tableHeaderTeamNames = tableRows.selectAll('th')
+                                        .data(function(d){
+                                            return [1]; // we want to bind only one th to each tr for the names
+                                        })
+                                        .join('th');
 
 
     // let teamElements = this.tableElements;
