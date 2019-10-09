@@ -170,20 +170,30 @@ class Table {
     // ******* TODO: PART III *******
     //Create table rows
     console.log("Create table rows");
-    let table = d3.select('#matchTable');
-    let tableRows = table.select('tbody')
-                         .selectAll('tr')
-                         .data(this.tableElements)
-                         .join('tr');
+    let table = d3.select('#matchTable'); // select the table
+    let tableRows = table.select('tbody') // select the table body
+                         .selectAll('tr') // select all the table rows
+                         .data(this.tableElements) // bind the data to all the elements
+                         .join('tr'); // enter, exit and update
     //Append th elements for the Team Names
-    console.log("Append th elements for the Team Names");
-    let teamElements = this.tableElements;
-    console.log("The team data");
-    console.log(teamElements);
-    console.log("Accessing the first element of the teamElements")
-    let bar = teamElements[0];
-    console.log(bar.key);
+    console.log("Appending the th elements for team Names");
+
+
+    // let teamElements = this.tableElements;
+    // let countryNameList = [];
+    // console.log("The team data");
+    // teamElements.forEach(element => {
+    //     let countryObject = element;
+    //     let countryName = element.key;
+    //     countryNameList.push(countryName);
+    // });
+    // console.log("The country name list");
+    // console.log(countryNameList);
+
+
     //Append td elements for the remaining columns.
+    console.log("Append td elements for the remaining columns");
+
     //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
     //Add scores as title property to appear on hover
     //Populate cells (do one type of cell at a time )
