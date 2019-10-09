@@ -184,13 +184,19 @@ class Table {
       .selectAll("th")
       .data(d => [d]) // return an array that contains only one element for creating
       // a single th for each country
-      .join("th");
+      .join("th")
+      .classed("aggregate", true);
     // update the country names according to the names which are the keys in the object
     tableHeaderTeamNames.html(d => d.key);
 
 
     //Append td elements for the remaining columns.
     console.log("Append td elements for the remaining columns");
+    let tdElements = tableRows.selectAll('td')
+                              .data(function(d){
+                                  console.log(d);
+                                  return [1, 2, 3, 4, 5];
+                              });
 
     //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
     //Add scores as title property to appear on hover
