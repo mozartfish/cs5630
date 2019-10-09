@@ -168,6 +168,7 @@ class Table {
    */
   updateTable() {
     // ******* TODO: PART III *******
+
     //Create table rows
     console.log("Create table rows");
     let table = d3.select("#matchTable"); // select the table
@@ -176,6 +177,7 @@ class Table {
       .selectAll("tr") // select all the table rows
       .data(this.tableElements) // bind the data to all the elements
       .join("tr"); // enter, exit and update
+
     //Append th elements for the Team Names
     console.log("Appending the th elements for team Names");
     let tableHeaderTeamNames = tableRows
@@ -183,19 +185,9 @@ class Table {
       .data(d => [d]) // return an array that contains only one element for creating
       // a single th for each country
       .join("th");
-    // update the country names according to the names
+    // update the country names according to the names which are the keys in the object
     tableHeaderTeamNames.html(d => d.key);
 
-    // let teamElements = this.tableElements;
-    // let countryNameList = [];
-    // console.log("The team data");
-    // teamElements.forEach(element => {
-    //     let countryObject = element;
-    //     let countryName = element.key;
-    //     countryNameList.push(countryName);
-    // });
-    // console.log("The country name list");
-    // console.log(countryNameList);
 
     //Append td elements for the remaining columns.
     console.log("Append td elements for the remaining columns");
