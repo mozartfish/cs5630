@@ -23,7 +23,7 @@ class Table {
         this.cell = {
             "width": 70,
             "height": 20,
-            "buffer": 15
+            "buffer": 15 // padding
         };
 
         this.bar = {
@@ -71,8 +71,8 @@ class Table {
                 let value = element.value[attribute];
                 dataList.push(value);
             });
-             console.log(attribute, "MAX");
-             console.log(dataList);
+            //  console.log(attribute, "MAX");
+            //  console.log(dataList);
              let maxValue = d3.max(dataList);
              return maxValue;
         }
@@ -80,37 +80,42 @@ class Table {
         // View the data
         console.log("The data");
         console.log(this.teamData);
-        //Update Scale Domains
-        console.log("Update Scale Domains");
 
-        // Update Goal Scale Domain
-        console.log("Updating the goal scale domain");
+        //Update Scale Domains
+        console.log("Update Scale Domain and Range");
+
+        // Update Goal Scale Domain and Range
+        console.log("Updating the Goal Scale Domain and Range");
         let goalsMadeMax = findMax(this.teamData, this.goalsMadeHeader);
         let goalsConcededMax = findMax(this.teamData, this.goalsConcededHeader);
         console.log("Goals Made MAX = ", goalsMadeMax);
         console.log("Goals Conceded MAX = ", goalsConcededMax);
         this.goalScale = d3.scaleLinear()
-                           .domain([0, goalsMadeMax]);
+                           .domain([0, goalsMadeMax])
+                           .range([0, this.cell.width]);
 
 
-        // Update Game Scale Domain
-        console.log("Updating the game scale domain");
+        // Update Game Scale Domain and Range
+        console.log("Updating the Game Scale Domain and Range");
         let totalGamesMax = findMax(this.teamData, "TotalGames");
         console.log("TotalGames MAX = ", totalGamesMax);
         this.gameScale = d3.scaleLinear()
-                           .domain([0, totalGamesMax]);
+                           .domain([0, totalGamesMax])
+                           .range([0, this.cell.width]);
 
-        // Update the Aggregate Color Scale Domain
-        console.log("Updating the aggregate color scale domain");
+        // Update the Aggregate Color Scale Domain and Range
+        console.log("Updating the aggregate color scale domain and range");
         // Aggregate in this data refers to how the teams did overall across all their matches
         // so we use the total games for scaling the aggregate
         this.aggregateColorScale = d3.scaleLinear()
-                                     .domain([0, totalGamesMax]);
+                                     .domain([0, totalGamesMax])
+                                     .range(['#feebe2', '#690000']);
         
-        // Update the Goal Color Scale Domain
-        console.log("Updating the goal color scale domain");
+        // Update the Goal Color Scale Domain and Range
+        console.log("Updating the goal color scale domain and range");
         this.goalColorScale = d3.scaleLinear()
-                                .domain([0, goalsMadeMax]);
+                                .domain([0, goalsMadeMax])
+                                .range(['#cb181d', '#034e7b']);
         
         // Create the axes
         
