@@ -295,7 +295,7 @@ class Table {
         // console.log("Round result column data", roundResultDataObjectList);
         // console.log("Wins column data", winsDataObjectList);
         // console.log("Losses column data", lossesDataObjectList);
-        console.log("totalGames column data", totalGamesDataObjectList);
+        // console.log("totalGames column data", totalGamesDataObjectList);
 
         console.log("Make some epic SVG plots!");
         // Bar charts
@@ -326,6 +326,16 @@ class Table {
             return aggregateColorScale(Math.abs(d.value));
         })
 
+        let barText = barSVG.append("text");
+        barText.attr("x", function(d)
+        {
+            return gameScale(d.value) - 10;
+        })
+        .attr("y", this.cell.height / 2 + 6);
+        barText.attr("class", "label");
+        barText.text(d => d.value);
+
+       
 
 
 
