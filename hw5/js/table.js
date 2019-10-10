@@ -19,7 +19,7 @@ class Table {
 
         this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
 
-        /** letiables to be used when sizing the svgs in the table cells.*/
+        /** variables to be used when sizing the svgs in the table cells.*/
         this.cell = {
             "width": 70,
             "height": 20,
@@ -63,6 +63,7 @@ class Table {
         // ******* TODO: PART II *******
 
         //Update Scale Domains
+        console.log("Update Scale Domains");
         
         // Create the axes
         
