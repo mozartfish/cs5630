@@ -82,14 +82,14 @@ class Table {
         console.log(this.teamData);
 
         //Update Scale Domains
-        console.log("Update Scale Domain and Range");
+        // console.log("Update Scale Domain and Range");
 
         // Update Goal Scale Domain and Range
-        console.log("Updating the Goal Scale Domain and Range");
+        // console.log("Updating the Goal Scale Domain and Range");
         let goalsMadeMax = findMax(this.teamData, this.goalsMadeHeader);
         let goalsConcededMax = findMax(this.teamData, this.goalsConcededHeader);
-        console.log("Goals Made MAX = ", goalsMadeMax);
-        console.log("Goals Conceded MAX = ", goalsConcededMax);
+        // console.log("Goals Made MAX = ", goalsMadeMax);
+        // console.log("Goals Conceded MAX = ", goalsConcededMax);
         this.goalScale = d3.scaleLinear()
                            .domain([0, goalsMadeMax])
                            .range([0, 2 * this.cell.width + 20])
@@ -97,16 +97,16 @@ class Table {
 
 
         // Update Game Scale Domain and Range
-        console.log("Updating the Game Scale Domain and Range");
+        // console.log("Updating the Game Scale Domain and Range");
         let totalGamesMax = findMax(this.teamData, "TotalGames");
-        console.log("TotalGames MAX = ", totalGamesMax);
+        // console.log("TotalGames MAX = ", totalGamesMax);
         this.gameScale = d3.scaleLinear()
                            .domain([0, totalGamesMax])
                            .range([0, 2 * this.cell.width + 20])
                            .nice();
 
         // Update the Aggregate Color Scale Domain and Range
-        console.log("Updating the aggregate color scale domain and range");
+        // console.log("Updating the aggregate color scale domain and range");
         // Aggregate in this data refers to how the teams did overall across all their matches
         // so we use the total games for scaling the aggregate
         this.aggregateColorScale = d3.scaleLinear()
@@ -114,17 +114,17 @@ class Table {
                                      .range(['#feebe2', '#690000']);
         
         // Update the Goal Color Scale Domain and Range
-        console.log("Updating the goal color scale domain and range");
+        // console.log("Updating the goal color scale domain and range");
         this.goalColorScale = d3.scaleLinear()
                                 .domain([0, goalsMadeMax])
                                 .range(['#cb181d', '#034e7b']);
         
         // Create the axes
-        console.log("Create the axes");
+        // console.log("Create the axes");
         let goalScaleXAxis = d3.axisTop().scale(this.goalScale);
 
         //add GoalAxis to header of col 1.
-        console.log("Add GoalAxis to header of col 1");
+        // console.log("Add GoalAxis to header of col 1");
         let goalAxisHeader = d3.select("#goalHeader");
         // Set up the SVG for the axis
         let goalAxisHeaderSVG = goalAxisHeader.append("svg")
@@ -154,7 +154,7 @@ class Table {
     updateTable() {
         // ******* TODO: PART III *******
         //Create table rows
-        console.log("Create table rows");
+        // console.log("Create table rows");
         let table = d3.select("#matchTable"); // select the table id
         let tableRows = table.select("tbody") // select the table body
                              .selectAll("tr") // select all the table rows
@@ -162,75 +162,131 @@ class Table {
                              .join("tr"); // enter exit update
 
         //Append th elements for the Team Names
-        console.log("Append the th elements for the Team Names");
+        // console.log("Append the th elements for the Team Names");
         let tableHeaderTeamNames = tableRows.selectAll("th")
-                                            .data(d =>[d]) // bind each th element to 1 value (adding 1 th to the tr from table rows)
+                                            .data(d => [d]) // bind each th element to 1 value (adding 1 th to the tr from table rows)
                                             .join("th"); // enter exit update
+
         // Add the name of the countries
-        tableHeaderTeamNames.html(d => d.key);
+        // there are two kinds of countries => Aggregate Countries and Game Countries which represent the two different kinds of rows
+        // update the row names according to the type of row
+        tableHeaderTeamNames.attr("class", function(d){
+            if (d.value.type === "aggregate")
+            {
+                return "aggregate";
+            }
+            else
+            {
+                return "games";
+            }
+        })
+        tableHeaderTeamNames.html(function(d){
+            if (d.value.type === "aggregate")
+            {
+                return d.key;
+            }
+            else
+            {
+                return "x" + d.key;
+            }
+        });
 
         //Append td elements for the remaining columns. 
         console.log("Append td elements for the remaining columns");
-        let goalObjectList = [];
-        let roundResultObjectList = [];
-        let winsObjectList = [];
-        let lossesObjectList = [];
-        let totalGamesObjectList = [];
+        let goalDataObjectList = [];
+        let roundResultDataObjectList = [];
+        let winsDataObjectList = [];
+        let lossesDataObjectList = [];
+        let totalGamesDataObjectList = [];
+
+        // A helper function for creating td elements
+
+        // lists for viewing the game objects
+        let gamesList = [];
         let tdElements = tableRows.selectAll("td")
                                   .data(function(d){
-                                      // define a goals object
-                                      let goals = {};
-                                      let goalProperties = {};
-                                      goalProperties["Goals Made"] = d.value["Goals Made"];
-                                      goalProperties["Goals Conceded"] = d.value["Goals Conceded"];
-                                      goalProperties["Delta Goals"] = d.value["Delta Goals"];
-                                      goals['type'] = d.value.type;
-                                      goals['vis'] = "goals";
-                                      goals['value'] = goalProperties;
+                                      // since each data category is unique, we can think of them as specific data types
+                                      // data returns an array where each element in that array is bound to a td
+                                      gamesList.push(d.value.games);
 
-                                      // define Rounds object
-                                      let roundResult = {};
-                                      roundResult['type'] = d.value.type;
-                                      roundResult['vis'] = "text";
-                                      roundResult['value'] = d.value.Result.label;
+                                      // goals data category
+                                      let goalsData = {};
+                                      // stores the goals made, conceded and delta
+                                      let goalsDataProperties = {};
+                                      goalsDataProperties["Goals Made"] = d.value["Goals Made"];
+                                      goalsDataProperties["Goals Conceded"] = d.value["Goals Conceded"];
+                                      goalsDataProperties["Delta Goals"] = d.value["Delta Goals"];
+                                      goalsData["type"] = d.value.type;
+                                      goalsData["vis"] = "goals";
+                                      goalsData["value"] = goalsDataProperties;
 
-                                      // define Wins object
-                                      let wins = {};
-                                      wins['type'] = d.value.type;
-                                      wins['vis'] = "bars";
-                                      wins['value'] = d.value.Wins;
+                                      // Round Result category
+                                      let roundResultData = {};
+                                      roundResultData["type"] = d.value.type;
+                                      roundResultData["vis"] = "text";
+                                      roundResultData["value"] = d.value.Result.label;
 
-                                      // Define Losses Object
-                                      let losses = {};
-                                      losses['type'] = d.value.type;
-                                      losses['vis'] = "bars";
-                                      losses['value'] = d.value.Losses;
+                                      //Wins Category
+                                      let winsData = {};
+                                      winsData["type"] = d.value.type;
+                                      if (d.value.type === "game")
+                                      {
+                                          winsData["vis"] = "";
+                                      }
+                                      else
+                                      {
+                                          winsData["vis"] = "bars";
+                                      }
+                                      winsData["value"] = d.value.Wins;
 
-                                      // Define Total Games Object
-                                      let totalGames = {};
-                                      totalGames['type'] = d.value.type;
-                                      totalGames['vis'] = "bars";
-                                      totalGames['value'] = d.value.TotalGames;
+                                      // Losses Category
+                                      let lossesData ={};
+                                      lossesData["type"] = d.value.type;
+                                      if (d.value.type === "game")
+                                      {
+                                          lossesData["vis"] = "";
+                                      }
+                                      else
+                                      {
+                                          lossesData["vis"] = "bars";
+                                      }
+                                      lossesData["value"] = d.value.Losses;
 
-                                      goalObjectList.push(goals);
-                                      roundResultObjectList.push(roundResult);
-                                      winsObjectList.push(wins);
-                                      lossesObjectList.push(losses);
-                                      totalGamesObjectList.push(totalGames);
+                                      // Total Games Category
+                                      let totalGamesData = {};
+                                      if (d.value.type === "game")
+                                      {
+                                          totalGamesData["type"] = "";
+                                          totalGamesData["vis"] = "";
+                                          totalGamesData["value"] = "";
+                                      }
+                                      else
+                                      {
+                                          totalGamesData["type"] = d.value.type;
+                                          totalGamesData["vis"] = "bars";
+                                          totalGamesData["value"] = d.value.TotalGames;
+                                      }
 
-                                      return [1, 2, 3, 4];
-
+                                      // for debugging purposes
+                                      goalDataObjectList.push(goalsData);
+                                      roundResultDataObjectList.push(roundResultData);
+                                      winsDataObjectList.push(winsData);
+                                      lossesDataObjectList.push(lossesData);
+                                      totalGamesDataObjectList.push(totalGamesData);
+                                    // return [1, 2, 3, 4];
+                                    
+                                
+                                    //console.log("printing out the result array", [goalsData, roundResultData, winsData, lossesData, totalGamesData])
+                                    return [goalsData, roundResultData, winsData, lossesData, totalGamesData];
                                   })
-        console.log("The goals list");
-        console.log(goalObjectList);
-        console.log("The round result list");
-        console.log(roundResultObjectList);
-        console.log("The wins list");
-        console.log(winsObjectList);
-        console.log("The losses list");
-        console.log(lossesObjectList);
-        console.log("the total games list");
-        console.log(totalGamesObjectList);
+                                 .join("td");
+        // console.log("gamesList Data", gamesList);
+        // console.log("goal column data", goalDataObjectList);
+        // console.log("Round result column data", roundResultDataObjectList);
+        // console.log("Wins column data", winsDataObjectList);
+        // console.log("Losses column data", lossesDataObjectList);
+        // console.log("totalGames column data", totalGamesDataObjectList);
+   
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
         
