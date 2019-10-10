@@ -154,8 +154,18 @@ class Table {
     updateTable() {
         // ******* TODO: PART III *******
         //Create table rows
+        console.log("Create table rows");
+        let table = d3.select("#matchTable"); // select the table id
+        let tableRows = table.select("tbody") // select the table body
+                             .selectAll("tr") // select all the table rows
+                             .data(this.tableElements) // bind the data to all the tr elements
+                             .join("tr"); // enter exit update
 
         //Append th elements for the Team Names
+        console.log("Append the th elements for the Team Names");
+        let tableHeaderTeamNames = tableRows.selectAll("th")
+                                            .data(d =>[d]) // return an array of length 1 and bind that to the th
+                                            .join("th");
 
         //Append td elements for the remaining columns. 
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
