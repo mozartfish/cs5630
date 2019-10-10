@@ -171,15 +171,68 @@ class Table {
 
         //Append td elements for the remaining columns. 
         console.log("Append td elements for the remaining columns");
-        let objectList = [];
+        let goalObjectList = [];
+        let roundResultObjectList = [];
+        let winsObjectList = [];
+        let lossesObjectList = [];
+        let totalGamesObjectList = [];
         let tdElements = tableRows.selectAll("td")
-                                  .data(function(d, i){
-                                      objectList.push(d.value.games);
+                                  .data(function(d){
+                                      // define a goals object
+                                      let goals = {};
+                                      let goalProperties = {};
+                                      goalProperties["Goals Made"] = d.value["Goals Made"];
+                                      goalProperties["Goals Conceded"] = d.value["Goals Conceded"];
+                                      goalProperties["Delta Goals"] = d.value["Delta Goals"];
+                                      goals['type'] = d.value.type;
+                                      goals['vis'] = "goals";
+                                      goals['value'] = goalProperties;
+
+                                      // define Rounds object
+                                      let roundResult = {};
+                                      roundResult['type'] = d.value.type;
+                                      roundResult['vis'] = "text";
+                                      roundResult['value'] = d.value.Result.label;
+
+                                      // define Wins object
+                                      let wins = {};
+                                      wins['type'] = d.value.type;
+                                      wins['vis'] = "bars";
+                                      wins['value'] = d.value.Wins;
+
+                                      // Define Losses Object
+                                      let losses = {};
+                                      losses['type'] = d.value.type;
+                                      losses['vis'] = "bars";
+                                      losses['value'] = d.value.Losses;
+
+                                      // Define Total Games Object
+                                      let totalGames = {};
+                                      totalGames['type'] = d.value.type;
+                                      totalGames['vis'] = "bars";
+                                      totalGames['value'] = d.value.TotalGames;
+
+                                      goalObjectList.push(goals);
+                                      roundResultObjectList.push(roundResult);
+                                      winsObjectList.push(wins);
+                                      lossesObjectList.push(losses);
+                                      totalGamesObjectList.push(totalGames);
+
                                       return [1, 2, 3, 4];
+
                                   })
-        console.log("The object list");
-        console.log(objectList);
+        console.log("The goals list");
+        console.log(goalObjectList);
+        console.log("The round result list");
+        console.log(roundResultObjectList);
+        console.log("The wins list");
+        console.log(winsObjectList);
+        console.log("The losses list");
+        console.log(lossesObjectList);
+        console.log("the total games list");
+        console.log(totalGamesObjectList);
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
+        // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
         
         //Add scores as title property to appear on hover
 
