@@ -193,13 +193,13 @@ class Table {
 
         //Append td elements for the remaining columns. 
         console.log("Append td elements for the remaining columns");
+
+        // For debugging purposes
         let goalDataObjectList = [];
         let roundResultDataObjectList = [];
         let winsDataObjectList = [];
         let lossesDataObjectList = [];
         let totalGamesDataObjectList = [];
-
-        // A helper function for creating td elements
 
         // lists for viewing the game objects
         let gamesList = [];
@@ -286,6 +286,22 @@ class Table {
         // console.log("Wins column data", winsDataObjectList);
         // console.log("Losses column data", lossesDataObjectList);
         // console.log("totalGames column data", totalGamesDataObjectList);
+
+        console.log("Make some epic SVG plots!");
+        // Bar charts
+        console.log("setting up the bar charts for wins, losses and total games");
+        let barCharts = tdElements.filter((d) =>{
+            return d.vis === "bars"
+        })
+        barCharts.selectAll("svg")
+                 .data(d => [d])
+                 .join("svg");
+        barCharts.selectAll("svg")
+                 .attr("width", this.cell.width)
+                 .attr("height", this.cell.height);
+
+
+
    
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
