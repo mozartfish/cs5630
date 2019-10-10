@@ -92,7 +92,8 @@ class Table {
         console.log("Goals Conceded MAX = ", goalsConcededMax);
         this.goalScale = d3.scaleLinear()
                            .domain([0, goalsMadeMax])
-                           .range([0, this.cell.width]);
+                           .range([0, 2 * this.cell.width + 20])
+                           .nice();
 
 
         // Update Game Scale Domain and Range
@@ -101,7 +102,8 @@ class Table {
         console.log("TotalGames MAX = ", totalGamesMax);
         this.gameScale = d3.scaleLinear()
                            .domain([0, totalGamesMax])
-                           .range([0, this.cell.width]);
+                           .range([0, 2 * this.cell.width + 20])
+                           .nice();
 
         // Update the Aggregate Color Scale Domain and Range
         console.log("Updating the aggregate color scale domain and range");
@@ -118,9 +120,23 @@ class Table {
                                 .range(['#cb181d', '#034e7b']);
         
         // Create the axes
-        
-        //add GoalAxis to header of col 1.
+        console.log("Create the axes");
+        let goalScaleXAxis = d3.axisTop().scale(this.goalScale);
 
+        //add GoalAxis to header of col 1.
+        console.log("Add GoalAxis to header of col 1");
+        let goalAxisHeader = d3.select("#goalHeader");
+        // Set up the SVG for the axis
+        let goalAxisHeaderSVG = goalAxisHeader.append("svg")
+                                              .attr("width", 4 * this.cell.width + 20)
+                                              .attr("id", "goalAxisSVG")
+                                              .attr("height", 3 * this.cell.height);
+        // Set up the group for the axis
+        let goalAxisHeaderGroup = goalAxisHeaderSVG.append("g")
+                                                   .attr("id", "goalXAxis")
+                                                   .attr("transform", "translate(70," + this.cell.height + ")")
+                                                   .call(goalScaleXAxis);
+                                                   
         // ******* TODO: PART V *******
 
         // Set sorting callback for clicking on headers
