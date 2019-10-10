@@ -62,8 +62,17 @@ class Table {
 
         // ******* TODO: PART II *******
 
+        // A set of helper functions to determine the max and min for scales
+        function findMax(data, attribute)
+        {
+            // List for storing the particular attribute associated with each object in the data
+            let dataList 
+
+        }
         //Update Scale Domains
         console.log("Update Scale Domains");
+        // Update Goal Scale Domain
+
         
         // Create the axes
         
