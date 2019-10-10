@@ -164,10 +164,21 @@ class Table {
         //Append th elements for the Team Names
         console.log("Append the th elements for the Team Names");
         let tableHeaderTeamNames = tableRows.selectAll("th")
-                                            .data(d =>[d]) // return an array of length 1 and bind that to the th
-                                            .join("th");
+                                            .data(d =>[d]) // bind each th element to 1 value (adding 1 th to the tr from table rows)
+                                            .join("th"); // enter exit update
+        // Add the name of the countries
+        tableHeaderTeamNames.html(d => d.key);
 
         //Append td elements for the remaining columns. 
+        console.log("Append td elements for the remaining columns");
+        let objectList = [];
+        let tdElements = tableRows.selectAll("td")
+                                  .data(function(d, i){
+                                      objectList.push(d.value.games);
+                                      return [1, 2, 3, 4];
+                                  })
+        console.log("The object list");
+        console.log(objectList);
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         
         //Add scores as title property to appear on hover
