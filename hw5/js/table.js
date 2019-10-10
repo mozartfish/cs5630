@@ -66,13 +66,51 @@ class Table {
         function findMax(data, attribute)
         {
             // List for storing the particular attribute associated with each object in the data
-            let dataList 
-
+            let dataList = [];
+            data.forEach(element => {
+                let value = element.value[attribute];
+                dataList.push(value);
+            });
+             console.log(attribute, "MAX");
+             console.log(dataList);
+             let maxValue = d3.max(dataList);
+             return maxValue;
         }
+
+        // View the data
+        console.log("The data");
+        console.log(this.teamData);
         //Update Scale Domains
         console.log("Update Scale Domains");
-        // Update Goal Scale Domain
 
+        // Update Goal Scale Domain
+        console.log("Updating the goal scale domain");
+        let goalsMadeMax = findMax(this.teamData, this.goalsMadeHeader);
+        let goalsConcededMax = findMax(this.teamData, this.goalsConcededHeader);
+        console.log("Goals Made MAX = ", goalsMadeMax);
+        console.log("Goals Conceded MAX = ", goalsConcededMax);
+        this.goalScale = d3.scaleLinear()
+                           .domain([0, goalsMadeMax]);
+
+
+        // Update Game Scale Domain
+        console.log("Updating the game scale domain");
+        let totalGamesMax = findMax(this.teamData, "TotalGames");
+        console.log("TotalGames MAX = ", totalGamesMax);
+        this.gameScale = d3.scaleLinear()
+                           .domain([0, totalGamesMax]);
+
+        // Update the Aggregate Color Scale Domain
+        console.log("Updating the aggregate color scale domain");
+        // Aggregate in this data refers to how the teams did overall across all their matches
+        // so we use the total games for scaling the aggregate
+        this.aggregateColorScale = d3.scaleLinear()
+                                     .domain([0, totalGamesMax]);
+        
+        // Update the Goal Color Scale Domain
+        console.log("Updating the goal color scale domain");
+        this.goalColorScale = d3.scaleLinear()
+                                .domain([0, goalsMadeMax]);
         
         // Create the axes
         
