@@ -92,7 +92,7 @@ class Table {
         // console.log("Goals Conceded MAX = ", goalsConcededMax);
         this.goalScale = d3.scaleLinear()
                            .domain([0, goalsMadeMax])
-                           .range([0, 2 * this.cell.width + 20])
+                           .range([0, this.cell.width])
                            .nice();
 
 
@@ -102,7 +102,7 @@ class Table {
         // console.log("TotalGames MAX = ", totalGamesMax);
         this.gameScale = d3.scaleLinear()
                            .domain([0, totalGamesMax])
-                           .range([0, 2 * this.cell.width + 20])
+                           .range([0, this.cell.width])
                            .nice();
 
         // Update the Aggregate Color Scale Domain and Range
@@ -153,6 +153,16 @@ class Table {
      */
     updateTable() {
         // ******* TODO: PART III *******
+        // Store scales for drawing stuff
+        // Used for the goals
+        let goalScale = this.goalScale;
+        // Used for games / wins / losses
+        let gameScale = this.gameScale;
+        // Used for aggregate columns
+        let aggregateColorScale = this.aggregateColorScale;
+        // Used for Goal Column
+        let goalColorScale = this.goalColorScale;
+
         //Create table rows
         // console.log("Create table rows");
         let table = d3.select("#matchTable"); // select the table id
@@ -285,7 +295,7 @@ class Table {
         // console.log("Round result column data", roundResultDataObjectList);
         // console.log("Wins column data", winsDataObjectList);
         // console.log("Losses column data", lossesDataObjectList);
-        // console.log("totalGames column data", totalGamesDataObjectList);
+        console.log("totalGames column data", totalGamesDataObjectList);
 
         console.log("Make some epic SVG plots!");
         // Bar charts
@@ -304,8 +314,10 @@ class Table {
         
         // Append rectangles to the svg
         let barRectangles = barSVG.append("rect");
-        barRectangles.attr("width", 100)
-        barRectangles.attr("height", 50);
+        barRectangles.attr("width", function(d){
+            return gameScale(d.value);
+        })
+        barRectangles.attr("height", this.bar.height);
 
 
 
