@@ -296,9 +296,17 @@ class Table {
         barCharts.selectAll("svg")
                  .data(d => [d])
                  .join("svg");
-        barCharts.selectAll("svg")
-                 .attr("width", this.cell.width)
-                 .attr("height", this.cell.height);
+
+        // modify the SVG width and height for the cells         
+        let barSVG = barCharts.selectAll("svg");
+        barSVG.attr("width", this.cell.width)
+              .attr("height", this.cell.height);
+        
+        // Append rectangles to the svg
+        let barRectangles = barSVG.append("rect");
+        barRectangles.attr("width", 100)
+        barRectangles.attr("height", 50);
+
 
 
 
