@@ -314,10 +314,17 @@ class Table {
         
         // Append rectangles to the svg
         let barRectangles = barSVG.append("rect");
+
+        // Set up the width and height of the rectangles
         barRectangles.attr("width", function(d){
             return gameScale(d.value);
         })
         barRectangles.attr("height", this.bar.height);
+
+        // Set up the color
+        barRectangles.attr("fill", function(d){
+            return aggregateColorScale(Math.abs(d.value));
+        })
 
 
 
