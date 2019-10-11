@@ -106,6 +106,7 @@ class Table {
         let goalValuesList = [goalsMadeMax, goalsConcededMax];
         let goalScaleDomainMax = d3.max(goalValuesList);
         let deltaGoalsDomainMin = findMin(this.teamData, "Delta Goals");
+        let deltaGoalsDomainMax = findMax(this.teamData, "Delta Goals");
         //console.log("The deltaGoals Min value is", deltaGoalsDomainMin);
         // console.log("Goals Made MAX = ", goalsMadeMax);
         // console.log("Goals Conceded MAX = ", goalsConcededMax);
@@ -134,7 +135,7 @@ class Table {
         // Update the Goal Color Scale Domain and Range
         // console.log("Updating the goal color scale domain and range");
         this.goalColorScale = d3.scaleLinear()
-                                .domain([deltaGoalsDomainMin, goalScaleDomainMax])
+                                .domain([deltaGoalsDomainMin, deltaGoalsDomainMax])
                                 .range(['#cb181d', '#034e7b']);
         
         // Create the axes
