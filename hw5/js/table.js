@@ -303,7 +303,7 @@ class Table {
                                   })
                                  .join("td");
 
-        // Add an id to all the elements
+        // Add an id to all the elements so we know what kind of visualization to put in each cell
         tdElements.attr("id", d => d.vis);
     
         // console.log("games List data", gamesDataObjectList);
@@ -329,8 +329,7 @@ class Table {
         // modify the SVG width and height       
         let barSVG = barCharts.selectAll("svg");
         barSVG.attr("width", that.cell.width)
-              .attr("height", that.cell.height)
-              .attr("id", "barChartsSVG");
+              .attr("height", that.cell.height);
         
         // Append rectangles to the svg
         let barRectangles = barSVG.append("rect");
@@ -365,15 +364,13 @@ class Table {
         // Set up the width and height of the svg
         // these values should match the goal axis svg values because we will use that for analysis
         goalChartsSVG.attr("width", 2 * that.cell.width + this.cell.buffer + 90)
-                     .attr("height", that.cell.height + 10)
-                     .attr("id", "goalChartsSVG");
+                     .attr("height", that.cell.height + 10);
         
         // Append a group to the svg to match the transformation of the bar axis
         let goalChartsGroup = goalChartsSVG.append("g");
 
         // Set up the transform of the group and other attributes
-        goalChartsGroup.attr("transform", "translate(45," + 5 + ")")
-                       .attr("id", "goalChartsGroupTransform");
+        goalChartsGroup.attr("transform", "translate(45," + 5 + ")");
         
         // Append rectangles to the Group
         let goalChartsRectangles = goalChartsGroup.append("rect");
@@ -395,8 +392,7 @@ class Table {
         //      return that.goalScale(Math.abs(d.value["Delta Goals"]));
         //  })
          .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
-         .attr("height", that.cell.height - 14)
-         .attr("id", "goalChartRectangles");
+         .attr("height", that.cell.height - 14);
         
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
