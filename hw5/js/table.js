@@ -230,8 +230,9 @@ class Table {
 
         let tdElements = tableRows.selectAll("td")
                                   .data(function(d){
-                                      // since each data category is unique, we can think of them as specific data types
-                                      // data returns an array where each element in that array is bound to a td
+                                      // since each data category is unique, we can think of them as different kinds of objects
+                                      // data returns an array where each element in that array is bound to a td where each td corresponds
+                                      // to a specific kind of object related to a specific kind of column in the table
                                       
                                       // update the gamesDataObjectList
                                       gamesDataObjectList.push(d.value.games);
@@ -423,8 +424,10 @@ class Table {
                                                    // return[1, 2]; // the number of circles created is depenedent on the number of data points
                                                                     // append won't work like earlier, so best solution is to make everything enter, exit, update
                                                })
-                                               .join("circle")
-                                               .attr("id", d => d.name);
+                                               .join("circle");
+        // Set the id of the circle so we know what kind of circle it is
+        goalChartsCircles.attr("id", d => d.name);
+
         // Set up the circle cx, cy, radius, and fill values and the 
         // for reference for determining the values for setting the cx, cy, and radius values
         // console.log("cell height", that.cell.height);
@@ -447,7 +450,24 @@ class Table {
                                  return "#be2714";
                              }
                          });
-                         
+
+        // Rounds / Result 
+        console.log("Setting up the text for the rounds / result for the teams");
+        let roundResultText = tdElements.filter((d) =>{
+            return d.vis === "text";
+        })
+
+        // bind text elements to the td elements selected by roundResultText
+        roundResultText.selectAll("text")
+                       .data(d => [d])
+                       .join("text");
+        
+        // Set the text value, width, and height
+        roundResultText.attr("width", that.cell.width)
+                       .attr("height", that.cell.height)
+                       .text(d => d.value);
+
+
 
 
 
