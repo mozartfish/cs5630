@@ -338,15 +338,16 @@ class Table {
                      .attr("height", this.bar.height)
                      .attr("fill", d => that.aggregateColorScale(Math.abs(d.value)));
 
-        // // Set the bar text
-        // let barText = barSVG.append("text");
-        // barText.attr("x", function(d)
-        // {
-        //     return that.gameScale(d.value) - 10;
-        // });
-        // barText.attr("y", this.cell.height / 2 + 6);
-        // barText.attr("class", "label");
-        // barText.text(d => d.value);
+        // Append the text for the bars to the SVG
+        // We can't set the text in a  rectangle so we we append the text to the svg
+        let barText = barSVG.append("text");
+
+        // Set the x, y, text and class
+        barText.attr("x", d => that.gameScale(d.value) - 10)
+               .attr("y", this.cell.height / 2 + 6)
+               .text(d => d.value)
+               .classed("label", true);
+
 
         // // Goal Charts
         // console.log("setting up the go charts to show the goals made, conceded and delta goals");
