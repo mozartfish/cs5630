@@ -203,7 +203,7 @@ class Table {
             }
             else
             {
-                return "games";
+                return "game";
             }
         })
         tableHeaderElements.html(function(d){
@@ -371,6 +371,8 @@ class Table {
                                       .data(d => [d])
                                       .join("svg");
         
+     
+
         // Set up the width and height of the svg
         // these values should match the goal axis svg values because we will use that for analysis
         goalChartsSVG.attr("width", 2 * that.cell.width + this.cell.buffer + 90)
@@ -392,6 +394,7 @@ class Table {
         // Set up the x, y, width and height values for the rectangles
         goalChartsRectangles.attr("x", function(d){
             // console.log("the value of d is", d);
+            // startValues determines where we should start drawing the rectangles according to the goal information
             let startValueList = [d.value[that.goalsMadeHeader], d.value[that.goalsConcededHeader]];
             // console.log("the values in start value list are", startValueList);
             let startValue = d3.min(startValueList);
@@ -451,6 +454,12 @@ class Table {
                              }
                          });
 
+        // Apply the tool tip to the cells for goals made and goals conceded
+        console.log("Applying the tool tip");
+        goalCharts.attr("title", function(d){
+            return "Goals Made: " + d.value["Goals Made"] + "\n" + "Goals Conceded: " + d.value["Goals Conceded"];
+        });
+
         // Rounds / Result 
         console.log("Setting up the text for the rounds / result for the teams");
         let roundResultText = tdElements.filter((d) =>{
@@ -466,10 +475,6 @@ class Table {
         roundResultText.attr("width", that.cell.width)
                        .attr("height", that.cell.height)
                        .text(d => d.value);
-
-
-
-
 
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
