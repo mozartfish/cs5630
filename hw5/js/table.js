@@ -388,14 +388,15 @@ class Table {
             return that.goalScale(startValue);
         })
          .attr("y", 8)
-         .attr("width", function(d){
-             console.log("original value of delta goals", d.value["Delta Goals"]);
-             console.log("absolute value of delta goals", Math.abs(d.value["Delta Goals"]));
-             console.log("the result of applying the goalScale to the width", that.goalScale(Math.abs(d.value["Delta Goals"])));
-             return that.goalScale(Math.abs(d.value["Delta Goals"]));
-         })
-        //  .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
-         .attr("height", that.cell.height - 14);
+        //  .attr("width", function(d){
+        //      console.log("original value of delta goals", d.value["Delta Goals"]);
+        //      console.log("absolute value of delta goals", Math.abs(d.value["Delta Goals"]));
+        //      console.log("the result of applying the goalScale to the width", that.goalScale(Math.abs(d.value["Delta Goals"])));
+        //      return that.goalScale(Math.abs(d.value["Delta Goals"]));
+        //  })
+         .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
+         .attr("height", that.cell.height - 14)
+         .attr("id", "goalChartRectangles");
         
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
