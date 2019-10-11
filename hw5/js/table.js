@@ -144,13 +144,13 @@ class Table {
         let goalAxisHeader = d3.select("#goalHeader");
         // Set up the SVG for the axis
         let goalAxisHeaderSVG = goalAxisHeader.append("svg")
-                                              .attr("width", 2* this.cell.width + this.cell.buffer + 90)
+                                              .attr("width", 2 * this.cell.width + this.cell.buffer + 90)
                                               .attr("id", "goalAxisSVG")
                                               .attr("height", this.cell.height + 10);
         // Set up the group for the axis
         let goalAxisHeaderGroup = goalAxisHeaderSVG.append("g")
                                                    .attr("id", "goalXAxis")
-                                                   .attr("transform", "translate(77," + 20 + ")")
+                                                   .attr("transform", "translate(45," + (this.cell.buffer + 5) + ")")
                                                    .call(goalScaleXAxis);
                                                    
         // ******* TODO: PART V *******
