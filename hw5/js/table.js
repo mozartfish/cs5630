@@ -362,13 +362,18 @@ class Table {
                                       .data(d => [d])
                                       .join("svg");
         
-        // modify the SVG width and height 
+        // Set up the width and height of the svg
         // these values should match the goal axis svg values because we will use that for analysis
         goalChartsSVG.attr("width", 2 * this.cell.width + this.cell.buffer + 90)
                      .attr("height", this.cell.height + 10)
                      .attr("id", "goalChartsSVG");
         
-        
+        // Append a group to the svg to match the transformation of the bar axis
+        let goalChartsGroup = goalChartsSVG.append("g");
+
+        // Set up the transform of the group and other attributes
+        goalChartsGroup.attr("transform", "translate(45," + (this.cell.buffer + 5) + ")")
+                       .attr("id", "goalChartsGroupTransform");
         
         // let goalChartsGroup = goalChartsSVG.append("g")
         //                                    .attr("transform", "translate(70, 0)");
