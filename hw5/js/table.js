@@ -112,7 +112,6 @@ class Table {
                            .range([0, 2 * this.cell.width + 20])
                            .nice();
 
-
         // Update Game Scale Domain and Range
         // console.log("Updating the Game Scale Domain and Range");
         let totalGamesMax = findMax(this.teamData, "TotalGames");
@@ -355,38 +354,38 @@ class Table {
         barText.attr("class", "label");
         barText.text(d => d.value);
 
-        // Goal Charts
-        console.log("setting up the go charts to show the goals made, conceded and delta goals");
-        let goalCharts = tdElements.filter((d) => {
-            return d.vis === "goals";
-        })
+        // // Goal Charts
+        // console.log("setting up the go charts to show the goals made, conceded and delta goals");
+        // let goalCharts = tdElements.filter((d) => {
+        //     return d.vis === "goals";
+        // })
 
-        let goalChartsSVG = goalCharts.selectAll("svg")
-                                      .data(d => [d])
-                                      .join("svg");
+        // let goalChartsSVG = goalCharts.selectAll("svg")
+        //                               .data(d => [d])
+        //                               .join("svg");
         
         // Update the SVG properties
-        goalChartsSVG.attr("width", 4 * this.cell.width + 20)
-                     .attr("height", 3 * this.cell.height);
+        // goalChartsSVG.attr("width", 4 * this.cell.width + 20)
+        //              .attr("height", 3 * this.cell.height);
         
-        let goalChartsGroup = goalChartsSVG.append("g")
-                                           .attr("transform", "translate(70, 0)");
+        // let goalChartsGroup = goalChartsSVG.append("g")
+        //                                    .attr("transform", "translate(70, 0)");
         
-        let goalChartRectangles = goalChartsGroup.append("rect");
-        // // bind the svg to the data
-        // goalCharts.selectAll("svg")
-        //           .data(d => [d])
-        //           .join("svg");
-        goalChartRectangles.attr("x", function(d)
-        {
-            let startValueList = [d.value["Goals Made"], d.value["Goals Conceded"]];
-            let startValue = d3.min(startValueList);
-            console.log("startValue", startValue);
-            return startValue;
-        })
-        goalChartRectangles.attr("y", this.cell.buffer)
-                           .attr("width", d => 10 * Math.abs(d.value["Delta Goals"]))
-                           .attr("height", this.bar.height - 4);
+        // let goalChartRectangles = goalChartsGroup.append("rect");
+        // // // bind the svg to the data
+        // // goalCharts.selectAll("svg")
+        // //           .data(d => [d])
+        // //           .join("svg");
+        // goalChartRectangles.attr("x", function(d)
+        // {
+        //     let startValueList = [d.value["Goals Made"], d.value["Goals Conceded"]];
+        //     let startValue = d3.min(startValueList);
+        //     console.log("startValue", startValue);
+        //     return startValue;
+        // })
+        // goalChartRectangles.attr("y", this.cell.buffer)
+        //                    .attr("width", d => 10 * Math.abs(d.value["Delta Goals"]))
+        //                    .attr("height", this.bar.height - 4);
         
         // // set svg dimensions
         // let goalChartsSVG = goalCharts.selectAll("svg")
