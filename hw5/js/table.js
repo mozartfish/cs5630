@@ -169,7 +169,7 @@ class Table {
      */
     updateTable() {
         // ******* TODO: PART III *******
-        // To access functions that belong to this (scale functions) 
+        // To access functions that belong to this (scale functions and other properties that belong to this)
         // we use that to represent this
         let that = this;
 
@@ -178,7 +178,7 @@ class Table {
         let table = d3.select("#matchTable"); // select the table id
         let tableRows = table.select("tbody") // select the table body
                              .selectAll("tr") // select all the table rows
-                             .data(this.tableElements) // bind the data to all the tr elements
+                             .data(that.tableElements) // bind the data to all the tr elements
                              .join("tr")
                              .attr("id", d => d.key); // enter exit update
 
@@ -328,8 +328,8 @@ class Table {
 
         // modify the SVG width and height       
         let barSVG = barCharts.selectAll("svg");
-        barSVG.attr("width", this.cell.width)
-              .attr("height", this.cell.height)
+        barSVG.attr("width", that.cell.width)
+              .attr("height", that.cell.height)
               .attr("id", "barChartsSVG");
         
         // Append rectangles to the svg
@@ -337,7 +337,7 @@ class Table {
 
         // Set up the width, height and fill of the rectangles
         barRectangles.attr("width", d => that.gameScale(d.value))
-                     .attr("height", this.bar.height)
+                     .attr("height", that.bar.height)
                      .attr("fill", d => that.aggregateColorScale(Math.abs(d.value)));
 
         // Append the text for the bars to the SVG
@@ -346,7 +346,7 @@ class Table {
 
         // Set the x, y, text and class
         barText.attr("x", d => that.gameScale(d.value) - 10)
-               .attr("y", this.cell.height / 2 + 6)
+               .attr("y", that.cell.height / 2 + 6)
                .text(d => d.value)
                .classed("label", true);
 
@@ -364,19 +364,29 @@ class Table {
         
         // Set up the width and height of the svg
         // these values should match the goal axis svg values because we will use that for analysis
-        goalChartsSVG.attr("width", 2 * this.cell.width + this.cell.buffer + 90)
-                     .attr("height", this.cell.height + 10)
+        goalChartsSVG.attr("width", 2 * that.cell.width + this.cell.buffer + 90)
+                     .attr("height", that.cell.height + 10)
                      .attr("id", "goalChartsSVG");
         
         // Append a group to the svg to match the transformation of the bar axis
         let goalChartsGroup = goalChartsSVG.append("g");
 
         // Set up the transform of the group and other attributes
-        goalChartsGroup.attr("transform", "translate(45," + (this.cell.buffer + 5) + ")")
+        goalChartsGroup.attr("transform", "translate(45," + (that.cell.buffer + 5) + ")")
                        .attr("id", "goalChartsGroupTransform");
         
-        // let goalChartsGroup = goalChartsSVG.append("g")
-        //                                    .attr("transform", "translate(70, 0)");
+        // Append rectangles to the Group
+        let goalChartsRectangles = goalChartsGroup.append("rect");
+
+        // Set up the x, y, width and height values for the rectangles
+        goalChartsRectangles.attr("x", function(d){
+            // console.log("the value of d is", d);
+            let startValueList = [d.value[that.goalsMadeHeader], d.value[that.goalsConcededHeader]];
+            // console.log("the values in start value list are", startValueList);
+            let startValue = d3.min(startValueList);
+            // console.log("the value of start value is", startValue)
+            return startValue;
+        })
         
         // let goalChartRectangles = goalChartsGroup.append("rect");
         // // // bind the svg to the data
