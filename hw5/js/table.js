@@ -215,98 +215,99 @@ class Table {
         //Append td elements for the remaining columns. 
         console.log("Append td elements for the remaining columns");
 
-        // // For debugging purposes
-        // let goalDataObjectList = [];
-        // let roundResultDataObjectList = [];
-        // let winsDataObjectList = [];
-        // let lossesDataObjectList = [];
-        // let totalGamesDataObjectList = [];
+        // For debugging purposes
+        let goalDataObjectList = [];
+        let roundResultDataObjectList = [];
+        let winsDataObjectList = [];
+        let lossesDataObjectList = [];
+        let totalGamesDataObjectList = [];
+        let gamesDataObjectList = [];
 
-        // // lists for viewing the game objects
-        // let gamesList = [];
-        // let tdElements = tableRows.selectAll("td")
-        //                           .data(function(d){
-        //                               // since each data category is unique, we can think of them as specific data types
-        //                               // data returns an array where each element in that array is bound to a td
-        //                               gamesList.push(d.value.games);
+        let tdElements = tableRows.selectAll("td")
+                                  .data(function(d){
+                                      // since each data category is unique, we can think of them as specific data types
+                                      // data returns an array where each element in that array is bound to a td
+                                      
+                                      // update the gamesDataObjectList
+                                      gamesDataObjectList.push(d.value.games);
 
-        //                               // goals data category
-        //                               let goalsData = {};
-        //                               // stores the goals made, conceded and delta
-        //                               let goalsDataProperties = {};
-        //                               goalsDataProperties["Goals Made"] = d.value["Goals Made"];
-        //                               goalsDataProperties["Goals Conceded"] = d.value["Goals Conceded"];
-        //                               goalsDataProperties["Delta Goals"] = d.value["Delta Goals"];
-        //                               goalsData["type"] = d.value.type;
-        //                               goalsData["vis"] = "goals";
-        //                               goalsData["value"] = goalsDataProperties;
+                                      // goals Column
+                                      let goalsData = {};
+                                      // stores the goals made, conceded and delta
+                                      let goalsDataProperties = {};
+                                      goalsDataProperties["Goals Made"] = d.value["Goals Made"];
+                                      goalsDataProperties["Goals Conceded"] = d.value["Goals Conceded"];
+                                      goalsDataProperties["Delta Goals"] = d.value["Delta Goals"];
+                                      goalsData["type"] = d.value.type;
+                                      goalsData["vis"] = "goals";
+                                      goalsData["value"] = goalsDataProperties;
 
-        //                               // Round Result category
-        //                               let roundResultData = {};
-        //                               roundResultData["type"] = d.value.type;
-        //                               roundResultData["vis"] = "text";
-        //                               roundResultData["value"] = d.value.Result.label;
+                                      // Round Result Column
+                                      let roundResultData = {};
+                                      roundResultData["type"] = d.value.type;
+                                      roundResultData["vis"] = "text";
+                                      roundResultData["value"] = d.value.Result.label;
 
-        //                               //Wins Category
-        //                               let winsData = {};
-        //                               winsData["type"] = d.value.type;
-        //                               if (d.value.type === "game")
-        //                               {
-        //                                   winsData["vis"] = "";
-        //                               }
-        //                               else
-        //                               {
-        //                                   winsData["vis"] = "bars";
-        //                               }
-        //                               winsData["value"] = d.value.Wins;
+                                      // Wins Column
+                                      let winsData = {};
+                                      winsData["type"] = d.value.type;
+                                      if (d.value.type === "game")
+                                      {
+                                          winsData["vis"] = "";
+                                      }
+                                      else
+                                      {
+                                          winsData["vis"] = "bars";
+                                      }
+                                      winsData["value"] = d.value.Wins;
 
-        //                               // Losses Category
-        //                               let lossesData ={};
-        //                               lossesData["type"] = d.value.type;
-        //                               if (d.value.type === "game")
-        //                               {
-        //                                   lossesData["vis"] = "";
-        //                               }
-        //                               else
-        //                               {
-        //                                   lossesData["vis"] = "bars";
-        //                               }
-        //                               lossesData["value"] = d.value.Losses;
+                                      // Losses Column
+                                      let lossesData ={};
+                                      lossesData["type"] = d.value.type;
+                                      if (d.value.type === "game")
+                                      {
+                                          lossesData["vis"] = "";
+                                      }
+                                      else
+                                      {
+                                          lossesData["vis"] = "bars";
+                                      }
+                                      lossesData["value"] = d.value.Losses;
 
-        //                               // Total Games Category
-        //                               let totalGamesData = {};
-        //                               if (d.value.type === "game")
-        //                               {
-        //                                   totalGamesData["type"] = "";
-        //                                   totalGamesData["vis"] = "";
-        //                                   totalGamesData["value"] = "";
-        //                               }
-        //                               else
-        //                               {
-        //                                   totalGamesData["type"] = d.value.type;
-        //                                   totalGamesData["vis"] = "bars";
-        //                                   totalGamesData["value"] = d.value.TotalGames;
-        //                               }
+                                      // Total Games Column
+                                      let totalGamesData = {};
+                                      if (d.value.type === "game")
+                                      {
+                                          totalGamesData["type"] = "";
+                                          totalGamesData["vis"] = "";
+                                          totalGamesData["value"] = "";
+                                      }
+                                      else
+                                      {
+                                          totalGamesData["type"] = d.value.type;
+                                          totalGamesData["vis"] = "bars";
+                                          totalGamesData["value"] = d.value.TotalGames;
+                                      }
 
-        //                               // for debugging purposes
-        //                               goalDataObjectList.push(goalsData);
-        //                               roundResultDataObjectList.push(roundResultData);
-        //                               winsDataObjectList.push(winsData);
-        //                               lossesDataObjectList.push(lossesData);
-        //                               totalGamesDataObjectList.push(totalGamesData);
-        //                             // return [1, 2, 3, 4];
+                                      // for debugging purposes
+                                      goalDataObjectList.push(goalsData);
+                                      roundResultDataObjectList.push(roundResultData);
+                                      winsDataObjectList.push(winsData);
+                                      lossesDataObjectList.push(lossesData);
+                                      totalGamesDataObjectList.push(totalGamesData);
+                                    // return [1, 2, 3, 4];
                                     
                                 
-        //                             //console.log("printing out the result array", [goalsData, roundResultData, winsData, lossesData, totalGamesData])
-        //                             return [goalsData, roundResultData, winsData, lossesData, totalGamesData];
-        //                           })
-        //                          .join("td");
-        // console.log("gamesList Data", gamesList);
-        // console.log("goal column data", goalDataObjectList);
-        // console.log("Round result column data", roundResultDataObjectList);
-        // console.log("Wins column data", winsDataObjectList);
-        // console.log("Losses column data", lossesDataObjectList);
-        // console.log("totalGames column data", totalGamesDataObjectList);
+                                    //console.log("printing out the result array", [goalsData, roundResultData, winsData, lossesData, totalGamesData])
+                                    return [goalsData, roundResultData, winsData, lossesData, totalGamesData];
+                                  })
+                                 .join("td");
+        console.log("games List data", gamesDataObjectList);
+        console.log("goal column data", goalDataObjectList);
+        console.log("Round result column data", roundResultDataObjectList);
+        console.log("Wins column data", winsDataObjectList);
+        console.log("Losses column data", lossesDataObjectList);
+        console.log("totalGames column data", totalGamesDataObjectList);
 
         // console.log("Make some epic SVG plots!");
 
