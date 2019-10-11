@@ -169,15 +169,9 @@ class Table {
      */
     updateTable() {
         // ******* TODO: PART III *******
-        // Store scales for drawing stuff
-        // Used for the goals
-        let goalScale = this.goalScale;
-        // Used for games / wins / losses
-        let gameScale = this.gameScale;
-        // Used for aggregate columns
-        let aggregateColorScale = this.aggregateColorScale;
-        // Used for Goal Column
-        let goalColorScale = this.goalColorScale;
+        // To access functions that belong to this (scale functions) 
+        // we use that to represent this
+        let that = this;
 
         //Create table rows
         // console.log("Create table rows");
@@ -335,20 +329,20 @@ class Table {
 
         // Set up the width and height of the rectangles
         barRectangles.attr("width", function(d){
-            return gameScale(d.value);
+            return that.gameScale(d.value);
         })
         barRectangles.attr("height", this.bar.height);
 
         // Set up the color
         barRectangles.attr("fill", function(d){
-            return aggregateColorScale(Math.abs(d.value));
+            return that.aggregateColorScale(Math.abs(d.value));
         })
 
         // Set the bar text
         let barText = barSVG.append("text");
         barText.attr("x", function(d)
         {
-            return gameScale(d.value) - 10;
+            return that.gameScale(d.value) - 10;
         });
         barText.attr("y", this.cell.height / 2 + 6);
         barText.attr("class", "label");
