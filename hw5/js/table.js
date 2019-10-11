@@ -309,13 +309,13 @@ class Table {
         console.log("Losses column data", lossesDataObjectList);
         console.log("totalGames column data", totalGamesDataObjectList);
 
-        // console.log("Make some epic SVG plots!");
+        console.log("Make some epic SVG plots!");
 
-        // // Bar charts
-        // console.log("setting up the bar charts for wins, losses and total games");
-        // let barCharts = tdElements.filter((d) =>{
-        //     return d.vis === "bars";
-        // })
+        // Bar charts
+        console.log("setting up the bar charts for wins, losses and total games");
+        let barCharts = tdElements.filter((d) =>{
+            return d.vis === "bars";
+        })
         // // bind svg elements to the elements for each country
         // barCharts.selectAll("svg")
         //          .data(d => [d])
