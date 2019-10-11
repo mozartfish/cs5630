@@ -62,7 +62,7 @@ class Table {
 
         // ******* TODO: PART II *******
 
-        // A set of helper functions to determine the max and min for scales
+        // A set of helper functions to determine the min and max value for scales and encoding
         function findMax(data, attribute)
         {
             // List for storing the particular attribute associated with each object in the data
@@ -77,6 +77,18 @@ class Table {
              return maxValue;
         }
 
+        function findMin(data, attribute)
+        {
+            // List for stroing the particular attribute associated with each object in the data
+            let dataList = [];
+            data.forEach(element => {
+                let value = element.value[attribute];
+                dataList.push(value);
+            });
+            let minValue = d3.minValue(dataList);
+            return minValue;
+        }
+
         // View the data
         console.log("The data");
         console.log(this.teamData);
@@ -88,11 +100,13 @@ class Table {
         // console.log("Updating the Goal Scale Domain and Range");
         let goalsMadeMax = findMax(this.teamData, this.goalsMadeHeader);
         let goalsConcededMax = findMax(this.teamData, this.goalsConcededHeader);
+        let goalValuesList = [goalsMadeMax, goalsConcededMax];
+        let goalScaleDomainMax = d3.max(goalValuesList);
         // console.log("Goals Made MAX = ", goalsMadeMax);
         // console.log("Goals Conceded MAX = ", goalsConcededMax);
         this.goalScale = d3.scaleLinear()
-                           .domain([0, goalsMadeMax])
-                           .range([0, this.cell.width])
+                           .domain([0, goalScaleDomainMax])
+                           .range([0, 2 * this.cell.width + 20])
                            .nice();
 
 
@@ -128,13 +142,13 @@ class Table {
         let goalAxisHeader = d3.select("#goalHeader");
         // Set up the SVG for the axis
         let goalAxisHeaderSVG = goalAxisHeader.append("svg")
-                                              .attr("width", 4 * this.cell.width + 20)
+                                              .attr("width", 2* this.cell.width + this.cell.buffer + 90)
                                               .attr("id", "goalAxisSVG")
-                                              .attr("height", 3 * this.cell.height);
+                                              .attr("height", this.cell.height + 10);
         // Set up the group for the axis
         let goalAxisHeaderGroup = goalAxisHeaderSVG.append("g")
                                                    .attr("id", "goalXAxis")
-                                                   .attr("transform", "translate(70," + this.cell.height + ")")
+                                                   .attr("transform", "translate(77," + 20 + ")")
                                                    .call(goalScaleXAxis);
                                                    
         // ******* TODO: PART V *******
@@ -298,16 +312,18 @@ class Table {
         // console.log("totalGames column data", totalGamesDataObjectList);
 
         console.log("Make some epic SVG plots!");
+
         // Bar charts
         console.log("setting up the bar charts for wins, losses and total games");
         let barCharts = tdElements.filter((d) =>{
-            return d.vis === "bars"
+            return d.vis === "bars";
         })
+        // bind svg elements to the elements for each country
         barCharts.selectAll("svg")
                  .data(d => [d])
                  .join("svg");
 
-        // modify the SVG width and height for the cells         
+        // modify the SVG width and height       
         let barSVG = barCharts.selectAll("svg");
         barSVG.attr("width", this.cell.width)
               .attr("height", this.cell.height);
@@ -326,14 +342,80 @@ class Table {
             return aggregateColorScale(Math.abs(d.value));
         })
 
+        // Set the bar text
         let barText = barSVG.append("text");
         barText.attr("x", function(d)
         {
             return gameScale(d.value) - 10;
-        })
-        .attr("y", this.cell.height / 2 + 6);
+        });
+        barText.attr("y", this.cell.height / 2 + 6);
         barText.attr("class", "label");
         barText.text(d => d.value);
+
+        // Goal Charts
+        console.log("setting up the go charts to show the goals made, conceded and delta goals");
+        let goalCharts = tdElements.filter((d) => {
+            return d.vis === "goals";
+        })
+
+        let goalChartsSVG = goalCharts.selectAll("svg")
+                                      .data(d => [d])
+                                      .join("svg");
+        
+        // Update the SVG properties
+        goalChartsSVG.attr("width", 4 * this.cell.width + 20)
+                     .attr("height", 3 * this.cell.height);
+        
+        let goalChartsGroup = goalChartsSVG.append("g")
+                                           .attr("transform", "translate(70, 0)");
+        
+        let goalChartRectangles = goalChartsGroup.append("rect");
+        // // bind the svg to the data
+        // goalCharts.selectAll("svg")
+        //           .data(d => [d])
+        //           .join("svg");
+        goalChartRectangles.attr("x", function(d)
+        {
+            let startValueList = [d.value["Goals Made"], d.value["Goals Conceded"]];
+            let startValue = d3.min(startValueList);
+            console.log("startValue", startValue);
+            return startValue;
+        })
+        goalChartRectangles.attr("y", this.cell.buffer)
+                           .attr("width", d => 10 * Math.abs(d.value["Delta Goals"]))
+                           .attr("height", this.bar.height - 4);
+        
+        // // set svg dimensions
+        // let goalChartsSVG = goalCharts.selectAll("svg")
+        //                               .attr("width", 4 * this.cell.width + 20)
+        //                               .attr("height", 3 * this.cell.height);
+        // // // Append a group to move the rectangles to line up with the scales
+        // // let goalChartsGroup = goalChartsSVG.append("g")
+        // //                                    .attr("transform", "translate(70," + this.cell.height + ")");
+        // // Append rectangles to the group
+        // let goalChartRectangles = goalChartsSVG.append("rect");
+
+        // // Determine the attributes for the rectangle
+        // goalChartRectangles.attr("x", function(d)
+        // {
+        //     let valueList = [];
+        //     valueList.push(d.value["Goals Made"]);
+        //     valueList.push(d.value["Goals Conceded"]);
+        //     // valueList.push(d.value["Delta Goals"]);
+        //     console.log("The value list", valueList);
+        //     console.log("Goals Made", d.value["Goals Made"]);
+        //     console.log("Goals Conceded", d.value["Goals Conceded"]);
+        //     console.log("Delta Goals", d.value["Delta Goals"]);
+        //     return d3.min(valueList);
+        //     //return 1;
+        // })
+        // goalChartRectangles.attr("width", function(d)
+        // {
+        //     return Math.abs(d.value["Delta Goals"]);
+        // })
+        
+
+        
 
        
 
