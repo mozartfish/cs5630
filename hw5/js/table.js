@@ -134,6 +134,8 @@ class Table {
         
         // Update the Goal Color Scale Domain and Range
         // console.log("Updating the goal color scale domain and range");
+        // We use the delta goals to encode the difference between goals made and goals conceded
+        // color choice was to find the smallest value for the min delta and the largest value for the max delta
         this.goalColorScale = d3.scaleLinear()
                                 .domain([deltaGoalsDomainMin, deltaGoalsDomainMax])
                                 .range(['#cb181d', '#034e7b']);
@@ -396,20 +398,8 @@ class Table {
             return that.goalScale(startValue);
         })
          .attr("y", 8)
-        //  .attr("width", function(d){
-        //      console.log("original value of delta goals", d.value["Delta Goals"]);
-        //      console.log("absolute value of delta goals", Math.abs(d.value["Delta Goals"]));
-        //      console.log("the result of applying the goalScale to the width", that.goalScale(Math.abs(d.value["Delta Goals"])));
-        //      return that.goalScale(Math.abs(d.value["Delta Goals"]));
-        //  })
          .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
          .attr("height", that.cell.height - 14)
-        //  .attr("fill", function(d){
-        //      console.log("The value of delta goals is", d.value["Delta Goals"])
-        //      console.log("The absolute value of delta goals is", Math.abs(d.value["Delta Goals"]));
-        //      console.log("the result of applying the goal color scale is", that.goalColorScale(Math.abs(d.value["Delta Goals"])));
-        //      return that.goalColorScale(d.value["Delta Goals"]);
-        //  })
          .attr("fill", d => that.goalColorScale(d.value["Delta Goals"]))
          .classed("goalBar", true);
          
@@ -457,6 +447,7 @@ class Table {
                                  return "#be2714";
                              }
                          });
+                         
 
 
 
