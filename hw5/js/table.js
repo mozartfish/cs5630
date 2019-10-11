@@ -387,7 +387,7 @@ class Table {
             // console.log("the value of start value is", startValue)
             return that.goalScale(startValue);
         })
-         .attr("y", 2)
+         .attr("y", 8)
          .attr("width", function(d){
              console.log("original value of delta goals", d.value["Delta Goals"]);
              console.log("absolute value of delta goals", Math.abs(d.value["Delta Goals"]));
