@@ -185,16 +185,8 @@ class Table {
         //Append th elements for the Team Names
         console.log("Append the th elements for the Team Names");
         let tableHeaderElements= tableRows.selectAll("th")
-                                            .data(d => [d]) // bind one data element to th
-                                            .join("td");
-                                            // .data(function(d)
-                                            // {
-                                            //     console.log("before", d);
-                                            //     console.log("after", [d]);
-                                            //     return [1];
-                                            // }) // bind each th element to 1 value (adding 1 th to the tr from table rows)
-                                            // .join("th")
-                                            // .text("hello"); // enter exit update
+                                          .data(d => [d]) // return array of size one for the column
+                                          .join("td"); // bind th to each data element returned
 
         // Add the name of the countries
         // there are two kinds of countries => Aggregate Countries and Game Countries which represent the two different kinds of rows
