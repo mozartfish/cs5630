@@ -429,11 +429,33 @@ class Table {
                                                    goalsConcededCircle["delta"] = d.value["Delta Goals"];
                                                    // console.log("the circles are", [goalsMadeCircle, goalsConcededCircle]);
                                                    return[goalsMadeCircle, goalsConcededCircle];
-                                                   //return[1, 2]
+                                                   // return[1, 2]; // the number of circles created is depenedent on the number of data points
+                                                                    // append won't work like earlier, so best solution is to make everything enter, exit, update
                                                })
                                                .join("circle")
                                                .attr("id", d => d.name);
-        // Set up the circle cx, cy, radius, and fill values and the ids
+        // Set up the circle cx, cy, radius, and fill values and the 
+        // for reference for determining the values for setting the cx, cy, and radius values
+        // console.log("cell height", that.cell.height);
+        // console.log("bar height", that.bar.height);
+        goalChartsCircles.attr("cx", d => that.goalScale(d.value))
+                         .attr("cy", (that.cell.height + 2) / 2)
+                         .attr("r", (that.cell.height - 10)/ 2)
+                         .attr("fill", function(d){
+                             // color matches with delta goals = 0 grey
+                             if (d.delta === 0)
+                             {
+                                 return "#b1b1b1";
+                             }
+                             else if (d.name === "goalsMade")
+                             {
+                                return "#364e74";
+                             }
+                             else
+                             {
+                                 return "#be2714";
+                             }
+                         });
 
 
 
