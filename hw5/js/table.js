@@ -86,9 +86,9 @@ class Table {
                 dataList.push(value);
             });
 
-            // console.log(attribute, "MIN");
-            // console.log("Min Value Data List", dataList);
-            let minValue = d3.minValue(dataList);
+            console.log(attribute, "MIN");
+            console.log("Min Value Data List", dataList);
+            let minValue = d3.min(dataList);
             return minValue;
         }
 
@@ -105,6 +105,8 @@ class Table {
         let goalsConcededMax = findMax(this.teamData, this.goalsConcededHeader);
         let goalValuesList = [goalsMadeMax, goalsConcededMax];
         let goalScaleDomainMax = d3.max(goalValuesList);
+        let deltaGoalsDomainMin = findMin(this.teamData, "Delta Goals");
+        //console.log("The deltaGoals Min value is", deltaGoalsDomainMin);
         // console.log("Goals Made MAX = ", goalsMadeMax);
         // console.log("Goals Conceded MAX = ", goalsConcededMax);
         this.goalScale = d3.scaleLinear()
@@ -132,7 +134,7 @@ class Table {
         // Update the Goal Color Scale Domain and Range
         // console.log("Updating the goal color scale domain and range");
         this.goalColorScale = d3.scaleLinear()
-                                .domain([0, goalScaleDomainMax])
+                                .domain([deltaGoalsDomainMin, goalScaleDomainMax])
                                 .range(['#cb181d', '#034e7b']);
         
         // Create the axes
@@ -392,7 +394,16 @@ class Table {
         //      return that.goalScale(Math.abs(d.value["Delta Goals"]));
         //  })
          .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
-         .attr("height", that.cell.height - 14);
+         .attr("height", that.cell.height - 14)
+        //  .attr("fill", function(d){
+        //      console.log("The value of delta goals is", d.value["Delta Goals"])
+        //      console.log("The absolute value of delta goals is", Math.abs(d.value["Delta Goals"]));
+        //      console.log("the result of applying the goal color scale is", that.goalColorScale(Math.abs(d.value["Delta Goals"])));
+        //      return that.goalColorScale(d.value["Delta Goals"]);
+        //  })
+         .attr("fill", d => that.goalColorScale(d.value["Delta Goals"]))
+         .classed("goalBar", true);
+         
         
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
