@@ -334,7 +334,9 @@ class Table {
               .attr("height", that.cell.height);
         
         // Append rectangles to the svg
-        let barRectangles = barSVG.append("rect");
+        let barRectangles = barSVG.selectAll("rect")
+                                   .data(d => [d])
+                                   .join("rect");
 
         // Set up the width, height and fill of the rectangles
         barRectangles.attr("width", d => that.gameScale(d.value))
@@ -343,7 +345,9 @@ class Table {
 
         // Append the text for the bars to the SVG
         // We can't set the text in a  rectangle so we we append the text to the svg
-        let barText = barSVG.append("text");
+        let barText = barSVG.selectAll("text")
+                            .data(d => [d])
+                            .join("text");
 
         // Set the x, y, text and class
         barText.attr("x", d => that.gameScale(d.value) - 10)
@@ -369,13 +373,17 @@ class Table {
                      .attr("height", that.cell.height + 10);
         
         // Append a group to the svg to match the transformation of the bar axis
-        let goalChartsGroup = goalChartsSVG.append("g");
+        let goalChartsGroup = goalChartsSVG.selectAll("g")
+                                           .data(d => [d])
+                                           .join("g");
 
         // Set up the transform of the group and other attributes
         goalChartsGroup.attr("transform", "translate(45," + 5 + ")");
         
         // Append rectangles to the Group
-        let goalChartsRectangles = goalChartsGroup.append("rect");
+        let goalChartsRectangles = goalChartsGroup.selectAll("rect")
+                                                  .data(d => [d])
+                                                  .join("rect");
 
         // Set up the x, y, width and height values for the rectangles
         goalChartsRectangles.attr("x", function(d){
@@ -404,7 +412,29 @@ class Table {
          .attr("fill", d => that.goalColorScale(d.value["Delta Goals"]))
          .classed("goalBar", true);
          
+        // Goal Chart Circles
+        console.log("drawing the circles for the goal charts");
+
+        // Append the circles to the goal charts group
+        let goalChartsCircles = goalChartsGroup.selectAll("circle")
+                                               .data(function(d){
+                                                   console.log("the data is", d);
+                                                   let goalsMadeCircle = {};
+                                                   goalsMadeCircle["name"] = "goalsMade";
+                                                   goalsMadeCircle["value"] = d.value["Goals Made"];
+                                                   goalsMadeCircle["delta"] = d.value["Delta Goals"];
+                                                   let goalsConcededCircle = {};
+                                                   goalsConcededCircle["name"] = "goalsConceded";
+                                                   goalsConcededCircle["value"] = d.value["Goals Conceded"];
+                                                   goalsConcededCircle["delta"] = d.value["Delta Goals"];
+                                                   console.log("the circles are", [goalsMadeCircle, goalsConcededCircle]);
+                                                   return[goalsMadeCircle, goalsConcededCircle];
+                                                   //return[1, 2]
+                                               })
+                                               .join("circle");
+        // Set up the circle cx, cy, radius, and fill values
         
+
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
         
