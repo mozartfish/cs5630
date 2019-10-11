@@ -184,7 +184,7 @@ class Table {
 
         //Append th elements for the Team Names
         console.log("Append the th elements for the Team Names");
-        let tableHeaderTeamNames = tableRows.selectAll("th")
+        let tableHeaderElements= tableRows.selectAll("th")
                                             .data(d => [d]) // bind one data element to th
                                             .join("td");
                                             // .data(function(d)
@@ -196,29 +196,29 @@ class Table {
                                             // .join("th")
                                             // .text("hello"); // enter exit update
 
-        // // Add the name of the countries
-        // // there are two kinds of countries => Aggregate Countries and Game Countries which represent the two different kinds of rows
-        // // update the row names according to the type of row
-        // tableHeaderTeamNames.attr("class", function(d){
-        //     if (d.value.type === "aggregate")
-        //     {
-        //         return "aggregate";
-        //     }
-        //     else
-        //     {
-        //         return "games";
-        //     }
-        // })
-        // tableHeaderTeamNames.html(function(d){
-        //     if (d.value.type === "aggregate")
-        //     {
-        //         return d.key;
-        //     }
-        //     else
-        //     {
-        //         return "x" + d.key;
-        //     }
-        // });
+        // Add the name of the countries
+        // there are two kinds of countries => Aggregate Countries and Game Countries which represent the two different kinds of rows
+        // update the row names according to the type of row
+        tableHeaderElements.attr("class", function(d){
+            if (d.value.type === "aggregate")
+            {
+                return "aggregate";
+            }
+            else
+            {
+                return "games";
+            }
+        })
+        tableHeaderElements.html(function(d){
+            if (d.value.type === "aggregate")
+            {
+                return d.key;
+            }
+            else
+            {
+                return "x" + d.key;
+            }
+        });
 
         // //Append td elements for the remaining columns. 
         // console.log("Append td elements for the remaining columns");
