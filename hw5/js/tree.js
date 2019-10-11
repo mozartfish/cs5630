@@ -22,7 +22,12 @@ class Tree {
                          .size([800, 300]);
 
         //Create a root for the tree using d3.stratify(); 
-
+        let root = d3.stratify()
+                     .id(d => {return d. name;})
+                     .parentID(d => {return d.parent;})
+                     (data);
+  
+   
         
         //Add nodes and links to the tree. 
     }
