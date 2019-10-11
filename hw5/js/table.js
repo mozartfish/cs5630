@@ -370,9 +370,7 @@ class Table {
         let goalChartsSVG = goalCharts.selectAll("svg")
                                       .data(d => [d])
                                       .join("svg");
-        
-     
-
+                                      
         // Set up the width and height of the svg
         // these values should match the goal axis svg values because we will use that for analysis
         goalChartsSVG.attr("width", 2 * that.cell.width + this.cell.buffer + 90)
