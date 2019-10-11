@@ -71,8 +71,8 @@ class Table {
                 let value = element.value[attribute];
                 dataList.push(value);
             });
-            //  console.log(attribute, "MAX");
-            //  console.log("Max Value Data List", dataList);
+            //console.log(attribute, "MAX");
+            //console.log("Max Value Data List", dataList);
              let maxValue = d3.max(dataList);
              return maxValue;
         }
@@ -132,7 +132,7 @@ class Table {
         // Update the Goal Color Scale Domain and Range
         // console.log("Updating the goal color scale domain and range");
         this.goalColorScale = d3.scaleLinear()
-                                .domain([0, goalsMadeMax])
+                                .domain([0, goalScaleDomainMax])
                                 .range(['#cb181d', '#034e7b']);
         
         // Create the axes
@@ -181,125 +181,125 @@ class Table {
                              .data(this.tableElements) // bind the data to all the tr elements
                              .join("tr"); // enter exit update
 
-        //Append th elements for the Team Names
-        // console.log("Append the th elements for the Team Names");
-        let tableHeaderTeamNames = tableRows.selectAll("th")
-                                            .data(d => [d]) // bind each th element to 1 value (adding 1 th to the tr from table rows)
-                                            .join("th"); // enter exit update
+        // //Append th elements for the Team Names
+        // // console.log("Append the th elements for the Team Names");
+        // let tableHeaderTeamNames = tableRows.selectAll("th")
+        //                                     .data(d => [d]) // bind each th element to 1 value (adding 1 th to the tr from table rows)
+        //                                     .join("th"); // enter exit update
 
-        // Add the name of the countries
-        // there are two kinds of countries => Aggregate Countries and Game Countries which represent the two different kinds of rows
-        // update the row names according to the type of row
-        tableHeaderTeamNames.attr("class", function(d){
-            if (d.value.type === "aggregate")
-            {
-                return "aggregate";
-            }
-            else
-            {
-                return "games";
-            }
-        })
-        tableHeaderTeamNames.html(function(d){
-            if (d.value.type === "aggregate")
-            {
-                return d.key;
-            }
-            else
-            {
-                return "x" + d.key;
-            }
-        });
+        // // Add the name of the countries
+        // // there are two kinds of countries => Aggregate Countries and Game Countries which represent the two different kinds of rows
+        // // update the row names according to the type of row
+        // tableHeaderTeamNames.attr("class", function(d){
+        //     if (d.value.type === "aggregate")
+        //     {
+        //         return "aggregate";
+        //     }
+        //     else
+        //     {
+        //         return "games";
+        //     }
+        // })
+        // tableHeaderTeamNames.html(function(d){
+        //     if (d.value.type === "aggregate")
+        //     {
+        //         return d.key;
+        //     }
+        //     else
+        //     {
+        //         return "x" + d.key;
+        //     }
+        // });
 
-        //Append td elements for the remaining columns. 
-        console.log("Append td elements for the remaining columns");
+        // //Append td elements for the remaining columns. 
+        // console.log("Append td elements for the remaining columns");
 
-        // For debugging purposes
-        let goalDataObjectList = [];
-        let roundResultDataObjectList = [];
-        let winsDataObjectList = [];
-        let lossesDataObjectList = [];
-        let totalGamesDataObjectList = [];
+        // // For debugging purposes
+        // let goalDataObjectList = [];
+        // let roundResultDataObjectList = [];
+        // let winsDataObjectList = [];
+        // let lossesDataObjectList = [];
+        // let totalGamesDataObjectList = [];
 
-        // lists for viewing the game objects
-        let gamesList = [];
-        let tdElements = tableRows.selectAll("td")
-                                  .data(function(d){
-                                      // since each data category is unique, we can think of them as specific data types
-                                      // data returns an array where each element in that array is bound to a td
-                                      gamesList.push(d.value.games);
+        // // lists for viewing the game objects
+        // let gamesList = [];
+        // let tdElements = tableRows.selectAll("td")
+        //                           .data(function(d){
+        //                               // since each data category is unique, we can think of them as specific data types
+        //                               // data returns an array where each element in that array is bound to a td
+        //                               gamesList.push(d.value.games);
 
-                                      // goals data category
-                                      let goalsData = {};
-                                      // stores the goals made, conceded and delta
-                                      let goalsDataProperties = {};
-                                      goalsDataProperties["Goals Made"] = d.value["Goals Made"];
-                                      goalsDataProperties["Goals Conceded"] = d.value["Goals Conceded"];
-                                      goalsDataProperties["Delta Goals"] = d.value["Delta Goals"];
-                                      goalsData["type"] = d.value.type;
-                                      goalsData["vis"] = "goals";
-                                      goalsData["value"] = goalsDataProperties;
+        //                               // goals data category
+        //                               let goalsData = {};
+        //                               // stores the goals made, conceded and delta
+        //                               let goalsDataProperties = {};
+        //                               goalsDataProperties["Goals Made"] = d.value["Goals Made"];
+        //                               goalsDataProperties["Goals Conceded"] = d.value["Goals Conceded"];
+        //                               goalsDataProperties["Delta Goals"] = d.value["Delta Goals"];
+        //                               goalsData["type"] = d.value.type;
+        //                               goalsData["vis"] = "goals";
+        //                               goalsData["value"] = goalsDataProperties;
 
-                                      // Round Result category
-                                      let roundResultData = {};
-                                      roundResultData["type"] = d.value.type;
-                                      roundResultData["vis"] = "text";
-                                      roundResultData["value"] = d.value.Result.label;
+        //                               // Round Result category
+        //                               let roundResultData = {};
+        //                               roundResultData["type"] = d.value.type;
+        //                               roundResultData["vis"] = "text";
+        //                               roundResultData["value"] = d.value.Result.label;
 
-                                      //Wins Category
-                                      let winsData = {};
-                                      winsData["type"] = d.value.type;
-                                      if (d.value.type === "game")
-                                      {
-                                          winsData["vis"] = "";
-                                      }
-                                      else
-                                      {
-                                          winsData["vis"] = "bars";
-                                      }
-                                      winsData["value"] = d.value.Wins;
+        //                               //Wins Category
+        //                               let winsData = {};
+        //                               winsData["type"] = d.value.type;
+        //                               if (d.value.type === "game")
+        //                               {
+        //                                   winsData["vis"] = "";
+        //                               }
+        //                               else
+        //                               {
+        //                                   winsData["vis"] = "bars";
+        //                               }
+        //                               winsData["value"] = d.value.Wins;
 
-                                      // Losses Category
-                                      let lossesData ={};
-                                      lossesData["type"] = d.value.type;
-                                      if (d.value.type === "game")
-                                      {
-                                          lossesData["vis"] = "";
-                                      }
-                                      else
-                                      {
-                                          lossesData["vis"] = "bars";
-                                      }
-                                      lossesData["value"] = d.value.Losses;
+        //                               // Losses Category
+        //                               let lossesData ={};
+        //                               lossesData["type"] = d.value.type;
+        //                               if (d.value.type === "game")
+        //                               {
+        //                                   lossesData["vis"] = "";
+        //                               }
+        //                               else
+        //                               {
+        //                                   lossesData["vis"] = "bars";
+        //                               }
+        //                               lossesData["value"] = d.value.Losses;
 
-                                      // Total Games Category
-                                      let totalGamesData = {};
-                                      if (d.value.type === "game")
-                                      {
-                                          totalGamesData["type"] = "";
-                                          totalGamesData["vis"] = "";
-                                          totalGamesData["value"] = "";
-                                      }
-                                      else
-                                      {
-                                          totalGamesData["type"] = d.value.type;
-                                          totalGamesData["vis"] = "bars";
-                                          totalGamesData["value"] = d.value.TotalGames;
-                                      }
+        //                               // Total Games Category
+        //                               let totalGamesData = {};
+        //                               if (d.value.type === "game")
+        //                               {
+        //                                   totalGamesData["type"] = "";
+        //                                   totalGamesData["vis"] = "";
+        //                                   totalGamesData["value"] = "";
+        //                               }
+        //                               else
+        //                               {
+        //                                   totalGamesData["type"] = d.value.type;
+        //                                   totalGamesData["vis"] = "bars";
+        //                                   totalGamesData["value"] = d.value.TotalGames;
+        //                               }
 
-                                      // for debugging purposes
-                                      goalDataObjectList.push(goalsData);
-                                      roundResultDataObjectList.push(roundResultData);
-                                      winsDataObjectList.push(winsData);
-                                      lossesDataObjectList.push(lossesData);
-                                      totalGamesDataObjectList.push(totalGamesData);
-                                    // return [1, 2, 3, 4];
+        //                               // for debugging purposes
+        //                               goalDataObjectList.push(goalsData);
+        //                               roundResultDataObjectList.push(roundResultData);
+        //                               winsDataObjectList.push(winsData);
+        //                               lossesDataObjectList.push(lossesData);
+        //                               totalGamesDataObjectList.push(totalGamesData);
+        //                             // return [1, 2, 3, 4];
                                     
                                 
-                                    //console.log("printing out the result array", [goalsData, roundResultData, winsData, lossesData, totalGamesData])
-                                    return [goalsData, roundResultData, winsData, lossesData, totalGamesData];
-                                  })
-                                 .join("td");
+        //                             //console.log("printing out the result array", [goalsData, roundResultData, winsData, lossesData, totalGamesData])
+        //                             return [goalsData, roundResultData, winsData, lossesData, totalGamesData];
+        //                           })
+        //                          .join("td");
         // console.log("gamesList Data", gamesList);
         // console.log("goal column data", goalDataObjectList);
         // console.log("Round result column data", roundResultDataObjectList);
@@ -307,46 +307,46 @@ class Table {
         // console.log("Losses column data", lossesDataObjectList);
         // console.log("totalGames column data", totalGamesDataObjectList);
 
-        console.log("Make some epic SVG plots!");
+        // console.log("Make some epic SVG plots!");
 
-        // Bar charts
-        console.log("setting up the bar charts for wins, losses and total games");
-        let barCharts = tdElements.filter((d) =>{
-            return d.vis === "bars";
-        })
-        // bind svg elements to the elements for each country
-        barCharts.selectAll("svg")
-                 .data(d => [d])
-                 .join("svg");
+        // // Bar charts
+        // console.log("setting up the bar charts for wins, losses and total games");
+        // let barCharts = tdElements.filter((d) =>{
+        //     return d.vis === "bars";
+        // })
+        // // bind svg elements to the elements for each country
+        // barCharts.selectAll("svg")
+        //          .data(d => [d])
+        //          .join("svg");
 
-        // modify the SVG width and height       
-        let barSVG = barCharts.selectAll("svg");
-        barSVG.attr("width", this.cell.width)
-              .attr("height", this.cell.height);
+        // // modify the SVG width and height       
+        // let barSVG = barCharts.selectAll("svg");
+        // barSVG.attr("width", this.cell.width)
+        //       .attr("height", this.cell.height);
         
-        // Append rectangles to the svg
-        let barRectangles = barSVG.append("rect");
+        // // Append rectangles to the svg
+        // let barRectangles = barSVG.append("rect");
 
-        // Set up the width and height of the rectangles
-        barRectangles.attr("width", function(d){
-            return that.gameScale(d.value);
-        })
-        barRectangles.attr("height", this.bar.height);
+        // // Set up the width and height of the rectangles
+        // barRectangles.attr("width", function(d){
+        //     return that.gameScale(d.value);
+        // })
+        // barRectangles.attr("height", this.bar.height);
 
-        // Set up the color
-        barRectangles.attr("fill", function(d){
-            return that.aggregateColorScale(Math.abs(d.value));
-        })
+        // // Set up the color
+        // barRectangles.attr("fill", function(d){
+        //     return that.aggregateColorScale(Math.abs(d.value));
+        // })
 
-        // Set the bar text
-        let barText = barSVG.append("text");
-        barText.attr("x", function(d)
-        {
-            return that.gameScale(d.value) - 10;
-        });
-        barText.attr("y", this.cell.height / 2 + 6);
-        barText.attr("class", "label");
-        barText.text(d => d.value);
+        // // Set the bar text
+        // let barText = barSVG.append("text");
+        // barText.attr("x", function(d)
+        // {
+        //     return that.gameScale(d.value) - 10;
+        // });
+        // barText.attr("y", this.cell.height / 2 + 6);
+        // barText.attr("class", "label");
+        // barText.text(d => d.value);
 
         // // Goal Charts
         // console.log("setting up the go charts to show the goals made, conceded and delta goals");
