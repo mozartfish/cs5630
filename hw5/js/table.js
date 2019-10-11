@@ -71,8 +71,8 @@ class Table {
                 let value = element.value[attribute];
                 dataList.push(value);
             });
-            //console.log(attribute, "MAX");
-            //console.log("Max Value Data List", dataList);
+            // console.log(attribute, "MAX");
+            // console.log("Max Value Data List", dataList);
              let maxValue = d3.max(dataList);
              return maxValue;
         }
@@ -372,7 +372,7 @@ class Table {
         let goalChartsGroup = goalChartsSVG.append("g");
 
         // Set up the transform of the group and other attributes
-        goalChartsGroup.attr("transform", "translate(60," + (that.cell.buffer - 10) + ")")
+        goalChartsGroup.attr("transform", "translate(45," + 5 + ")")
                        .attr("id", "goalChartsGroupTransform");
         
         // Append rectangles to the Group
@@ -385,11 +385,17 @@ class Table {
             // console.log("the values in start value list are", startValueList);
             let startValue = d3.min(startValueList);
             // console.log("the value of start value is", startValue)
-            return startValue;
+            return that.goalScale(startValue);
         })
-         .attr("y", that.cell.buffer - 10)
-         .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
-         .attr("height", that.bar.height - 10);
+         .attr("y", 2)
+         .attr("width", function(d){
+             console.log("original value of delta goals", d.value["Delta Goals"]);
+             console.log("absolute value of delta goals", Math.abs(d.value["Delta Goals"]));
+             console.log("the result of applying the goalScale to the width", that.goalScale(Math.abs(d.value["Delta Goals"])));
+             return that.goalScale(Math.abs(d.value["Delta Goals"]));
+         })
+        //  .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
+         .attr("height", that.cell.height - 14);
         
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
