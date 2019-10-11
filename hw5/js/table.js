@@ -179,13 +179,22 @@ class Table {
         let tableRows = table.select("tbody") // select the table body
                              .selectAll("tr") // select all the table rows
                              .data(this.tableElements) // bind the data to all the tr elements
-                             .join("tr"); // enter exit update
+                             .join("tr")
+                             .attr("id", d => d.key); // enter exit update
 
-        // //Append th elements for the Team Names
-        // // console.log("Append the th elements for the Team Names");
-        // let tableHeaderTeamNames = tableRows.selectAll("th")
-        //                                     .data(d => [d]) // bind each th element to 1 value (adding 1 th to the tr from table rows)
-        //                                     .join("th"); // enter exit update
+        //Append th elements for the Team Names
+        console.log("Append the th elements for the Team Names");
+        let tableHeaderTeamNames = tableRows.selectAll("th")
+                                            .data(d => [d]) // bind one data element to th
+                                            .join("td");
+                                            // .data(function(d)
+                                            // {
+                                            //     console.log("before", d);
+                                            //     console.log("after", [d]);
+                                            //     return [1];
+                                            // }) // bind each th element to 1 value (adding 1 th to the tr from table rows)
+                                            // .join("th")
+                                            // .text("hello"); // enter exit update
 
         // // Add the name of the countries
         // // there are two kinds of countries => Aggregate Countries and Game Countries which represent the two different kinds of rows
