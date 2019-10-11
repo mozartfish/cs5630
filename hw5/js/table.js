@@ -330,19 +330,13 @@ class Table {
         barSVG.attr("width", this.cell.width)
               .attr("height", this.cell.height);
         
-        // // Append rectangles to the svg
-        // let barRectangles = barSVG.append("rect");
+        // Append rectangles to the svg
+        let barRectangles = barSVG.append("rect");
 
-        // // Set up the width and height of the rectangles
-        // barRectangles.attr("width", function(d){
-        //     return that.gameScale(d.value);
-        // })
-        // barRectangles.attr("height", this.bar.height);
-
-        // // Set up the color
-        // barRectangles.attr("fill", function(d){
-        //     return that.aggregateColorScale(Math.abs(d.value));
-        // })
+        // Set up the width, height and fill of the rectangles
+        barRectangles.attr("width", d => that.gameScale(d.value))
+                     .attr("height", this.bar.height)
+                     .attr("fill", d => that.aggregateColorScale(Math.abs(d.value)));
 
         // // Set the bar text
         // let barText = barSVG.append("text");
