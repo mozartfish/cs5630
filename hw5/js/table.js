@@ -418,7 +418,7 @@ class Table {
         // Append the circles to the goal charts group
         let goalChartsCircles = goalChartsGroup.selectAll("circle")
                                                .data(function(d){
-                                                   console.log("the data is", d);
+                                                   // console.log("the data is", d);
                                                    let goalsMadeCircle = {};
                                                    goalsMadeCircle["name"] = "goalsMade";
                                                    goalsMadeCircle["value"] = d.value["Goals Made"];
@@ -427,13 +427,15 @@ class Table {
                                                    goalsConcededCircle["name"] = "goalsConceded";
                                                    goalsConcededCircle["value"] = d.value["Goals Conceded"];
                                                    goalsConcededCircle["delta"] = d.value["Delta Goals"];
-                                                   console.log("the circles are", [goalsMadeCircle, goalsConcededCircle]);
+                                                   // console.log("the circles are", [goalsMadeCircle, goalsConcededCircle]);
                                                    return[goalsMadeCircle, goalsConcededCircle];
                                                    //return[1, 2]
                                                })
-                                               .join("circle");
-        // Set up the circle cx, cy, radius, and fill values
-        
+                                               .join("circle")
+                                               .attr("id", d => d.name);
+        // Set up the circle cx, cy, radius, and fill values and the ids
+
+
 
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
