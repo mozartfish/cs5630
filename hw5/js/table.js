@@ -72,7 +72,7 @@ class Table {
                 dataList.push(value);
             });
             //  console.log(attribute, "MAX");
-            //  console.log(dataList);
+            //  console.log("Max Value Data List", dataList);
              let maxValue = d3.max(dataList);
              return maxValue;
         }
@@ -85,6 +85,9 @@ class Table {
                 let value = element.value[attribute];
                 dataList.push(value);
             });
+
+            // console.log(attribute, "MIN");
+            // console.log("Min Value Data List", dataList);
             let minValue = d3.minValue(dataList);
             return minValue;
         }
