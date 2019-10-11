@@ -306,21 +306,22 @@ class Table {
         // Add an id to all the elements
         tdElements.attr("id", d => d.vis);
     
-        console.log("games List data", gamesDataObjectList);
-        console.log("goal column data", goalDataObjectList);
-        console.log("Round result column data", roundResultDataObjectList);
-        console.log("Wins column data", winsDataObjectList);
-        console.log("Losses column data", lossesDataObjectList);
-        console.log("totalGames column data", totalGamesDataObjectList);
+        // console.log("games List data", gamesDataObjectList);
+        // console.log("goal column data", goalDataObjectList);
+        // console.log("Round result column data", roundResultDataObjectList);
+        // console.log("Wins column data", winsDataObjectList);
+        // console.log("Losses column data", lossesDataObjectList);
+        // console.log("totalGames column data", totalGamesDataObjectList);
 
         console.log("Make some epic SVG plots!");
 
         // Bar charts
         console.log("setting up the bar charts for wins, losses and total games");
+        // select all elements whose vis value is bars
         let barCharts = tdElements.filter((d) =>{
             return d.vis === "bars";
         })
-        // bind svg elements to the elements for each country
+        // bind svg elements to the td elements selected by the bar charts
         barCharts.selectAll("svg")
                  .data(d => [d])
                  .join("svg");
@@ -328,7 +329,8 @@ class Table {
         // modify the SVG width and height       
         let barSVG = barCharts.selectAll("svg");
         barSVG.attr("width", this.cell.width)
-              .attr("height", this.cell.height);
+              .attr("height", this.cell.height)
+              .attr("id", "barChartsSVG");
         
         // Append rectangles to the svg
         let barRectangles = barSVG.append("rect");
@@ -348,20 +350,25 @@ class Table {
                .text(d => d.value)
                .classed("label", true);
 
+        // Goal Charts
+        console.log("setting up the goal charts for the teams");
+        // select all elements whose vis value is goals
+        let goalCharts = tdElements.filter((d) =>{
+            return d.vis === "goals";
+        })
 
-        // // Goal Charts
-        // console.log("setting up the go charts to show the goals made, conceded and delta goals");
-        // let goalCharts = tdElements.filter((d) => {
-        //     return d.vis === "goals";
-        // })
-
-        // let goalChartsSVG = goalCharts.selectAll("svg")
-        //                               .data(d => [d])
-        //                               .join("svg");
+        // bind svg elements to the td elements selected by goal charts
+        let goalChartsSVG = goalCharts.selectAll("svg")
+                                      .data(d => [d])
+                                      .join("svg");
         
-        // Update the SVG properties
-        // goalChartsSVG.attr("width", 4 * this.cell.width + 20)
-        //              .attr("height", 3 * this.cell.height);
+        // modify the SVG width and height 
+        // these values should match the goal axis svg values because we will use that for analysis
+        goalChartsSVG.attr("width", 2 * this.cell.width + this.cell.buffer + 90)
+                     .attr("height", this.cell.height + 10)
+                     .attr("id", "goalChartsSVG");
+        
+        
         
         // let goalChartsGroup = goalChartsSVG.append("g")
         //                                    .attr("transform", "translate(70, 0)");
