@@ -302,6 +302,10 @@ class Table {
                                     return [goalsData, roundResultData, winsData, lossesData, totalGamesData];
                                   })
                                  .join("td");
+
+        // Add an id to all the elements
+        tdElements.attr("id", d => d.vis);
+    
         console.log("games List data", gamesDataObjectList);
         console.log("goal column data", goalDataObjectList);
         console.log("Round result column data", roundResultDataObjectList);
@@ -316,15 +320,15 @@ class Table {
         let barCharts = tdElements.filter((d) =>{
             return d.vis === "bars";
         })
-        // // bind svg elements to the elements for each country
-        // barCharts.selectAll("svg")
-        //          .data(d => [d])
-        //          .join("svg");
+        // bind svg elements to the elements for each country
+        barCharts.selectAll("svg")
+                 .data(d => [d])
+                 .join("svg");
 
-        // // modify the SVG width and height       
-        // let barSVG = barCharts.selectAll("svg");
-        // barSVG.attr("width", this.cell.width)
-        //       .attr("height", this.cell.height);
+        // modify the SVG width and height       
+        let barSVG = barCharts.selectAll("svg");
+        barSVG.attr("width", this.cell.width)
+              .attr("height", this.cell.height);
         
         // // Append rectangles to the svg
         // let barRectangles = barSVG.append("rect");
