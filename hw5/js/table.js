@@ -372,7 +372,7 @@ class Table {
         let goalChartsGroup = goalChartsSVG.append("g");
 
         // Set up the transform of the group and other attributes
-        goalChartsGroup.attr("transform", "translate(45," + (that.cell.buffer + 5) + ")")
+        goalChartsGroup.attr("transform", "translate(60," + (that.cell.buffer - 10) + ")")
                        .attr("id", "goalChartsGroupTransform");
         
         // Append rectangles to the Group
@@ -387,60 +387,10 @@ class Table {
             // console.log("the value of start value is", startValue)
             return startValue;
         })
+         .attr("y", that.cell.buffer - 10)
+         .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
+         .attr("height", that.bar.height - 10);
         
-        // let goalChartRectangles = goalChartsGroup.append("rect");
-        // // // bind the svg to the data
-        // // goalCharts.selectAll("svg")
-        // //           .data(d => [d])
-        // //           .join("svg");
-        // goalChartRectangles.attr("x", function(d)
-        // {
-        //     let startValueList = [d.value["Goals Made"], d.value["Goals Conceded"]];
-        //     let startValue = d3.min(startValueList);
-        //     console.log("startValue", startValue);
-        //     return startValue;
-        // })
-        // goalChartRectangles.attr("y", this.cell.buffer)
-        //                    .attr("width", d => 10 * Math.abs(d.value["Delta Goals"]))
-        //                    .attr("height", this.bar.height - 4);
-        
-        // // set svg dimensions
-        // let goalChartsSVG = goalCharts.selectAll("svg")
-        //                               .attr("width", 4 * this.cell.width + 20)
-        //                               .attr("height", 3 * this.cell.height);
-        // // // Append a group to move the rectangles to line up with the scales
-        // // let goalChartsGroup = goalChartsSVG.append("g")
-        // //                                    .attr("transform", "translate(70," + this.cell.height + ")");
-        // // Append rectangles to the group
-        // let goalChartRectangles = goalChartsSVG.append("rect");
-
-        // // Determine the attributes for the rectangle
-        // goalChartRectangles.attr("x", function(d)
-        // {
-        //     let valueList = [];
-        //     valueList.push(d.value["Goals Made"]);
-        //     valueList.push(d.value["Goals Conceded"]);
-        //     // valueList.push(d.value["Delta Goals"]);
-        //     console.log("The value list", valueList);
-        //     console.log("Goals Made", d.value["Goals Made"]);
-        //     console.log("Goals Conceded", d.value["Goals Conceded"]);
-        //     console.log("Delta Goals", d.value["Delta Goals"]);
-        //     return d3.min(valueList);
-        //     //return 1;
-        // })
-        // goalChartRectangles.attr("width", function(d)
-        // {
-        //     return Math.abs(d.value["Delta Goals"]);
-        // })
-        
-
-        
-
-       
-
-
-
-   
         //Data for each cell is of the type: {'type':<'game' or 'aggregate'>, 'vis' :<'bar', 'goals', or 'text'>, 'value':<[array of 1 or two elements]>}
         // The order is as follows: Team -> Text, Goals -> Goals, Round / Result -> Text, Wins -> Bar, Loss -> Bar, Total Games -> Bar                  
         
