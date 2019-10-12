@@ -13,8 +13,16 @@ class Tree {
   createTree(treeData) {
     // ******* TODO: PART VI *******
 
-    console.log("View the Tree data");
-    console.log(treeData);
+    console.log("View the Tree data", treeData);
+
+    // Test Case for how to access data using ParentGame
+    // let element1 = treeData[0];
+    // let element1ParentGame = element1.ParentGame;
+    // let foo = treeData[element1ParentGame];
+    // let fooID = foo.id;
+    // console.log("The element located at element1 Parent Game index is", foo);
+    // console.log("The id of foo is", fooID);
+    // console.log("The Parent Game of element 1 is", element1.ParentGame);
 
     // A function for generating lists for looking at the data
     function GenerateList(data, attribute)
@@ -29,21 +37,46 @@ class Tree {
 
     let parentGameList = GenerateList(treeData, "ParentGame");
     let teamNameList = GenerateList(treeData, "Team");
+    let teamIDList = GenerateList(treeData, "id");
     console.log("The parent game list for the tree", parentGameList);
     console.log("The team list for the tree", teamNameList);
-    // 
+    console.log("The Team ID List for the tree", teamIDList);
+
+    let getRekt = treeData.length - 1;
+    let barB = treeData[getRekt].ParentGame;
+    console.log("the value of get rekt is", getRekt);
+    // console.log("The value of barB's parentGame is", barB);
+    // console.log("The id of barB's parent is", treeData[barB].id); // treeData[barB] is undefined so an error message is thrown
+                                                                     // this explains all the weird D3 error messages
+    if (treeData[barB] === undefined)
+    {
+      console.log("the value is undefined");
+      console.log("get rekt");
+    }
+
+    // The following examples were used for understanding how to render trees and how to set up
+    // the location for nodes and links
+    // https://observablehq.com/@d3/collapsible-tree
+    // https://codepen.io/kirangadhave/pen/QWLoYML
+    // https://bl.ocks.org/d3noob/e7e37cfe0e8763cb0915dee33cc2a24b
+    // http://bl.ocks.org/d3noob/8375092
+
     //Create a tree and give it a size() of 800 by 300.
     let gameTree = d3.tree().size([800, 300]);
 
-    // Test Case for how to access data using ParentGame
-    // let element1 = treeData[0];
-    // let element1ParentGame = element1.ParentGame;
-    // let foo = treeData[element1ParentGame];
-    // let fooID = foo.id;
-    // console.log("The element located at element1 Parent Game index is", foo);
-    // console.log("The id of foo is", fooID);
-    // console.log("The Parent Game of element 1 is", element1.ParentGame);
-
+    let root = d3.stratify()
+                 .id(d => d.id)
+                 .parentId(function(d){
+                   if (treeData[d.ParentGame] === undefined)
+                   {
+                     return "";
+                   }
+                   else
+                   {
+                     return treeData[d.ParentGame].id;
+                   }
+                 })
+                 (treeData);
  
     // let root = d3.stratify()
     //              .id(d => d.id)
