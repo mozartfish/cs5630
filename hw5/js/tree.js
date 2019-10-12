@@ -175,16 +175,40 @@ class Tree {
   updateTree(row) {
     // ******* TODO: PART VII *******
     console.log("entered the tree update");
-    console.log("the row selected", row);
+    console.log("the row selected is", row.key);
+
+    let treeLinks = d3.select("#tree").selectAll("path.link");
+    let treeNodes = d3.select("#tree").selectAll("g.node").selectAll("text");
 
     // Aggregate Rows and Game Rows have different types of highlighting
+
+    // Aggregate Row Highlighting
     if (row.value.type === "aggregate")
     {
-      console.log("the row is of type aggregate");
+      // Update the tree links
+      console.log("updating the tree links");
+      treeLinks.each(function(d)
+      {
+        if (d.data.data.Team === row.key)
+        {
+          //console.log(this);
+          d3.select(this).classed("selected", true);
+        }
+      });
+
+      // Update the tree nodes
+      console.log("updating the tree nodes");
+
+      treeNodes.each(function(d){
+        if (d.data.data.Team === row.key)
+        {
+          //console.log("the value of this is", this);
+          d3.select(this).classed("selectedLabel", true);
+        }
+      })
     }
-
+    
   }
-
   /**
    * Removes all highlighting from the tree.
    */
@@ -192,5 +216,11 @@ class Tree {
     // ******* TODO: PART VII *******
     // You only need two lines of code for this! No loops!
     console.log("exited the tree");
+    d3.select("#tree").selectAll("path.link").classed("selected", false);
+    d3.select("#tree").selectAll("g.node").selectAll("text").classed("selectedLabel", false);
+
+
+
+
   }
 }
