@@ -170,24 +170,6 @@ class Table {
         // Clicking on headers should also trigger collapseList() and updateTable().
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //Set sorting callback for clicking on Team header
         //Clicking on headers should also trigger collapseList() and updateTable().
     }
@@ -458,7 +440,7 @@ class Table {
         // console.log("bar height", that.bar.height);
         goalChartsCircles.attr("cx", d => that.goalScale(d.value))
                          .attr("cy", (that.cell.height + 2) / 2)
-                         .attr("r", (that.cell.height - 10)/ 2)
+                         .attr("r", (that.cell.height - 10) / 2)
                          .attr("fill", function(d){
                              // color matches with delta goals = 0 grey
                              if (d.delta === 0)
