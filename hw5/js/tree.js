@@ -88,11 +88,28 @@ class Tree {
     // SVG Dimensions: Width = 500 Height = 900
     // Group id: "tree"
     // Dimensions of cells for layout
+    console.log("added in the dimensions of the cells");
     const cellWidth = 70;
     const cellHeight = 20;
     const cellBuffer = 15;
-    let treeGroup = d3.select("#tree")
+
+    // Transform the tree group for rendering the tree such that the tree doesn't overlap with the table
+    const treeGroup = d3.select("#tree")
                       .attr("transform", "translate(" + (cellWidth + 50) + "," + 0 + ")");
+  
+    // Set up the links for the tree
+    console.log("setting up the links for the tree");
+    const links = treeGroup.selectAll(".link")
+                           .data(nodes.descendants().slice(1))
+                           .join("path")
+                           .classed("link", true)
+                           .attr("d", function(d){
+                             return "M" + d.y + "," + d.x
+                                + "C" + (d.y + d.parent.y) / 2 + "," + d.x
+                                + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
+                                + " " + d.parent.y + "," + d.parent.x;
+                           });
+    
     
 
 
