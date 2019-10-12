@@ -17,7 +17,8 @@ class Table {
         ///** Store all match data for the 2018 Fifa cup */
         this.teamData = teamData;
 
-        this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
+        /** Store all the column header values for use in sorting*/
+        this.tableHeaders = ["Team", "Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
 
         /** variables to be used when sizing the svgs in the table cells.*/
         this.cell = {
@@ -89,8 +90,8 @@ class Table {
                 dataList.push(value);
             });
 
-            console.log(attribute, "MIN");
-            console.log("Min Value Data List", dataList);
+            // console.log(attribute, "MIN");
+            // console.log("Min Value Data List", dataList);
             let minValue = d3.min(dataList);
             return minValue;
         }
@@ -164,15 +165,32 @@ class Table {
         // ******* TODO: PART V *******
 
         // Set sorting callback for clicking on headers
-        console.log("setting up the sorting");
-        console.log("The value of isSorted is ", this.isSorted);
-        
+        // console.log("setting up the sorting");
+        // console.log("The value of isSorted is ", this.isSorted);
+        // Clicking on headers should also trigger collapseList() and updateTable().
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //Set sorting callback for clicking on Team header
         //Clicking on headers should also trigger collapseList() and updateTable().
-
     }
-
 
     /**
      * Updates the table contents with a row for each element in the global variable tableElements.
@@ -193,7 +211,7 @@ class Table {
                              .attr("id", d => d.key); // enter exit update
 
         //Append th elements for the Team Names
-        console.log("Append the th elements for the Team Names");
+        // console.log("Append the th elements for the Team Names");
         let tableHeaderElements= tableRows.selectAll("th")
                                           .data(d => [d]) // return array of size one for the column
                                           .join("th"); // bind th to each data element returned
@@ -223,7 +241,7 @@ class Table {
         });
 
         //Append td elements for the remaining columns. 
-        console.log("Append td elements for the remaining columns");
+        // console.log("Append td elements for the remaining columns");
 
         // For debugging purposes
         let goalDataObjectList = [];
@@ -327,7 +345,7 @@ class Table {
         console.log("Make some epic SVG plots!");
 
         // Bar charts
-        console.log("setting up the bar charts for wins, losses and total games");
+        // console.log("setting up the bar charts for wins, losses and total games");
         // select all elements whose vis value is bars
         let barCharts = tdElements.filter((d) =>{
             return d.vis === "bars";
@@ -365,7 +383,7 @@ class Table {
                .classed("label", true);
 
         // Goal Charts
-        console.log("setting up the goal charts for the teams");
+        // console.log("setting up the goal charts for the teams");
         // select all elements whose vis value is goals
         let goalCharts = tdElements.filter((d) =>{
             return d.vis === "goals";
@@ -411,7 +429,7 @@ class Table {
          .classed("goalBar", true);
          
         // Goal Chart Circles
-        console.log("drawing the circles for the goal charts");
+        // console.log("drawing the circles for the goal charts");
 
         // Append the circles to the goal charts group
         let goalChartsCircles = goalChartsGroup.selectAll("circle")
@@ -458,13 +476,13 @@ class Table {
                          });
 
         // Apply the tool tip to the cells for goals made and goals conceded
-        console.log("Applying the tool tip");
+        // console.log("Applying the tool tip");
         goalCharts.attr("title", function(d){
             return "Goals Made: " + d.value["Goals Made"] + "\n" + "Goals Conceded: " + d.value["Goals Conceded"];
         });
 
         // Rounds / Result 
-        console.log("Setting up the text for the rounds / result for the teams");
+        // console.log("Setting up the text for the rounds / result for the teams");
         let roundResultText = tdElements.filter((d) =>{
             return d.vis === "text";
         })
