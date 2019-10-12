@@ -158,6 +158,14 @@ class Tree {
     console.log("adding circles to the nodes")
     node.append("circle")
         .attr("r", 10);
+    
+    // Append the text with the country name
+    console.log("Appending the text that contains the country name");
+    node.append("text")
+        .attr("dy", "0.6em")
+        .attr("x", d => (d.children ? -13 : 13))
+        .style("text-anchor", d => (d.children ? "end" : "start"))
+        .text(d => d.data.data.Team);
   }
 
   /**
