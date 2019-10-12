@@ -145,6 +145,9 @@ class Tree {
                           .attr("transform", function(d){
                             return "translate(" + d.y + "," + d.x + ")";
                           });
+    // Add circles to the nodes
+    node.append("circle")
+        .attr("r", 10);
     // For debugging
     // console.log("The dataObject list", dataObjectList);
     // let foo = dataObjectList[0];
