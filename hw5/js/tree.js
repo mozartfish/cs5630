@@ -16,33 +16,34 @@ class Tree {
     console.log("View the Tree data");
     console.log(treeData);
 
+    // A function for generating lists for looking at the data
+    function GenerateList(data, attribute)
+    {
+      let attributeList = [];
+      data.forEach(element => {
+        let value = element[attribute]
+        attributeList.push(value);
+      });
+      return attributeList;
+    }
+
+    let parentGameList = GenerateList(treeData, "ParentGame");
+    let teamNameList = GenerateList(treeData, "Team");
+    console.log("The parent game list for the tree", parentGameList);
+    console.log("The team list for the tree", teamNameList);
+    // 
     //Create a tree and give it a size() of 800 by 300.
     let gameTree = d3.tree().size([800, 300]);
 
     // Test Case for how to access data using ParentGame
-    let element1 = treeData[0];
-    let element1ParentGame = element1.ParentGame;
-    let foo = treeData[element1ParentGame];
-    let fooID = foo.id;
-    console.log("The element located at element1 Parent Game index is", foo);
-    console.log("The id of foo is", fooID);
-    console.log("The Parent Game of element 1 is", element1.ParentGame);
+    // let element1 = treeData[0];
+    // let element1ParentGame = element1.ParentGame;
+    // let foo = treeData[element1ParentGame];
+    // let fooID = foo.id;
+    // console.log("The element located at element1 Parent Game index is", foo);
+    // console.log("The id of foo is", fooID);
+    // console.log("The Parent Game of element 1 is", element1.ParentGame);
 
-    let list = [];
-    let root = d3.stratify()
-    .id(d => d.id)
-    .parentId(function(d){
-      if (d.ParentGame === "undefined")
-      {
-        return treeData[d.ParentGame].id;
-      }
-      else
-      {
-        return " ";
-      }
-    })
-    // .parentId(d => d.ParentGame ? treeData[d.ParentGame].id : '')
-    (treeData);
  
     // let root = d3.stratify()
     //              .id(d => d.id)

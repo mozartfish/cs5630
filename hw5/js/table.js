@@ -97,8 +97,7 @@ class Table {
         }
 
         // View the data
-        console.log("The data");
-        console.log(this.teamData);
+        // console.log("The team data", this.teamData);
 
         //Update Scale Domains
         // console.log("Update Scale Domain and Range");
