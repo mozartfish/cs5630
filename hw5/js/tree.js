@@ -118,6 +118,7 @@ class Tree {
                            });
 
     // Add nodes to the links
+    console.log("adding nodes the links")
     // List for storing data objects for debugging
     let dataObjectList = [];
     console.log("adding nodes to the tree");
@@ -145,62 +146,18 @@ class Tree {
                           .attr("transform", function(d){
                             return "translate(" + d.y + "," + d.x + ")";
                           });
-    // Add circles to the nodes
-    node.append("circle")
-        .attr("r", 10);
     // For debugging
+
     // console.log("The dataObject list", dataObjectList);
     // let foo = dataObjectList[0];
     // console.log("the value of foo is", foo);
     // let fooDataObject = foo.data.data.Wins;
     // console.log("The value of foo's data Object is", fooDataObject);
-    
 
-
-
-
-    
- 
-    // let root = d3.stratify()
-    //              .id(d => d.id)
-    //              .parentId(function(d)
-    //              {
-    //                  // France is the only country which has no parent game
-    //                  // Thus if we do a treeData lookup at the index we get an undefined
-    //                  // which we resolve with saying that it's the root node from the picture
-    //                  if (d.ParentGame === "undefined")
-    //                  {
-    //                      return "root";
-    //                  }
-    //                  else
-    //                  {
-    //                      return treeData[d.ParentGame].id;
-    //                  }
-    //              });
-
-    // const hData = d3.hierarchy(treeData, d => d.children);
-    // const nodes = gameTree(hData);
-
-    // let treeGroup = d3.select("#tree")
-    //                   .attr("transform", "translate(100, 0)");
-    // let links = treeGroup.selectAll(".link")
-    //                      .data(nodes.descendants().slice(1))
-    //                      .join("path")
-    //                      .classed("link", true)
-    //                      .attr("d", function(d)
-    //                      {
-    //                         return "M" + d.y + "," + d.x
-    //                         + "C" + (d.y + d.parent.y) / 2 + "," + d.x
-    //                         + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
-    //                         + " " + d.parent.y + "," + d.parent.x;
-    //                      })
-    // let node = treeGroup.selectAll(".node")
-    //                     .data(nodes.descendants())
-    //                     .join("g")
-    //                     .attr("class", d => "node" + (d.Wins === "1" ? " winner" : " loser"))
-    //                     .attr("transform", d => "translate(" + d.y + "," + d.x + ")");
-    // node.append("circle")
-    //     .attr("r", 10);
+    // Add circles to the nodes in the tree
+    console.log("adding circles to the nodes")
+    node.append("circle")
+        .attr("r", 10);
   }
 
   /**
