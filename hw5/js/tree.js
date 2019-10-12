@@ -57,6 +57,7 @@ class Tree {
 
     // The following examples were used for understanding how to render trees and how to set up trees in d3
     // https://observablehq.com/@d3/collapsible-tree
+    // https://observablehq.com/@d3/d3-stratify
     // https://codepen.io/kirangadhave/pen/QWLoYML
     // https://bl.ocks.org/d3noob/e7e37cfe0e8763cb0915dee33cc2a24b
     // http://bl.ocks.org/d3noob/8375092
@@ -80,7 +81,19 @@ class Tree {
 
     // Set up the tree hierarchy
     console.log("Setting up the tree hierarchy");
-    const hData = d3.hierarchy(treeData, d => d.children);
+    const hData = d3.hierarchy(root, d => d.children);
+    const nodes = gameTree(hData);
+
+    // An SVG and group already exists in the HTML file and use those for rendering the tree
+    // SVG Dimensions: Width = 500 Height = 900
+    // Group id: "tree"
+    // Dimensions of cells for layout
+    const cellWidth = 70;
+    const cellHeight = 20;
+    const cellBuffer = 15;
+    let treeGroup = d3.select("#tree")
+                      .attr("transform", "translate(" + (cellWidth + 50) + "," + 0 + ")");
+    
 
 
 
