@@ -116,7 +116,29 @@ class Tree {
                                 + " " + d.parent.y + "," + d.parent.x;
                            });
     // Add nodes to the links
+    // List for storing data objects
+    let dataObjectList = [];
     console.log("adding nodes to the tree");
+    const node = treeGroup.selectAll(".node")
+                          .data(nodes.descendants())
+                          .join("g")
+                          .attr("class", function(d){
+                            // view the descendants data
+                            // console.log("The value of d is", d);
+                            let dataObject = d;
+                            dataObjectList.push(dataObject);
+                            // the properties of the data are stored in a property called data
+
+                            return "node" + " winner";
+                          })
+                          .attr("transform", function(d){
+                            return "translate(" + d.y + "," + d.x + ")";
+                          });
+    console.log("The dataObject list", dataObjectList);
+    let foo = dataObjectList[0];
+    console.log("the value of foo is", foo);
+    let fooDataObject = foo.data.data.Wins;
+    console.log("The value of foo's data Object is", fooDataObject);
     
 
 
