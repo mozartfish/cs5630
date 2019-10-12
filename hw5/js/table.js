@@ -50,6 +50,9 @@ class Table {
         /**For goal Column*/
         /** Use colors '#cb181d' and '#034e7b' for the range */
         this.goalColorScale = null;
+
+        /** Boolean for determining whether a particular column is sorted */
+        this.isSorted = false;
     }
 
 
@@ -161,6 +164,8 @@ class Table {
         // ******* TODO: PART V *******
 
         // Set sorting callback for clicking on headers
+        console.log("setting up the sorting");
+        console.log("The value of isSorted is ", this.isSorted);
         
 
         //Set sorting callback for clicking on Team header
@@ -370,7 +375,7 @@ class Table {
         let goalChartsSVG = goalCharts.selectAll("svg")
                                       .data(d => [d])
                                       .join("svg");
-                                      
+
         // Set up the width and height of the svg
         // these values should match the goal axis svg values because we will use that for analysis
         goalChartsSVG.attr("width", 2 * that.cell.width + this.cell.buffer + 90)
