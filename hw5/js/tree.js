@@ -45,10 +45,11 @@ class Tree {
     console.log("The parent game list for the tree", parentGameList);
     console.log("The team list for the tree", teamNameList);
     console.log("The Team ID List for the tree", teamIDList);
-    console.log("The Wins List. Wins are represented by 1 and losses are represented 0", winsList);
+    console.log("The Wins List. Wins are represented by 1 and losses are represented by 0", winsList);
     console.log("The Losses List. Losses are represented by 1 and wins are represented by 0", lossesList);
 
     // Test case for exploring bugs with accessing parentGame ids
+
     // let getRekt = treeData.length - 1;
     // let barB = treeData[getRekt].ParentGame;
     // console.log("the value of get rekt is", getRekt);
@@ -115,30 +116,41 @@ class Tree {
                                 + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
                                 + " " + d.parent.y + "," + d.parent.x;
                            });
+
     // Add nodes to the links
-    // List for storing data objects
+    // List for storing data objects for debugging
     let dataObjectList = [];
     console.log("adding nodes to the tree");
+
     const node = treeGroup.selectAll(".node")
                           .data(nodes.descendants())
                           .join("g")
                           .attr("class", function(d){
-                            // view the descendants data
-                            // console.log("The value of d is", d);
-                            let dataObject = d;
-                            dataObjectList.push(dataObject);
-                            // the properties of the data are stored in a property called data
+                            // update dataObjectList
+                            dataObjectList.push(d);
 
-                            return "node" + " winner";
+                            // the properties of the data are stored in a property called data
+                            // to access the properties we have to use .data.data which makes zero sense but somehow
+                            // allows access to the wins, team, losses properties etc
+                            // according to the data lists for wins and losses, wins and losses are represented with boolean values
+                            // 1 - Team won the game 0 - Team lost the game
+                            // To assign the class we can pick a property (Wins or Losses) and assign a class based on the value
+                            let matchResult = "";
+                            if (d.data.data.Wins === "1")
+                              matchResult = " winner";
+                            else
+                              matchResult = " loser";
+                            return "node" + matchResult;
                           })
                           .attr("transform", function(d){
                             return "translate(" + d.y + "," + d.x + ")";
                           });
-    console.log("The dataObject list", dataObjectList);
-    let foo = dataObjectList[0];
-    console.log("the value of foo is", foo);
-    let fooDataObject = foo.data.data.Wins;
-    console.log("The value of foo's data Object is", fooDataObject);
+    // For debugging
+    // console.log("The dataObject list", dataObjectList);
+    // let foo = dataObjectList[0];
+    // console.log("the value of foo is", foo);
+    // let fooDataObject = foo.data.data.Wins;
+    // console.log("The value of foo's data Object is", fooDataObject);
     
 
 
