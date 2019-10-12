@@ -175,7 +175,14 @@ class Tree {
   updateTree(row) {
     // ******* TODO: PART VII *******
     console.log("entered the tree update");
-    console.log("the rows of the tree", row);
+    console.log("the row selected", row);
+
+    // Aggregate Rows and Game Rows have different types of highlighting
+    if (row.value.type === "aggregate")
+    {
+      console.log("the row is of type aggregate");
+    }
+
   }
 
   /**

@@ -194,8 +194,8 @@ class Table {
         // Apply an event listener for the rows for highlighting the links in the tree
         console.log("Applying the event listener for the tree");
         tableRows.on("mouseover", d => that.tree.updateTree(d));
-        tableRows.on("mouseout", d => that.tree.clearTree(d));
-        
+        tableRows.on("mouseout", d => that.tree.clearTree());
+
         //Append th elements for the Team Names
         // console.log("Append the th elements for the Team Names");
         let tableHeaderElements= tableRows.selectAll("th")
