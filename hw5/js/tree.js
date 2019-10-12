@@ -87,7 +87,7 @@ class Tree {
                  (treeData);
 
     // Set up the tree hierarchy
-    console.log("Setting up the tree hierarchy");
+    // console.log("Setting up the tree hierarchy");
     const hData = d3.hierarchy(root, d => d.children);
     const nodes = gameTree(hData);
 
@@ -95,7 +95,7 @@ class Tree {
     // SVG Dimensions: Width = 500 Height = 900
     // Group id: "tree"
     // Dimensions of cells for layout
-    console.log("added in the dimensions of the cells");
+    // console.log("added in the dimensions of the cells");
     const cellWidth = 70;
     const cellHeight = 20;
     const cellBuffer = 15;
@@ -105,7 +105,7 @@ class Tree {
                       .attr("transform", "translate(" + (cellWidth + 50) + "," + cellHeight + ")");
   
     // Set up the links for the tree
-    console.log("setting up the links for the tree");
+    // console.log("setting up the links for the tree");
     const links = treeGroup.selectAll(".link")
                            .data(nodes.descendants().slice(1))
                            .join("path")
@@ -118,11 +118,9 @@ class Tree {
                            });
 
     // Add nodes to the links
-    console.log("adding nodes the links")
+   // console.log("adding nodes to the tree");
     // List for storing data objects for debugging
     let dataObjectList = [];
-    console.log("adding nodes to the tree");
-
     const node = treeGroup.selectAll(".node")
                           .data(nodes.descendants())
                           .join("g")
@@ -155,12 +153,12 @@ class Tree {
     // console.log("The value of foo's data Object is", fooDataObject);
 
     // Add circles to the nodes in the tree
-    console.log("adding circles to the nodes")
+    // console.log("adding circles to the nodes")
     node.append("circle")
         .attr("r", 10);
     
     // Append the text with the country name
-    console.log("Appending the text that contains the country name");
+    // console.log("Appending the text that contains the country name");
     node.append("text")
         .attr("dy", "0.6em")
         .attr("x", d => (d.children ? -13 : 13))
