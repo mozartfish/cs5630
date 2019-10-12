@@ -15,7 +15,8 @@ class Tree {
 
     console.log("View the Tree data", treeData);
 
-    /*Test Case for how to access data using ParentGame */
+    // Test Case for how to access data from tree
+
     // let element1 = treeData[0];
     // let element1ParentGame = element1.ParentGame;
     // let foo = treeData[element1ParentGame];
@@ -39,10 +40,16 @@ class Tree {
     let parentGameList = GenerateList(treeData, "ParentGame");
     let teamNameList = GenerateList(treeData, "Team");
     let teamIDList = GenerateList(treeData, "id");
+    let winsList = GenerateList(treeData, "Wins");
+    let lossesList = GenerateList(treeData, "Losses");
     console.log("The parent game list for the tree", parentGameList);
     console.log("The team list for the tree", teamNameList);
     console.log("The Team ID List for the tree", teamIDList);
+    console.log("The Wins List. Wins are represented by 1 and losses are represented 0", winsList);
+    console.log("The Losses List. Losses are represented by 1 and wins are represented by 0", lossesList);
 
+    // Test case for exploring bugs with accessing parentGame ids
+    
     // let getRekt = treeData.length - 1;
     // let barB = treeData[getRekt].ParentGame;
     // console.log("the value of get rekt is", getRekt);
@@ -109,7 +116,8 @@ class Tree {
                                 + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
                                 + " " + d.parent.y + "," + d.parent.x;
                            });
-    
+    // Add nodes to the links
+    console.log("adding nodes to the tree");
     
 
 
