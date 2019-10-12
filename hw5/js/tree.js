@@ -49,7 +49,6 @@ class Tree {
     console.log("The Losses List. Losses are represented by 1 and wins are represented by 0", lossesList);
 
     // Test case for exploring bugs with accessing parentGame ids
-    
     // let getRekt = treeData.length - 1;
     // let barB = treeData[getRekt].ParentGame;
     // console.log("the value of get rekt is", getRekt);
@@ -102,7 +101,7 @@ class Tree {
 
     // Transform the tree group for rendering the tree such that the tree doesn't overlap with the table
     const treeGroup = d3.select("#tree")
-                      .attr("transform", "translate(" + (cellWidth + 50) + "," + 0 + ")");
+                      .attr("transform", "translate(" + (cellWidth + 50) + "," + cellHeight + ")");
   
     // Set up the links for the tree
     console.log("setting up the links for the tree");
