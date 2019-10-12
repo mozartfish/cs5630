@@ -13,7 +13,7 @@ class Tree {
   createTree(treeData) {
     // ******* TODO: PART VI *******
 
-    console.log("View the Tree data", treeData);
+    // console.log("View the Tree data", treeData);
 
     // Test Case for how to access data from tree
 
@@ -42,11 +42,11 @@ class Tree {
     let teamIDList = GenerateList(treeData, "id");
     let winsList = GenerateList(treeData, "Wins");
     let lossesList = GenerateList(treeData, "Losses");
-    console.log("The parent game list for the tree", parentGameList);
-    console.log("The team list for the tree", teamNameList);
-    console.log("The Team ID List for the tree", teamIDList);
-    console.log("The Wins List. Wins are represented by 1 and losses are represented by 0", winsList);
-    console.log("The Losses List. Losses are represented by 1 and wins are represented by 0", lossesList);
+    // console.log("The parent game list for the tree", parentGameList);
+    // console.log("The team list for the tree", teamNameList);
+    // console.log("The Team ID List for the tree", teamIDList);
+    // console.log("The Wins List. Wins are represented by 1 and losses are represented by 0", winsList);
+    // console.log("The Losses List. Losses are represented by 1 and wins are represented by 0", lossesList);
 
     // Test case for exploring bugs with accessing parentGame ids
 
@@ -174,6 +174,8 @@ class Tree {
    */
   updateTree(row) {
     // ******* TODO: PART VII *******
+    console.log("entered the tree update");
+    console.log("the rows of the tree", row);
   }
 
   /**
@@ -182,5 +184,6 @@ class Tree {
   clearTree() {
     // ******* TODO: PART VII *******
     // You only need two lines of code for this! No loops!
+    console.log("exited the tree");
   }
 }

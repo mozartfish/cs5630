@@ -188,9 +188,14 @@ class Table {
         let tableRows = table.select("tbody") // select the table body
                              .selectAll("tr") // select all the table rows
                              .data(that.tableElements) // bind the data to all the tr elements
-                             .join("tr")
-                             .attr("id", d => d.key); // enter exit update
-
+                             .join("tr") // enter exit update
+                             .attr("id", d => d.key);
+        
+        // Apply an event listener for the rows for highlighting the links in the tree
+        console.log("Applying the event listener for the tree");
+        tableRows.on("mouseover", d => that.tree.updateTree(d));
+        tableRows.on("mouseout", d => that.tree.clearTree(d));
+        
         //Append th elements for the Team Names
         // console.log("Append the th elements for the Team Names");
         let tableHeaderElements= tableRows.selectAll("th")
@@ -311,10 +316,9 @@ class Table {
                                     //console.log("printing out the result array", [goalsData, roundResultData, winsData, lossesData, totalGamesData])
                                     return [goalsData, roundResultData, winsData, lossesData, totalGamesData];
                                   })
-                                 .join("td");
+                                 .join("td")
+                                 .attr("id", d => d.vis); // id for identifying the type of visualization
 
-        // Add an id to all the elements so we know what kind of visualization to put in each cell
-        tdElements.attr("id", d => d.vis);
     
         // console.log("games List data", gamesDataObjectList);
         // console.log("goal column data", goalDataObjectList);
@@ -429,9 +433,8 @@ class Table {
                                                    // return[1, 2]; // the number of circles created is depenedent on the number of data points
                                                                     // append won't work like earlier, so best solution is to make everything enter, exit, update
                                                })
-                                               .join("circle");
-        // Set the id of the circle so we know what kind of circle it is
-        goalChartsCircles.attr("id", d => d.name);
+                                               .join("circle")
+                                               .attr("id", d => d.name); // id for identifying the type of circle
 
         // Set up the circle cx, cy, radius, and fill values and the 
         // for reference for determining the values for setting the cx, cy, and radius values
