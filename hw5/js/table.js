@@ -18,7 +18,7 @@ class Table {
         this.teamData = teamData;
 
         /** Store all the column header values for use in sorting*/
-        this.tableHeaders = ["Team", "Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
+        this.tableHeaders = ["Delta Goals", "Result", "Wins", "Losses", "TotalGames"];
 
         /** variables to be used when sizing the svgs in the table cells.*/
         this.cell = {
@@ -174,12 +174,11 @@ class Table {
 
         // Article on selecting nested elements using d3
         // https://bost.ocks.org/mike/nest/
-        // Article on selecting multiple selectors at once
-        // https://stackoverflow.com/questions/15702724/how-to-select-multiple-selectors-with-selectall/15705448
-        let matchTableHeaders = d3.selectAll("thead th, td")
+        let matchTableHeaders = d3.selectAll("thead td")
                                   .data(this.tableHeaders);
+                                  
         matchTableHeaders.on("click", function(d){
-            console.log("the element clicked was", d);
+            console.log("clicked the header for", d);
         })
         
 
@@ -188,6 +187,12 @@ class Table {
 
         //Set sorting callback for clicking on Team header
         //Clicking on headers should also trigger collapseList() and updateTable().
+        let matchTableTeamHeader = d3.selectAll("thead th")
+                                      .data(["Team"]);
+
+        matchTableTeamHeader.on("click", function(d){
+            console.log("clicked the team header", d);
+        })
     }
 
     /**
