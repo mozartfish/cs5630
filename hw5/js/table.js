@@ -55,10 +55,14 @@ class Table {
         /** Boolean for determining whether a particular column is sorted */
         this.isSorted = false;
 
-        /**Counter for determining whether we should sort in ascending or descending order 
-         * if counter > 0 then sort in ascending order otherwise sort in descending order
+        /**Counters for determining whether we should sort in ascending or descending order
         */
-         this.counter = 0;
+         this.TeamCounter = 0;
+         this.DeltaGoalsCounter = 0;
+         this.ResultCounter = 0;
+         this.WinsCounter = 0;
+         this.LossesCounter = 0;
+         this.TotalGamesCounter = 0;
     }
 
 
@@ -68,7 +72,8 @@ class Table {
      *
      */
     createTable() {
-
+        // Print the team data
+        console.log("The team data", this.teamData);
         // ******* TODO: PART II *******
 
         // Set that equal to this to use the anonymous functions that belong to the cell object
@@ -172,19 +177,20 @@ class Table {
         // ******* TODO: PART V *******
 
         // Set sorting callback for clicking on headers
-        console.log("setting up the sorting");
-        console.log("The value of isSorted is ", this.isSorted);
+        // console.log("setting up the sorting");
+        // console.log("The value of isSorted is ", this.isSorted);
 
-        // Article on selecting nested elements using d3
+        // Articles on selecting nested elements using d3 and sorting elements using d3
         // https://bost.ocks.org/mike/nest/
+        // https://observablehq.com/@d3/d3-ascending
+
         let matchTableHeaders = d3.selectAll("thead td")
                                   .data(this.tableHeaders);
 
         matchTableHeaders.on("click", function(d){
             console.log("clicked the header for", d);
+            that.sortTableHeaders(d);
         })
-        
-
         // Clicking on headers should also trigger collapseList() and updateTable().
 
 
@@ -196,17 +202,122 @@ class Table {
         matchTableTeamHeader.on("click", function(d){
             console.log("the value of d is", d);
             that.sortTeamHeaders(d);
-
         })
+    }
+
+    sortTableHeaders(tableHeader)
+    {
+        // define that so we can access functions that have this on the front
+        let that = this;
+
+        if (tableHeader === "Delta Goals")
+        {
+            if (this.DeltaGoalsCounter === 0)
+            {
+                console.log("sort goals in ascending order");
+                this.tableElements.sort((a, b) => d3.ascending(a.value["Delta Goals"], b.value["Delta Goals"]));
+                this.DeltaGoalsCounter = 1;
+            }
+            else
+            {
+                console.log("sort goals in descending order");
+                this.tableElements.sort((a, b) => d3.descending(a.value["Delta Goals"], b.value["Delta Goals"]));
+                this.DeltaGoalsCounter = 0;
+            }
+        }
+        else if (tableHeader === "Result")
+        {
+            if (this.ResultCounter === 0)
+            {
+                console.log("sort results in ascending order");
+                this.tableElements.sort((a, b) => d3.ascending(a.value["Result"].ranking, b.value["Result"].ranking));
+                this.ResultCounter = 1;
+            }
+            else
+            {
+                console.log("sort results in descending order");
+                this.tableElements.sort((a, b) => d3.descending(a.value["Result"].ranking, b.value["Result"].ranking));
+                this.ResultCounter = 0;
+            }
+        }
+        else if (tableHeader === "Wins")
+        {
+            if (this.WinsCounter === 0)
+            {
+                console.log("sort wins in ascending order");
+                this.tableElements.sort((a, b) => d3.ascending(a.value["Wins"], b.value["Wins"]));
+                this.WinsCounter = 1;
+            }
+            else
+            {
+                console.log("sort wins in descending order");
+                this.tableElements.sort((a, b) => (d3.descending(a.value["Wins"], b.value["Wins"])));
+                this.WinsCounter = 0;
+            }
+        }
+        else if (tableHeader === "Losses")
+        {
+            if (this.LossesCounter === 0)
+            {
+                console.log("sort losses in ascending order");
+                this.tableElements.sort((a, b) => d3.ascending(a.value["Losses"], b.value["Losses"]));
+                this.LossesCounter = 1;
+            }
+            else
+            {
+                console.log("sort losses in descending order");
+                this.tableElements.sort((a, b) => (d3.descending(a.value["Losses"], b.value["Losses"])));
+                this.LossesCounter = 0;
+            }
+        }
+        else
+        {
+            if (this.totalGamesCounter === 0)
+            {
+                console.log("sorting total games in ascending order");
+                this.tableElements.sort((a, b) => d3.ascending(a.value["TotalGames"], b.value["TotalGames"]));
+                this.totalGamesCounter = 1;
+            }
+            else
+            {
+                console.log("sort total games in descending order");
+                this.tableElements.sort((a, b) => (d3.descending(a.value["TotalGames"], b.value["TotalGames"])));
+                this.totalGamesCounter = 0;
+            }
+        }
+
+        that.updateTable();
     }
 
     /**
      * Function that sorts the team names
      * @param {} data 
      */
-    sortTeamHeaders(data)
+    sortTeamHeaders(teamHeader)
     {
-        console.log("entered the function");
+        // define that so we can access functions that have this on the front
+        let that = this;
+
+        console.log("entered the sort team headers function");
+
+        // check if we need to sort in ascending or descending order
+        if (this.teamCounter === 0)
+        {
+            console.log("sort team names in ascending order");
+
+            this.tableElements.sort((a, b) => d3.ascending(a.key, b.key));
+            this.teamCounter = 1;
+        }
+     
+        else
+        {
+            console.log("sort team names in descending order");
+
+            this.tableElements.sort((a, b) => d3.descending(a.key, b.key));
+            this.teamCounter = 0;
+        }
+
+        that.updateTable();
     }
     /**
      * Updates the table contents with a row for each element in the global variable tableElements.
@@ -227,7 +338,7 @@ class Table {
                              .attr("id", d => d.key);
         
         // Apply an event listener for the rows for highlighting the links in the tree
-        console.log("Applying the event listener for the tree");
+        // console.log("Applying the event listener for the tree");
         tableRows.on("mouseover", d => that.tree.updateTree(d));
         tableRows.on("mouseout", d => that.tree.clearTree());
 
