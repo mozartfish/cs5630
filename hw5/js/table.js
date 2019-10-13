@@ -109,6 +109,20 @@ class Table {
             return minValue;
         }
 
+        // Function for analyzing different attributes of the team data
+        function GenerateList(data, attribute)
+        {
+          let attributeList = [];
+          console.log("the data", data);
+          data.forEach(element => {
+            let value = element.value[attribute]
+            attributeList.push(value);
+          });
+          return attributeList;
+        }
+
+
+
         // View the data
         // console.log("The team data", this.teamData);
 
@@ -141,8 +155,19 @@ class Table {
         // Update the Aggregate Color Scale Domain and Range
         // console.log("Updating the aggregate color scale domain and range");
         // Aggregate in this data refers to how the teams did overall across all their matches
-        // 
-        // so we use the total games for scaling the aggregate
+        // The categories represented by aggregate are Wins, Losses, and TotalGames
+        // Based upon analysis of the different categories for the aggregate values
+        // there are values in the aggregate categories that make it difficult to decide how to represent
+        // all the aggregate categories with one scale
+        // Since all the values for all the aggregate categories are [0, 7], we can use the totalGamesDomainMax
+        // for the aggregate color scale domain max
+
+        let WinsList = GenerateList(this.teamData, "Wins");
+        let LossesList = GenerateList(this.teamData, "Losses");
+        let TotalGamesList = GenerateList(this.teamData, "TotalGames");
+        // console.log("The Wins list", WinsList);
+        // console.log("The Losses list", LossesList);
+        // console.log("The  Total Games list", TotalGamesList);
         this.aggregateColorScale = d3.scaleLinear()
                                      .domain([0, totalGamesDomainMax])
                                      .range(['#feebe2', '#690000']);
@@ -151,6 +176,7 @@ class Table {
         // console.log("Updating the goal color scale domain and range");
         // We use the delta goals to encode the difference between goals made and goals conceded
         // color choice was to find the smallest value for the min delta and the largest value for the max delta
+        // since the delta is goals is encoded by the color of a positive or negative delta goals value
         let deltaGoalsDomainMin = findMin(this.teamData, "Delta Goals");
         let deltaGoalsDomainMax = findMax(this.teamData, "Delta Goals");
         this.goalColorScale = d3.scaleLinear()
@@ -189,8 +215,8 @@ class Table {
                                   .data(this.tableHeaders);
 
         matchTableHeaders.on("click", function(d){
-            console.log("clicked the ", d, " header");
-            that.sortTableHeaders(d);
+            console.log("clicked the ", d, " header!");
+            that.SortMatchTableHeaders(d);
         })
         // Clicking on headers should also trigger collapseList() and updateTable().
 
@@ -202,88 +228,88 @@ class Table {
 
         matchTableTeamHeader.on("click", function(d){
             console.log("clicked the ", d, " header!");
-            that.sortTeamHeaders();
+            that.SortMatchTableTeams();
         })
     }
 
-    sortTableHeaders(tableHeaderName)
+    SortMatchTableHeaders(tableHeaderName)
     {
         // define that so we can access functions that have this on the front
         let that = this;
 
         if (tableHeaderName === "Delta Goals")
         {
-            if (this.DeltaGoalsCounter === 0)
+            if (that.DeltaGoalsCounter === 0)
             {
                 console.log("sort goals in ascending order");
-                this.tableElements.sort((a, b) => d3.ascending(a.value["Delta Goals"], b.value["Delta Goals"]));
-                this.DeltaGoalsCounter = 1;
+                that.tableElements.sort((a, b) => d3.ascending(a.value["Delta Goals"], b.value["Delta Goals"]));
+                that.DeltaGoalsCounter = 1;
             }
             else
             {
                 console.log("sort goals in descending order");
-                this.tableElements.sort((a, b) => d3.descending(a.value["Delta Goals"], b.value["Delta Goals"]));
-                this.DeltaGoalsCounter = 0;
+                that.tableElements.sort((a, b) => d3.descending(a.value["Delta Goals"], b.value["Delta Goals"]));
+                that.DeltaGoalsCounter = 0;
             }
         }
         else if (tableHeaderName === "Result")
         {
-            if (this.ResultCounter === 0)
+            if (that.ResultCounter === 0)
             {
                 console.log("sort results in ascending order");
-                this.tableElements.sort((a, b) => d3.ascending(a.value["Result"].ranking, b.value["Result"].ranking));
-                this.ResultCounter = 1;
+                that.tableElements.sort((a, b) => d3.ascending(a.value["Result"].ranking, b.value["Result"].ranking));
+                that.ResultCounter = 1;
             }
             else
             {
                 console.log("sort results in descending order");
-                this.tableElements.sort((a, b) => d3.descending(a.value["Result"].ranking, b.value["Result"].ranking));
-                this.ResultCounter = 0;
+                that.tableElements.sort((a, b) => d3.descending(a.value["Result"].ranking, b.value["Result"].ranking));
+                that.ResultCounter = 0;
             }
         }
         else if (tableHeaderName === "Wins")
         {
-            if (this.WinsCounter === 0)
+            if (that.WinsCounter === 0)
             {
                 console.log("sort wins in ascending order");
-                this.tableElements.sort((a, b) => d3.ascending(a.value["Wins"], b.value["Wins"]));
-                this.WinsCounter = 1;
+                that.tableElements.sort((a, b) => d3.ascending(a.value["Wins"], b.value["Wins"]));
+                that.WinsCounter = 1;
             }
             else
             {
                 console.log("sort wins in descending order");
-                this.tableElements.sort((a, b) => (d3.descending(a.value["Wins"], b.value["Wins"])));
-                this.WinsCounter = 0;
+                that.tableElements.sort((a, b) => (d3.descending(a.value["Wins"], b.value["Wins"])));
+                that.WinsCounter = 0;
             }
         }
         else if (tableHeaderName === "Losses")
         {
-            if (this.LossesCounter === 0)
+            if (that.LossesCounter === 0)
             {
                 console.log("sort losses in ascending order");
-                this.tableElements.sort((a, b) => d3.ascending(a.value["Losses"], b.value["Losses"]));
-                this.LossesCounter = 1;
+                that.tableElements.sort((a, b) => d3.ascending(a.value["Losses"], b.value["Losses"]));
+                that.LossesCounter = 1;
             }
             else
             {
                 console.log("sort losses in descending order");
-                this.tableElements.sort((a, b) => (d3.descending(a.value["Losses"], b.value["Losses"])));
-                this.LossesCounter = 0;
+                that.tableElements.sort((a, b) => (d3.descending(a.value["Losses"], b.value["Losses"])));
+                that.LossesCounter = 0;
             }
         }
         else
         {
-            if (this.totalGamesCounter === 0)
+            if (that.totalGamesCounter === 0)
             {
                 console.log("sorting total games in ascending order");
-                this.tableElements.sort((a, b) => d3.ascending(a.value["TotalGames"], b.value["TotalGames"]));
-                this.totalGamesCounter = 1;
+                that.tableElements.sort((a, b) => d3.ascending(a.value["TotalGames"], b.value["TotalGames"]));
+                that.totalGamesCounter = 1;
             }
             else
             {
                 console.log("sort total games in descending order");
-                this.tableElements.sort((a, b) => (d3.descending(a.value["TotalGames"], b.value["TotalGames"])));
-                this.totalGamesCounter = 0;
+                that.tableElements.sort((a, b) => (d3.descending(a.value["TotalGames"], b.value["TotalGames"])));
+                that.totalGamesCounter = 0;
             }
         }
 
@@ -294,7 +320,7 @@ class Table {
      * Function that sorts the team names
      * @param {} data 
      */
-    sortTeamHeaders()
+    SortMatchTableTeams()
     {
         // define that so we can access functions that have this on the front
         let that = this;
@@ -302,20 +328,20 @@ class Table {
         console.log("entered the sort team headers function");
 
         // check if we need to sort in ascending or descending order
-        if (this.teamCounter === 0)
+        if (that.teamCounter === 0)
         {
             console.log("sort team names in ascending order");
 
-            this.tableElements.sort((a, b) => d3.ascending(a.key, b.key));
-            this.teamCounter = 1;
+            that.tableElements.sort((a, b) => d3.ascending(a.key, b.key));
+            that.teamCounter = 1;
         }
      
         else
         {
             console.log("sort team names in descending order");
 
-            this.tableElements.sort((a, b) => d3.descending(a.key, b.key));
-            this.teamCounter = 0;
+            that.tableElements.sort((a, b) => d3.descending(a.key, b.key));
+            that.teamCounter = 0;
         }
 
         that.updateTable();
@@ -527,7 +553,7 @@ class Table {
 
         // Set up the width and height of the svg
         // these values should match the goal axis svg values because we will use that for analysis
-        goalChartsSVG.attr("width", 2 * that.cell.width + this.cell.buffer + 90)
+        goalChartsSVG.attr("width", 2 * that.cell.width + that.cell.buffer + 90)
                      .attr("height", that.cell.height + 10);
         
         // Append a group to the svg to match the transformation of the bar axis
@@ -580,9 +606,8 @@ class Table {
                                                                     // append won't work like earlier, so best solution is to make everything enter, exit, update
                                                })
                                                .join("circle")
-                                               .attr("id", d => d.name)
-                                               .classed("goalCircle", true); // id for identifying the type of circle
-
+                                               .attr("id", d => d.name) // id for identifying the type of circle
+                                               .classed("goalCircle", true); 
         // Set up the circle cx, cy, radius, and fill values and the 
         // for reference for determining the values for setting the cx, cy, and radius values
         // console.log("cell height", that.cell.height);
