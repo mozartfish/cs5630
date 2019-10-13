@@ -133,19 +133,20 @@ class Table {
 
         // Update Game Scale Domain and Range
         // console.log("Updating the Game Scale Domain and Range");
-        let totalGamesMax = findMax(this.teamData, "TotalGames");
+        let totalGamesDomainMax = findMax(this.teamData, "TotalGames");
         // console.log("TotalGames MAX = ", totalGamesMax);
         this.gameScale = d3.scaleLinear()
-                           .domain([0, totalGamesMax])
+                           .domain([0, totalGamesDomainMax])
                            .range([0, this.cell.width])
                            .nice();
 
         // Update the Aggregate Color Scale Domain and Range
         // console.log("Updating the aggregate color scale domain and range");
         // Aggregate in this data refers to how the teams did overall across all their matches
+        // which refers to total games, wins, and losses
         // so we use the total games for scaling the aggregate
         this.aggregateColorScale = d3.scaleLinear()
-                                     .domain([0, totalGamesMax])
+                                     .domain([0, totalGamesDomainMax])
                                      .range(['#feebe2', '#690000']);
         
         // Update the Goal Color Scale Domain and Range
@@ -188,7 +189,7 @@ class Table {
                                   .data(this.tableHeaders);
 
         matchTableHeaders.on("click", function(d){
-            console.log("clicked the header for", d);
+            console.log("clicked the ", d, " header");
             that.sortTableHeaders(d);
         })
         // Clicking on headers should also trigger collapseList() and updateTable().
@@ -200,17 +201,17 @@ class Table {
                                       .data(["Team"]);
 
         matchTableTeamHeader.on("click", function(d){
-            console.log("the value of d is", d);
-            that.sortTeamHeaders(d);
+            console.log("clicked the ", d, " header!");
+            that.sortTeamHeaders();
         })
     }
 
-    sortTableHeaders(tableHeader)
+    sortTableHeaders(tableHeaderName)
     {
         // define that so we can access functions that have this on the front
         let that = this;
 
-        if (tableHeader === "Delta Goals")
+        if (tableHeaderName === "Delta Goals")
         {
             if (this.DeltaGoalsCounter === 0)
             {
@@ -225,7 +226,7 @@ class Table {
                 this.DeltaGoalsCounter = 0;
             }
         }
-        else if (tableHeader === "Result")
+        else if (tableHeaderName === "Result")
         {
             if (this.ResultCounter === 0)
             {
@@ -240,7 +241,7 @@ class Table {
                 this.ResultCounter = 0;
             }
         }
-        else if (tableHeader === "Wins")
+        else if (tableHeaderName === "Wins")
         {
             if (this.WinsCounter === 0)
             {
@@ -255,7 +256,7 @@ class Table {
                 this.WinsCounter = 0;
             }
         }
-        else if (tableHeader === "Losses")
+        else if (tableHeaderName === "Losses")
         {
             if (this.LossesCounter === 0)
             {
@@ -293,7 +294,7 @@ class Table {
      * Function that sorts the team names
      * @param {} data 
      */
-    sortTeamHeaders(teamHeader)
+    sortTeamHeaders()
     {
         // define that so we can access functions that have this on the front
         let that = this;
@@ -324,8 +325,7 @@ class Table {
      */
     updateTable() {
         // ******* TODO: PART III *******
-        // To access functions that belong to this (scale functions and other properties that belong to this)
-        // we use that to represent this
+        // define that so we can access functions and variables that have this on the front
         let that = this;
 
         //Create table rows
@@ -338,7 +338,7 @@ class Table {
                              .attr("id", d => d.key);
         
         // Apply an event listener for the rows for highlighting the links in the tree
-        // console.log("Applying the event listener for the tree");
+        console.log("Applying the event listener for the tree");
         tableRows.on("mouseover", d => that.tree.updateTree(d));
         tableRows.on("mouseout", d => that.tree.clearTree());
 
@@ -642,13 +642,12 @@ class Table {
 
     /**
      * Updates the global tableElements variable, with a row for each row to be rendered in the table.
-     *
+     * i refers to the index of a data element
      */
     updateList(i) {
         // ******* TODO: PART IV *******
        
         //Only update list for aggregate clicks, not game clicks
-        
     }
 
     /**
