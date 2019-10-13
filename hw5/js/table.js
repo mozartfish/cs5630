@@ -580,7 +580,8 @@ class Table {
                                                                     // append won't work like earlier, so best solution is to make everything enter, exit, update
                                                })
                                                .join("circle")
-                                               .attr("id", d => d.name); // id for identifying the type of circle
+                                               .attr("id", d => d.name)
+                                               .classed("goalCircle", true); // id for identifying the type of circle
 
         // Set up the circle cx, cy, radius, and fill values and the 
         // for reference for determining the values for setting the cx, cy, and radius values
@@ -588,7 +589,6 @@ class Table {
         // console.log("bar height", that.bar.height);
         goalChartsCircles.attr("cx", d => that.goalScale(d.value))
                          .attr("cy", (that.cell.height + 6) / 2)
-                         .attr("r", (that.cell.height - 8) / 2)
                          .attr("fill", function(d){
                              // color matches with delta goals = 0 grey
                              if (d.delta === 0)
