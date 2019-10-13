@@ -54,6 +54,11 @@ class Table {
 
         /** Boolean for determining whether a particular column is sorted */
         this.isSorted = false;
+
+        /**Counter for determining whether we should sort in ascending or descending order 
+         * if counter > 0 then sort in ascending order otherwise sort in descending order
+        */
+         this.counter = 0;
     }
 
 
@@ -164,8 +169,20 @@ class Table {
         // ******* TODO: PART V *******
 
         // Set sorting callback for clicking on headers
-        // console.log("setting up the sorting");
-        // console.log("The value of isSorted is ", this.isSorted);
+        console.log("setting up the sorting");
+        console.log("The value of isSorted is ", this.isSorted);
+
+        // Article on selecting nested elements using d3
+        // https://bost.ocks.org/mike/nest/
+        // Article on selecting multiple selectors at once
+        // https://stackoverflow.com/questions/15702724/how-to-select-multiple-selectors-with-selectall/15705448
+        let matchTableHeaders = d3.selectAll("thead th, td")
+                                  .data(this.tableHeaders);
+        matchTableHeaders.on("click", function(d){
+            console.log("the element clicked was", d);
+        })
+        
+
         // Clicking on headers should also trigger collapseList() and updateTable().
 
 

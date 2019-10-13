@@ -174,8 +174,8 @@ class Tree {
    */
   updateTree(row) {
     // ******* TODO: PART VII *******
-    console.log("entered the tree update");
-    console.log("the row selected is", row.key);
+    // console.log("entered the tree update");
+    // console.log("the row selected is", row.key);
 
     let treeLinks = d3.select("#tree").selectAll("path.link");
     let treeNodes = d3.select("#tree").selectAll("g.node").selectAll("text");
@@ -194,7 +194,7 @@ class Tree {
       selectedRowLinks.classed("selected", true);
 
       // Update the tree nodes
-      console.log("updating the tree nodes");
+      // console.log("updating the tree nodes");
 
       let selectedTreeNodes = treeNodes.filter((d) => {
         return d.data.data.Team === row.key;
@@ -210,7 +210,7 @@ class Tree {
   clearTree() {
     // ******* TODO: PART VII *******
     // You only need two lines of code for this! No loops!
-    console.log("clean tree function called");
+    // console.log("clean tree function called");
 
     d3.select("#tree").selectAll("path.link").classed("selected", false);
     d3.select("#tree").selectAll("g.node").selectAll("text").classed("selectedLabel", false);
