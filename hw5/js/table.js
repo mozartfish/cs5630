@@ -71,6 +71,9 @@ class Table {
 
         // ******* TODO: PART II *******
 
+        // Set that equal to this to use the anonymous functions that belong to the cell object
+        let that = this;
+
         // A set of helper functions to determine the min and max value for scales and encoding
         function findMax(data, attribute)
         {
@@ -176,7 +179,7 @@ class Table {
         // https://bost.ocks.org/mike/nest/
         let matchTableHeaders = d3.selectAll("thead td")
                                   .data(this.tableHeaders);
-                                  
+
         matchTableHeaders.on("click", function(d){
             console.log("clicked the header for", d);
         })
@@ -191,10 +194,20 @@ class Table {
                                       .data(["Team"]);
 
         matchTableTeamHeader.on("click", function(d){
-            console.log("clicked the team header", d);
+            console.log("the value of d is", d);
+            that.sortTeamHeaders(d);
+
         })
     }
 
+    /**
+     * Function that sorts the team names
+     * @param {} data 
+     */
+    sortTeamHeaders(data)
+    {
+        console.log("entered the function");
+    }
     /**
      * Updates the table contents with a row for each element in the global variable tableElements.
      */
@@ -536,6 +549,5 @@ class Table {
         // ******* TODO: PART IV *******
 
     }
-
 
 }
