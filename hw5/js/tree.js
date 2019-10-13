@@ -62,7 +62,7 @@ class Tree {
     //   console.log("get rekt");
     // }
 
-    // The following articles were used for understanding how to set up, render, and modify elements of trees using d3
+    // Articles used for understanding how to set up, render, and modify elements of trees using d3
     // https://observablehq.com/@d3/collapsible-tree
     // https://observablehq.com/@d3/d3-stratify
     // https://codepen.io/kirangadhave/pen/QWLoYML

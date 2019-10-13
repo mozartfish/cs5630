@@ -121,8 +121,6 @@ class Table {
         let goalsConcededMax = findMax(this.teamData, this.goalsConcededHeader);
         let goalValuesList = [goalsMadeMax, goalsConcededMax];
         let goalScaleDomainMax = d3.max(goalValuesList);
-        let deltaGoalsDomainMin = findMin(this.teamData, "Delta Goals");
-        let deltaGoalsDomainMax = findMax(this.teamData, "Delta Goals");
         //console.log("The deltaGoals Min value is", deltaGoalsDomainMin);
         // console.log("Goals Made MAX = ", goalsMadeMax);
         // console.log("Goals Conceded MAX = ", goalsConcededMax);
@@ -143,7 +141,7 @@ class Table {
         // Update the Aggregate Color Scale Domain and Range
         // console.log("Updating the aggregate color scale domain and range");
         // Aggregate in this data refers to how the teams did overall across all their matches
-        // which refers to total games, wins, and losses
+        // 
         // so we use the total games for scaling the aggregate
         this.aggregateColorScale = d3.scaleLinear()
                                      .domain([0, totalGamesDomainMax])
@@ -153,6 +151,8 @@ class Table {
         // console.log("Updating the goal color scale domain and range");
         // We use the delta goals to encode the difference between goals made and goals conceded
         // color choice was to find the smallest value for the min delta and the largest value for the max delta
+        let deltaGoalsDomainMin = findMin(this.teamData, "Delta Goals");
+        let deltaGoalsDomainMax = findMax(this.teamData, "Delta Goals");
         this.goalColorScale = d3.scaleLinear()
                                 .domain([deltaGoalsDomainMin, deltaGoalsDomainMax])
                                 .range(['#cb181d', '#034e7b']);
