@@ -555,7 +555,7 @@ class Table {
         })
          .attr("y", 8)
          .attr("width", d => that.goalScale(Math.abs(d.value["Delta Goals"])))
-         .attr("height", that.cell.height - 14)
+         .attr("height", that.cell.height - 10)
          .attr("fill", d => that.goalColorScale(d.value["Delta Goals"]))
          .classed("goalBar", true);
          
@@ -587,8 +587,8 @@ class Table {
         // console.log("cell height", that.cell.height);
         // console.log("bar height", that.bar.height);
         goalChartsCircles.attr("cx", d => that.goalScale(d.value))
-                         .attr("cy", (that.cell.height + 2) / 2)
-                         .attr("r", (that.cell.height - 10) / 2)
+                         .attr("cy", (that.cell.height + 6) / 2)
+                         .attr("r", (that.cell.height - 8) / 2)
                          .attr("fill", function(d){
                              // color matches with delta goals = 0 grey
                              if (d.delta === 0)
