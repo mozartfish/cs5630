@@ -62,7 +62,7 @@ class Tree {
     //   console.log("get rekt");
     // }
 
-    // The following examples were used for understanding how to render trees and how to set up trees in d3
+    // The following examples were used for understanding how to set up, render, and modify elements of trees using d3
     // https://observablehq.com/@d3/collapsible-tree
     // https://observablehq.com/@d3/d3-stratify
     // https://codepen.io/kirangadhave/pen/QWLoYML
@@ -185,29 +185,24 @@ class Tree {
     // Aggregate Row Highlighting
     if (row.value.type === "aggregate")
     {
-      // Update the tree links
-      console.log("updating the tree links");
-      treeLinks.each(function(d)
-      {
-        if (d.data.data.Team === row.key)
-        {
-          //console.log(this);
-          d3.select(this).classed("selected", true);
-        }
-      });
+      // // Update the tree links
+      // console.log("updating the tree links");
+      let selectedRowLinks = treeLinks.filter((d) => {
+        return d.data.data.Team === row.key;
+      })
+
+      selectedRowLinks.classed("selected", true);
 
       // Update the tree nodes
       console.log("updating the tree nodes");
 
-      treeNodes.each(function(d){
-        if (d.data.data.Team === row.key)
-        {
-          //console.log("the value of this is", this);
-          d3.select(this).classed("selectedLabel", true);
-        }
+      let selectedTreeNodes = treeNodes.filter((d) => {
+        return d.data.data.Team === row.key;
       })
+
+      selectedTreeNodes.classed("selectedLabel", true);
     }
-    
+
   }
   /**
    * Removes all highlighting from the tree.
@@ -215,12 +210,9 @@ class Tree {
   clearTree() {
     // ******* TODO: PART VII *******
     // You only need two lines of code for this! No loops!
-    console.log("exited the tree");
+    console.log("clean tree function called");
+
     d3.select("#tree").selectAll("path.link").classed("selected", false);
     d3.select("#tree").selectAll("g.node").selectAll("text").classed("selectedLabel", false);
-
-
-
-
   }
 }
