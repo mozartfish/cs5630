@@ -92,7 +92,7 @@ class Tree {
     const nodes = gameTree(hData);
 
     // An SVG and group already exists in the HTML file and use those for rendering the tree
-    // SVG Dimensions: Width = 500 Height = 900
+    // SVG Dimensions: Width = 900 Height = 900
     // Group id: "tree"
     // Dimensions of cells for layout
     // console.log("added in the dimensions of the cells");

@@ -52,9 +52,6 @@ class Table {
         /** Use colors '#cb181d' and '#034e7b' for the range */
         this.goalColorScale = null;
 
-        /** Boolean for determining whether a particular column is sorted */
-        this.isSorted = false;
-
         /**Counters for determining whether we should sort in ascending or descending order
         */
          this.TeamCounter = 0;
@@ -120,8 +117,6 @@ class Table {
           });
           return attributeList;
         }
-
-
 
         // View the data
         // console.log("The team data", this.teamData);
@@ -596,6 +591,7 @@ class Table {
                                                    goalsMadeCircle["name"] = "goalsMade";
                                                    goalsMadeCircle["value"] = d.value["Goals Made"];
                                                    goalsMadeCircle["delta"] = d.value["Delta Goals"];
+
                                                    let goalsConcededCircle = {};
                                                    goalsConcededCircle["name"] = "goalsConceded";
                                                    goalsConcededCircle["value"] = d.value["Goals Conceded"];
