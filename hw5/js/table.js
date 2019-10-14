@@ -110,7 +110,7 @@ class Table {
         function GenerateList(data, attribute)
         {
           let attributeList = [];
-          console.log("the data", data);
+        //   console.log("the data", data);
           data.forEach(element => {
             let value = element.value[attribute]
             attributeList.push(value);
@@ -362,6 +362,10 @@ class Table {
         console.log("Applying the event listener for the tree");
         tableRows.on("mouseover", d => that.tree.updateTree(d));
         tableRows.on("mouseout", d => that.tree.clearTree());
+
+        // Apply an event listener for the row(s) that was clicked for displaying the games associated with that row
+        console.log("Applying the event listener for the row click");
+        tableRows.on("click", (d, i) => that.updateList(i));
 
         //Append th elements for the Team Names
         // console.log("Append the th elements for the Team Names");
@@ -667,8 +671,42 @@ class Table {
      */
     updateList(i) {
         // ******* TODO: PART IV *******
-       
+        // define that to use functions that have this in front of them
+        let that = this;
+
+        let tableRowIndex = i;
+        console.log("The table row index is", tableRowIndex);
+        let tableRow = that.tableElements[tableRowIndex];
+
         //Only update list for aggregate clicks, not game clicks
+        if (tableRow.value.type === "aggregate")
+        {
+            console.log("the row selected was an aggregate row");
+            let aggregateRowName = tableRow.key;
+            let aggregateRowGames = tableRow.value.games;
+            console.log("The aggregate row name is", aggregateRowName);
+            console.log("The games associated with the aggregate row", aggregateRowName, "is", aggregateRowGames);
+    
+            // tableElements is an array. So if a country is clicked we want to add in all of its games without affecting the 
+           // the rest of the elements in the table. To do this we use Mike Bostock's recommendation of array.splice
+           // https://github.com/d3/d3-array
+
+           if (that.tableElements[tableRowIndex + 1].value.type === "game")
+           {
+               console.log("the games already exist");
+               that.tableRowElements.splice(tableRowIndex + 1, aggregateRowGames[i].length);
+           }
+           else
+           {
+               // loop through all the elements in the games and add them to the table elements
+               for (let i = 0; i < aggregateRowGames.length; i++)
+               {
+                   that.tableElements.splice(tableRowIndex + 1, 0, aggregateRowGames[i]);
+               }
+               
+           }
+           that.updateTable();
+        }
     }
 
     /**
