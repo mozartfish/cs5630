@@ -691,21 +691,18 @@ class Table {
            // the rest of the elements in the table. To do this we use Mike Bostock's recommendation of array.splice
            // https://github.com/d3/d3-array
 
-           if (that.tableElements[tableRowIndex + 1].value.type === "game")
-           {
-               console.log("the games already exist");
-               that.tableRowElements.splice(tableRowIndex + 1, aggregateRowGames[i].length);
-           }
-           else
-           {
+         
                // loop through all the elements in the games and add them to the table elements
                for (let i = 0; i < aggregateRowGames.length; i++)
                {
                    that.tableElements.splice(tableRowIndex + 1, 0, aggregateRowGames[i]);
                }
-               
-           }
+            
            that.updateTable();
+        }
+        else
+        {
+            console.log("you selected a game row");
         }
     }
 
