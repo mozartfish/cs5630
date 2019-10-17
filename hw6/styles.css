@@ -1,5 +1,12 @@
 .VisTitle {
-    text-align:center;
+    text-align:left;
     font-family: 'Roboto', sans-serif;
-
+}
+#textDiv{
+    align:right;
+    width:150;
+    padding: 50;
+    margin:10;
+    font-family: "Roboto", sans-serif;
+    font-size: "5px";
 }
