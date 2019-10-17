@@ -21,7 +21,7 @@ As in previous homeworks, add your name, your e-mail address, and your UID to th
 
 Other than adding your name, etc., you should not need to edit the html file in this assignment (though you are free to do so.)
 
-You have the freedom to implement the views how you want, however, we recommend using good web development practices. For example, it is advisable to create at least one javascript file for each view, but you can organize the code however you see fit. We have given you an html file and 2 data files (`words.js` and `words-without-force-positions.csv`). You will be graded on the final appearance and interaction; they should match or improve upon our examples.
+You have the freedom to implement the views how you want, however, we recommend using good web development practices. For example, it is advisable to create at least one javascript file for each view, but you can organize the code however you see fit. We have given you an html file and 2 data files (`words.json` and `words-without-force-positions.csv`). You will be graded on the final appearance and interaction; they should match or improve upon our examples.
 
 ## The Data
 The data set is a collection of N-grams that are taken from US governors' state of the state addresses. The team at 538 conducted a textual analysis of the resulting N-grams to see what issues were talked about the most and whether there were differences between what Democratic and Republican governors were focusing on. We will be plotting the N-grams along a diverging x-axis to see the differences between words used in Democratic and Republican speeches.
