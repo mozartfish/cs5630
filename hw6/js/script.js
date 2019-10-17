@@ -18,8 +18,6 @@ let visText = visInfo.append("text")
  */
  let chartView = d3.select("#chartView");
  let chartSVG = chartView.append("svg");
- chartSVG.attr("width", 1000)
-              .attr("height", 600)
+ chartSVG.attr("width", 900)
+              .attr("height", 800)
               .attr("id", "chartSVG");
- 
-
