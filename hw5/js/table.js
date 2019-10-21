@@ -175,7 +175,7 @@ class Table {
         let deltaGoalsDomainMin = findMin(this.teamData, "Delta Goals");
         let deltaGoalsDomainMax = findMax(this.teamData, "Delta Goals");
         this.goalColorScale = d3.scaleLinear()
-                                .domain([deltaGoalsDomainMin, deltaGoalsDomainMax])
+                                .domain([deltaGoalsDomainMin,0, deltaGoalsDomainMax])
                                 .range(['#cb181d', '#034e7b']);
         
         // Create the axes

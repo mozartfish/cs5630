@@ -69,9 +69,24 @@ class CHART{
             let maxValue = d3.max(maxValueList);
             console.log("The min value for", attribute, "is", maxValue);
         }
-        
+
         // Determine the min and max values for the domain for the political scale
         let politicalScaleMinValue = findMinValue(this.chartData, position);
         let politicalScaleMaxValue = findMaxValue(this.chartData, position);
+
+        // set up the political scale
+        this.politicalPartyScale = d3.scaleLinear()
+                                     .domain([politicalScaleMinValue, politicalScaleMaxValue])
+                                     .range([0, 2 * swarmChartWidth + 30])
+                                     .nice();
+        // Set up the political scale axis
+        let politicalScaleXAxis = d3.axisBottom(this.politicalPartyScale);
+
+        //Append the scale to the group
+        let chartSVG = d3.select("#chartSVG");
+        let politicalScaleGroup = chartSVG.append("g");
+        politicalScaleGroup.attr("class", "x axis")
+                           .attr("transform", "translate(30,50)")
+                           .call(politicalScaleXAxis);
     }
 }
