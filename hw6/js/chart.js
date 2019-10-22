@@ -55,6 +55,13 @@ class Chart
     // create the svg for the chart
     console.log("creating the svg for the chart");
 
+    let chartSVG = d3.select("#chartView");
+    chartSVG.append("svg")
+            .attr("width", this.width + this.margins.left + this.margins.right)
+            .attr("height", this.height + this.margins.top + this.margins.bottom)
+            .attr("id", "chartSVG");
+
+
     /**
      * Function that determines the min value for a particular attribute of the data
      * @param {*} data - the project data
