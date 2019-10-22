@@ -114,10 +114,6 @@ class Chart {
        return attributeValueList;
      }
 
-     // Create a set containing all the categories
-     let categoriesList = accessData(this.politicalData, this.category);
-     console.log("The category list is", categoriesList);
-
     // Determine the min and max values for the political scale domain
     let politicalScaleMin = findMinValue(this.politicalData, this.position);
     let politicalScaleMax = findMaxValue(this.politicalData, this.position);
@@ -160,5 +156,14 @@ class Chart {
             .attr("class", "x-Axis")
             .attr("transform", "translate(20,80)")
             .call(politicalScaleXAxis);
+    
+     // Create a set containing all the categories
+     let categoriesList = accessData(this.politicalData, this.category);
+     console.log("The category list is", categoriesList);
+
+    // create the category scale
+    this.categoryScale = d3.scaleOrdinal()
+                           .domain(categoriesList)
+                           .range(["#00693e", "#ffff00", "#c8a2c8", "#ff0031", "#0080ff", "#ff4f00"])
   }
 }
