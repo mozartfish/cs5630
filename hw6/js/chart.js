@@ -12,7 +12,7 @@ class Chart {
    */
   constructor(politicalData) {
     /**
-     * instance variable that stores the data
+     * Instance variable that stores the data
      */
     this.politicalData = politicalData;
     /**
@@ -47,6 +47,10 @@ class Chart {
      * Instance variable for indexing into the category property of the data
      */
     this.category = "category";
+    /**
+     * Scale for coloring the circles based on the category
+     */
+    this.categoryScale = null;
   }
 
   createChart() {
@@ -65,7 +69,7 @@ class Chart {
       });
       //console.log("The min value list for", attribute, "is", minValueList);
       let minValue = d3.min(minValueList);
-      console.log("The min value for", attribute, "is", minValue);
+      // console.log("The min value for", attribute, "is", minValue);
 
       return minValue;
     }
@@ -83,7 +87,7 @@ class Chart {
       });
       //console.log("The max value list for", attribute, "is", maxValueList);
       let maxValue = d3.max(maxValueList);
-      console.log("The max value for", attribute, "is", maxValue);
+      // console.log("The max value for", attribute, "is", maxValue);
 
       return maxValue;
     }
@@ -101,6 +105,7 @@ class Chart {
          let value = element[attribute];
          attributeValueSet.add(value);
        });
+
        attributeValueSet.forEach(element => {
          attributeValueList.push(element)
        });
@@ -110,15 +115,15 @@ class Chart {
      }
 
      // Create a set containing all the categories
-     let categoriesSet = accessData(this.politicalData, this.category);
-     console.log("The category set is", categoriesSet);
+     let categoriesList = accessData(this.politicalData, this.category);
+     console.log("The category list is", categoriesList);
 
     // Determine the min and max values for the political scale domain
     let politicalScaleMin = findMinValue(this.politicalData, this.position);
     let politicalScaleMax = findMaxValue(this.politicalData, this.position);
 
     // create the SVG
-    console.log("creating the svg for the chart");
+    // console.log("creating the svg for the chart");
     let chartSVG = d3.select("#chartView").append("svg");
     chartSVG
       .attr("width", this.width + this.margins.left + this.margins.right)
@@ -126,10 +131,10 @@ class Chart {
       .attr("id", "chartSVG");
     
     // create a scale
-    console.log("creating the scale");
-    console.log("the value of politicalScaleMin is ", politicalScaleMin);
-    console.log("the value of politicalScaleMax is", politicalScaleMax);
-    console.log("the value of the width is", this.width);
+    // console.log("creating the scale");
+    // console.log("the value of politicalScaleMin is ", politicalScaleMin);
+    // console.log("the value of politicalScaleMax is", politicalScaleMax);
+    // console.log("the value of the width is", this.width);
 
     this.politicalScale = d3.scaleLinear()
                             .domain([politicalScaleMin, politicalScaleMax])
@@ -138,10 +143,10 @@ class Chart {
     //console.log("the value of this.political scale is", this.politicalScale);
 
     // test the political scale
-    console.log("the mapping of", politicalScaleMin, "is", this.politicalScale(politicalScaleMin));
-    console.log("the mapping of", politicalScaleMax, "is", this.politicalScale(politicalScaleMax));
+    // console.log("the mapping of", politicalScaleMin, "is", this.politicalScale(politicalScaleMin));
+    // console.log("the mapping of", politicalScaleMax, "is", this.politicalScale(politicalScaleMax));
 
-    console.log("creating an axis");
+    // console.log("creating an axis");
     let politicalScaleXAxis = d3.axisTop(this.politicalScale)
                                 .tickFormat(d => Math.abs(d));
                                 // .tickFormat(function(d){
@@ -150,7 +155,7 @@ class Chart {
                                 // });
 
     // append a group to the svg for the scale
-    console.log("created an svg group");
+    // console.log("created an svg group");
     chartSVG.append("g")
             .attr("class", "x-Axis")
             .attr("transform", "translate(20,80)")
