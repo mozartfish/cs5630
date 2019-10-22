@@ -55,8 +55,15 @@ class Chart {
      * Instance variable for indexing into the total property of the data
      */
     this.total = "total";
+    /**
+     * Scale for circle size
+     */
+    this.circleScale = null;
   }
 
+  /**
+   * Function that sets up the chart. Set up includes creating the scales, axis, and the svg for displaying the information.
+   */
   createChart() {
     console.log("Entered the create chart function");
     console.log("The data is", this.politicalData);
@@ -163,11 +170,26 @@ class Chart {
     
      // Create a set containing all the categories
      let categoriesList = accessData(this.politicalData, this.category);
-     console.log("The category list is", categoriesList);
+    //  console.log("The category list is", categoriesList);
 
     // create the category scale
     this.categoryScale = d3.scaleOrdinal()
                            .domain(categoriesList)
-                           .range(["#00693e", "#ffff00", "#c8a2c8", "#ff0031", "#0080ff", "#ff4f00"])
+                           .range(["#00693e", "#ffff00", "#c8a2c8", "#ff0031", "#0080ff", "#ff4f00"]);
+    
+    // create the circle size scale
+    this.circleScale = d3.scaleLinear()
+                         .domain([d3.min(this.politicalData.map(d => +d.total)), d3.max(this.politicalData.map(d => +d.total))])
+                         .range([3, 12]);
+  }
+
+  drawChart()
+  {
+    console.log("Entered the draw chart function");
+
+    // create that to access the functions and variables that have this on the front
+    let that = this;
+
+    console.log("The data in the draw chart function is", this.politicalData)
   }
 }
