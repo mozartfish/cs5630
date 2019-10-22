@@ -22,18 +22,29 @@ class Chart
      */
     this.margins = { top: 20, right: 30, bottom: 40, left: 30 };
     /**
-     * instance variable for storing the width for visualizing the swarm chart
+     * Instance variable for storing the width for visualizing the swarm chart
      */
     this.width = 960 - this.margins.left - this.margins.right;
     /**
-     * instance variable for storing the height for visualizing the chart
+     * Instance variable for storing the height for visualizing the chart
      */
     this.height = 500 - this.margins.top - this.margins.bottom;
-
     /**
      * Scale for the political party axis
      */
     this.politicalScale = null;
+    /**
+     * Instance variable for indexing into the position property of the data
+     */
+    this.position = "position";
+    /**
+     * Instance variable for indexing into the sourceX property of the data
+     */
+    this.sourceX = "sourceX";
+    /**
+     * Instance variable for indexing into the sourceY property of the data
+     */
+    this.sourceY = "sourceY";
   }
 
   createChart() 
@@ -74,5 +85,9 @@ class Chart
         let maxValue = d3.max(maxValueList);
         console.log("The max value for", attribute, "is", maxValue);
     }
+
+    // Determine the min and max values for the political scale domain
+    let politicalScaleMin = findMinValue(this.politicalData, this.position);
+    let politicalScaleMax = findMaxValue(this.politicalData, this.position);
   }
 }
