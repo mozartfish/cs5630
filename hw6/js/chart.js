@@ -5,12 +5,14 @@
 /**
  * Class that defines a Chart Object
  */
-class Chart {
+class Chart 
+{
   /**
    * Constructor for a Chart Object
    * @param {} politicalData - the data being visualized
    */
-  constructor(politicalData) {
+  constructor(politicalData) 
+  {
     /**
      * instance variable that stores the data
      */
@@ -34,8 +36,43 @@ class Chart {
     this.politicalScale = null;
   }
 
-  createChart() {
+  createChart() 
+  {
     console.log("Entered the create chart function");
     console.log("The data is", this.politicalData);
+
+    /**
+     * Function that determines the min value for a particular attribute of the data
+     * @param {*} data - the project data
+     * @param {*} attribute - a particular property of the data
+     */
+    function findMinValue(data, attribute)
+    {
+        let minValueList = [];
+        data.forEach(element => {
+            let value = element[attribute];
+            minValueList.push(value); 
+        });
+        console.group("The min value list for", attribute, "is", minValueList);
+        let minValue = d3.min(minValueList);
+        console.log("The min value for", attribute, "is", minValue);
+    }
+
+    /**
+     * Function that determines the max value for a particular attribute of the data
+     * @param {} data - the project data
+     * @param {*} attribute - a particular property of the data
+     */
+    function findMaxValue(data, attribute)
+    {
+        let maxValueList = [];
+        data.forEach(element => {
+            let value = element[attribute];
+            maxValueList.push(value);
+        });
+        console.log("The max value list for", attribute, "is", maxValueList);
+        let maxValue = d3.max(maxValueList);
+        console.log("The max value for", attribute, "is", maxValue);
+    }
   }
 }
