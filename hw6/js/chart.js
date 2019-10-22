@@ -55,10 +55,6 @@ class Chart {
      * Instance variable for indexing into the total property of the data
      */
     this.total = "total";
-    /**
-     * Scale for circle size
-     */
-    this.circleScale = null;
   }
 
   /**
@@ -67,67 +63,10 @@ class Chart {
   createChart() {
     console.log("Entered the create chart function");
     console.log("The data is", this.politicalData);
-    /**
-     * Function that determines the min value for a particular attribute of the data
-     * @param {*} data - the project data
-     * @param {*} attribute - a particular property of the data
-     */
-    function findMinValue(data, attribute) {
-      let minValueList = [];
-      data.forEach(element => {
-        let value = element[attribute];
-        minValueList.push(value);
-      });
-      //console.log("The min value list for", attribute, "is", minValueList);
-      let minValue = d3.min(minValueList);
-      // console.log("The min value for", attribute, "is", minValue);
-
-      return minValue;
-    }
-
-    /**
-     * Function that determines the max value for a particular attribute of the data
-     * @param {} data - the project data
-     * @param {*} attribute - a particular property of the data
-     */
-    function findMaxValue(data, attribute) {
-      let maxValueList = [];
-      data.forEach(element => {
-        let value = element[attribute];
-        maxValueList.push(value);
-      });
-      //console.log("The max value list for", attribute, "is", maxValueList);
-      let maxValue = d3.max(maxValueList);
-      // console.log("The max value for", attribute, "is", maxValue);
-
-      return maxValue;
-    }
-
-    /**
-     * Function that returns a list of the properties of an attribute with no duplicates
-     * @param {*} data - the data for the project
-     * @param {*} attribute - a particular property of the data
-     */
-     function accessData(data, attribute)
-     {
-       let attributeValueSet = new Set();
-       let attributeValueList = [];
-       data.forEach(element => {
-         let value = element[attribute];
-         attributeValueSet.add(value);
-       });
-
-       attributeValueSet.forEach(element => {
-         attributeValueList.push(element)
-       });
-       //console.log("The attribute value list is", attributeValueSet);
-       //return attributeValueSet;
-       return attributeValueList;
-     }
 
     // Determine the min and max values for the political scale domain
-    let politicalScaleMin = findMinValue(this.politicalData, this.position);
-    let politicalScaleMax = findMaxValue(this.politicalData, this.position);
+    let politicalScaleMin = this.findMinValue(this.politicalData, this.position);
+    let politicalScaleMax = this.findMaxValue(this.politicalData, this.position);
 
     // create the SVG
     // console.log("creating the svg for the chart");
@@ -169,7 +108,7 @@ class Chart {
             .call(politicalScaleXAxis);
     
      // Create a set containing all the categories
-     let categoriesList = accessData(this.politicalData, this.category);
+     let categoriesList = this.accessData(this.politicalData, this.category);
     //  console.log("The category list is", categoriesList);
 
     // create the category scale
@@ -177,12 +116,71 @@ class Chart {
                            .domain(categoriesList)
                            .range(["#00693e", "#ffff00", "#c8a2c8", "#ff0031", "#0080ff", "#ff4f00"]);
     
-    // create the circle size scale
-    this.circleScale = d3.scaleLinear()
-                         .domain([d3.min(this.politicalData.map(d => +d.total)), d3.max(this.politicalData.map(d => +d.total))])
-                         .range([3, 12]);
   }
 
+  /**
+   * Function for calculating the max value for different properties
+   * @param {*} data - the project data
+   * @param {*} attribute - a particular property of the data 
+   */
+  findMaxValue(data, attribute) 
+  {
+      let maxValueList = [];
+      data.forEach(element => {
+        let value = element[attribute];
+        maxValueList.push(value);
+      });
+      //console.log("The max value list for", attribute, "is", maxValueList);
+      let maxValue = d3.max(maxValueList);
+      // console.log("The max value for", attribute, "is", maxValue);
+
+      return maxValue;
+  }
+    
+    /**
+     * Function for calculating the min value for different properties
+     * @param {*} data - the project data
+     * @param {*} attribute - a particular property of the data
+     */
+    findMinValue(data, attribute) 
+    {
+      let minValueList = [];
+      data.forEach(element => {
+        let value = element[attribute];
+        minValueList.push(value);
+      });
+      //console.log("The min value list for", attribute, "is", minValueList);
+      let minValue = d3.min(minValueList);
+      // console.log("The min value for", attribute, "is", minValue);
+
+      return minValue;
+    }
+
+    /**
+     * Function for gathering the different properties of the data without duplicates
+     * @param {*} data - the project data
+     * @param {*} attribute - a particular property of the data 
+     */
+    accessData(data, attribute)
+    {
+      let attributeValueSet = new Set();
+      let attributeValueList = [];
+      data.forEach(element => {
+        let value = element[attribute];
+        attributeValueSet.add(value);
+      });
+
+      attributeValueSet.forEach(element => {
+        attributeValueList.push(element)
+      });
+      //console.log("The attribute value list is", attributeValueSet);
+      //return attributeValueSet;
+      return attributeValueList;
+    }
+
+  /**
+   * Function for drawing the the swarm chart
+   */
   drawChart()
   {
     console.log("Entered the draw chart function");
@@ -191,5 +189,14 @@ class Chart {
     let that = this;
 
     console.log("The data in the draw chart function is", this.politicalData)
+
+    // create scale for the circle size
+    console.log("creating the circleScale scale");
+    const circleScale = d3.scaleLinear()
+                          .domain([d3.min(this.politicalData.map(d => +d.total)), d3.max(this.politicalData.map(d => +d.total))])
+                          .range([3, 12]);
+
+
+
   }
 }
