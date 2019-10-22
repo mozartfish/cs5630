@@ -113,7 +113,12 @@ class Chart {
     console.log("the mapping of", politicalScaleMax, "is", this.politicalScale(politicalScaleMax));
 
     console.log("creating an axis");
-    let politicalScaleXAxis = d3.axisTop(this.politicalScale);
+    let politicalScaleXAxis = d3.axisTop(this.politicalScale)
+                                .tickFormat(d => Math.abs(d));
+                                // .tickFormat(function(d){
+                                //   console.log("the value of d is", d);
+                                //   return Math.abs(d);
+                                // });
 
     // append a group to the svg for the scale
     console.log("created an svg group");
