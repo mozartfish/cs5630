@@ -195,6 +195,21 @@ class Chart {
     const circleScale = d3.scaleLinear()
                           .domain([d3.min(this.politicalData.map(d => +d.total)), d3.max(this.politicalData.map(d => +d.total))])
                           .range([3, 12]);
+    
+    // calculate the min and max for  source x
+    console.log("calculating the min and max for source x");
+    let sourceXMin = that.findMinValue(that.politicalData, that.sourceX);
+    let sourceXMax = that.findMaxValue(that.politicalData, that.sourceX);
+
+    let sourceYMin = that.findMinValue(that.politicalData, that.sourceY);
+    let sourceYMax = that.findMaxValue(that.politicalData, that.sourceY);
+
+    console.log("the value for sourceX min is", sourceXMin);
+    console.log("the value for sourceX max is", sourceXMax);
+
+    console.log("the value for sourceY min is", sourceYMin);
+    console.log("the value for sourceY max is", sourceYMax);
+
 
 
 
