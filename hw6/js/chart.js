@@ -43,6 +43,10 @@ class Chart {
      * Instance variable for indexing into the sourceY property of the data
      */
     this.sourceY = "sourceY";
+    /**
+     * Instance variable for indexing into the category property of the data
+     */
+    this.category = "category";
   }
 
   createChart() {
@@ -83,6 +87,31 @@ class Chart {
 
       return maxValue;
     }
+
+    /**
+     * Function that returns a list of the properties of an attribute with no duplicates
+     * @param {*} data - the data for the project
+     * @param {*} attribute - a particular property of the data
+     */
+     function accessData(data, attribute)
+     {
+       let attributeValueSet = new Set();
+       let attributeValueList = [];
+       data.forEach(element => {
+         let value = element[attribute];
+         attributeValueSet.add(value);
+       });
+       attributeValueSet.forEach(element => {
+         attributeValueList.push(element)
+       });
+       //console.log("The attribute value list is", attributeValueSet);
+       //return attributeValueSet;
+       return attributeValueList;
+     }
+
+     // Create a set containing all the categories
+     let categoriesSet = accessData(this.politicalData, this.category);
+     console.log("The category set is", categoriesSet);
 
     // Determine the min and max values for the political scale domain
     let politicalScaleMin = findMinValue(this.politicalData, this.position);
