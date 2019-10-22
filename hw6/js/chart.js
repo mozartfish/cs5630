@@ -52,6 +52,9 @@ class Chart
     console.log("Entered the create chart function");
     console.log("The data is", this.politicalData);
 
+    // create the svg for the chart
+    console.log("creating the svg for the chart");
+
     /**
      * Function that determines the min value for a particular attribute of the data
      * @param {*} data - the project data
