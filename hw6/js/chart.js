@@ -51,6 +51,10 @@ class Chart {
      * Scale for coloring the circles based on the category
      */
     this.categoryScale = null;
+    /**
+     * Instance variable for indexing into the total property of the data
+     */
+    this.total = "total";
   }
 
   createChart() {
