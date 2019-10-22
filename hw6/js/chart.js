@@ -210,6 +210,16 @@ class Chart {
     console.log("the value for sourceY min is", sourceYMin);
     console.log("the value for sourceY max is", sourceYMax);
 
+    // creating the scales for the sourceX and sourceY  values
+    console.log("creating the scales for the sourceX and sourceY");
+    const scaleSourceX = d3.scaleLinear()
+                           .domain([sourceXMin, sourceXMax])
+                           .range([0, that.width])
+                           .nice();
+    const scaleSourceY = d3.scaleLinear()
+                           .domain([sourceYMin, sourceYMax])
+                           .range([that.height, 0]);
+
 
 
 
