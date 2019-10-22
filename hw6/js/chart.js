@@ -102,9 +102,12 @@ class Chart {
 
     // append a group to the svg for the scale
     // console.log("created an svg group");
-    chartSVG.append("g")
-            .attr("class", "x-Axis")
+    let svgGroup = chartSVG.append("g")
+            .attr("class", "wrapper-group");
+
+    svgGroup.append("g")
             .attr("transform", "translate(20,80)")
+            .attr("class", "x-Axis")
             .call(politicalScaleXAxis);
     
      // Create a set containing all the categories
@@ -210,18 +213,9 @@ class Chart {
     console.log("the value for sourceY min is", sourceYMin);
     console.log("the value for sourceY max is", sourceYMax);
 
-    // creating the scales for the sourceX and sourceY  values
-    console.log("creating the scales for the sourceX and sourceY");
-    const scaleSourceX = d3.scaleLinear()
-                           .domain([sourceXMin, sourceXMax])
-                           .range([0, that.width])
-                           .nice();
-    const scaleSourceY = d3.scaleLinear()
-                           .domain([sourceYMin, sourceYMax])
-                           .range([that.height, 0]);
+    // create the circles
+    console.log("create the circles");
 
-
-
-
+    let group = d3.select("#chartView").select("#ChartSVG")
   }
 }
