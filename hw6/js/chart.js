@@ -59,9 +59,11 @@ class Chart {
         let value = element[attribute];
         minValueList.push(value);
       });
-      console.log("The min value list for", attribute, "is", minValueList);
+      //console.log("The min value list for", attribute, "is", minValueList);
       let minValue = d3.min(minValueList);
       console.log("The min value for", attribute, "is", minValue);
+
+      return minValue;
     }
 
     /**
@@ -75,9 +77,11 @@ class Chart {
         let value = element[attribute];
         maxValueList.push(value);
       });
-      console.log("The max value list for", attribute, "is", maxValueList);
+      //console.log("The max value list for", attribute, "is", maxValueList);
       let maxValue = d3.max(maxValueList);
       console.log("The max value for", attribute, "is", maxValue);
+
+      return maxValue;
     }
 
     // Determine the min and max values for the political scale domain
@@ -87,8 +91,36 @@ class Chart {
     // create the SVG
     console.log("creating the svg for the chart");
     let chartSVG = d3.select("#chartView").append("svg");
-    chartSVG.attr("width", this.width + this.margins.left + this.margins.right)
-            .attr("height", this.height + this.margins.top + this.margins.bottom)
-            .attr("id", "chartSVG");
+    chartSVG
+      .attr("width", this.width + this.margins.left + this.margins.right)
+      .attr("height", this.height + this.margins.top + this.margins.bottom)
+      .attr("id", "chartSVG");
+    
+    // create a scale
+    console.log("creating the scale");
+    console.log("the value of politicalScaleMin is ", politicalScaleMin);
+    console.log("the value of politicalScaleMax is", politicalScaleMax);
+    console.log("the value of the width is", this.width);
+
+    this.politicalScale = d3.scaleLinear()
+                            .domain([politicalScaleMin, politicalScaleMax])
+                            .range([0, this.width])
+                            .nice();
+    //console.log("the value of this.political scale is", this.politicalScale);
+
+    // test the political scale
+    console.log("the mapping of", politicalScaleMin, "is", this.politicalScale(politicalScaleMin));
+    console.log("the mapping of", politicalScaleMax, "is", this.politicalScale(politicalScaleMax));
+
+    console.log("creating an axis");
+    let politicalScaleXAxis = d3.axisTop(this.politicalScale);
+
+    // append a group to the svg for the scale
+    console.log("created an svg group");
+    chartSVG.append("g")
+            .attr("class", "x-Axis")
+            .attr("transform", "translate(20,150)")
+            .call(politicalScaleXAxis);
+
   }
 }
