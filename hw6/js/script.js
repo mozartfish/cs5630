@@ -3,7 +3,7 @@
  */
 
 /**
- * Load in the information for the swarm chart
+ * Load the data call the various scripts to generate the visualization
  */
 d3.json("/data/words.json").then(data => {
   console.log("The data", data);
