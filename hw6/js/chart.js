@@ -99,5 +99,12 @@ class Chart
     // Determine the min and max values for the political scale domain
     let politicalScaleMin = findMinValue(this.politicalData, this.position);
     let politicalScaleMax = findMaxValue(this.politicalData, this.position);
+
+    // Create the scale for the political scale axis
+    console.log("creating the scale for the political axis");
+    this.politicalScale = d3.scaleLinear().domain([politicalScaleMin, politicalScaleMax])
+                                          .range([0, this.width])
+                                          .nice();
+    
   }
 }
