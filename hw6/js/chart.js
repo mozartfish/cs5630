@@ -124,8 +124,7 @@ class Chart {
     console.log("created an svg group");
     chartSVG.append("g")
             .attr("class", "x-Axis")
-            .attr("transform", "translate(20,150)")
+            .attr("transform", "translate(20,80)")
             .call(politicalScaleXAxis);
-
   }
 }
