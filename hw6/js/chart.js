@@ -99,6 +99,16 @@ class Chart {
     // group for the svg and organizing stuff on the canvas
     let svgGroup = chartSVG.append("g").attr("class", "wrapper-group");
 
+    // group for the Grouped by Topic Label
+    let groupByTopicGroup = svgGroup.append("g")
+                                    .attr("class", "groupByTopic")
+                                    .attr("transform", "translate(45, 32)");
+
+    // create the group by topic label 
+    console.log("creating the group by topic text");
+    groupByTopicGroup.append("text")
+                     .text("Grouped by Topic");
+
     // group for the democrat party label
     let democrateGroup = svgGroup
       .append("g")
@@ -114,7 +124,6 @@ class Chart {
       .attr("class", "republican")
       .attr("transform", "translate(700, 100)");
 
-    
     // create the republican title
     republicanGroup.append("text").text("Republican Leaning");
 
@@ -127,7 +136,7 @@ class Chart {
 
     // Create a list (in the format of a set) for determining the domain for the category scale
     let categoriesList = this.accessData(this.politicalData, this.category);
-    console.log("The category list is", categoriesList);
+    //console.log("The category list is", categoriesList);
 
     // create the category scale
     this.categoryScale = d3
@@ -196,7 +205,7 @@ class Chart {
     console.log("The data in the draw chart function is", this.politicalData);
 
     // create scale for the circle size
-    console.log("creating the circleScale scale");
+    //console.log("creating the circleScale scale");
     const circleScale = d3
       .scaleLinear()
       .domain([
@@ -206,7 +215,7 @@ class Chart {
       .range([3, 12]);
 
     // create the circles
-    console.log("create the circles");
+    //console.log("create the circles");
 
     let group = d3
       .select("#chartView")
