@@ -93,3 +93,11 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.groupTopic {
+  font-family:"Robot", sans-serif;
+  font-size: 20px;
+  font-weight: 100px;
+  transform: translate(10px, 100px);
+}
+
