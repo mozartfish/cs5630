@@ -98,14 +98,25 @@ class Chart {
 
     // group for the svg and organizing stuff on the canvas
     let svgGroup = chartSVG.append("g").attr("class", "wrapper-group");
-    let democrateGroup = svgGroup.append("g")
-                                 .attr("class", "democrat")
-                                 .attr("transform", "translate(40, 100)");
+
+    // group for the democrat party label
+    let democrateGroup = svgGroup
+      .append("g")
+      .attr("class", "democrat")
+      .attr("transform", "translate(40, 100)");
 
     // create the democrate title
-    console.log("Creating the Democrat Party Label");
-    democrateGroup.append("text")
-                  .text("Democrate Leaning");
+    democrateGroup.append("text").text("Democrate Leaning");
+
+    // group for the republic party label
+    let republicanGroup = svgGroup
+      .append("g")
+      .attr("class", "republican")
+      .attr("transform", "translate(700, 100)");
+
+    
+    // create the republican title
+    republicanGroup.append("text").text("Republican Leaning");
 
     // append a group for the political axis
     svgGroup

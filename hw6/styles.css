@@ -21,7 +21,12 @@
   float: left;
 }
 .democrat {
-  font-family: "Robot", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+}
+.republican {
+  font-family: "Roboto", sans-serif;
   font-size: 25px;
   font-weight: 700;
 }
