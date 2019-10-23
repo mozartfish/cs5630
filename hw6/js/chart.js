@@ -205,15 +205,16 @@ class Chart {
 
     // create that to access the functions and variables that have this on the front
     let that = this;
-
-    //console.log("The data in the draw chart function is", this.politicalData);
     console.log("calling the update chart method");
     that.updateChart(this.politicalData, this.toggleCounter);
 
-
+    // click functionality for the toggle
+    let toggleSwitch= d3.select("#toggle");
+    toggleSwitch.on("change", function(d){
+      console.log("the toggle was updated");
+    })
 
   }
-
 
   updateChart(politicalData, toggleCounter)
   {
