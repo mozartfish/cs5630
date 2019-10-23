@@ -65,27 +65,34 @@ class Chart {
     console.log("The data is", this.politicalData);
 
     // Determine the min and max values for the political scale domain
-    let politicalScaleMin = this.findMinValue(this.politicalData, this.position);
-    let politicalScaleMax = this.findMaxValue(this.politicalData, this.position);
+    let politicalScaleMin = this.findMinValue(
+      this.politicalData,
+      this.position
+    );
+    let politicalScaleMax = this.findMaxValue(
+      this.politicalData,
+      this.position
+    );
 
     // create the SVG
     // console.log("creating the svg for the chart");
     let chartSVG = d3.select("#chartView").append("svg");
     chartSVG
-      .attr("width", this.width + this.margins.left + this.margins.right)
-      .attr("height", this.height + this.margins.top + this.margins.bottom)
+      .attr("width", 2 * (this.width + this.margins.left + this.margins.right))
+      .attr("height", 2 * (this.height + this.margins.top + this.margins.bottom))
       .attr("id", "chartSVG");
-    
+
     // create a scale
     // console.log("creating the scale");
     // console.log("the value of politicalScaleMin is ", politicalScaleMin);
     // console.log("the value of politicalScaleMax is", politicalScaleMax);
     // console.log("the value of the width is", this.width);
 
-    this.politicalScale = d3.scaleLinear()
-                            .domain([politicalScaleMin, politicalScaleMax])
-                            .range([0, this.width])
-                            .nice();
+    this.politicalScale = d3
+      .scaleLinear()
+      .domain([politicalScaleMin, politicalScaleMax])
+      .range([0, this.width])
+      .nice();
     //console.log("the value of this.political scale is", this.politicalScale);
 
     // test the political scale
@@ -93,124 +100,128 @@ class Chart {
     // console.log("the mapping of", politicalScaleMax, "is", this.politicalScale(politicalScaleMax));
 
     // console.log("creating an axis");
-    let politicalScaleXAxis = d3.axisTop(this.politicalScale)
-                                .tickFormat(d => Math.abs(d));
-                                // .tickFormat(function(d){
-                                //   console.log("the value of d is", d);
-                                //   return Math.abs(d);
-                                // });
+    let politicalScaleXAxis = d3
+      .axisTop(this.politicalScale)
+      .tickFormat(d => Math.abs(d));
+    // .tickFormat(function(d){
+    //   console.log("the value of d is", d);
+    //   return Math.abs(d);
+    // });
 
     // append a group to the svg for the scale
     // console.log("created an svg group");
-    let svgGroup = chartSVG.append("g")
-            .attr("class", "wrapper-group");
+    let svgGroup = chartSVG.append("g").attr("class", "wrapper-group");
 
-    svgGroup.append("g")
-            .attr("transform", "translate(20,80)")
-            .attr("class", "x-Axis")
-            .call(politicalScaleXAxis);
-    
-     // Create a set containing all the categories
-     let categoriesList = this.accessData(this.politicalData, this.category);
-     console.log("The category list is", categoriesList);
+    svgGroup
+      .append("g")
+      .attr("transform", "translate(20,150)")
+      .attr("class", "x-Axis")
+      .call(politicalScaleXAxis);
+
+    // Create a set containing all the categories
+    let categoriesList = this.accessData(this.politicalData, this.category);
+    console.log("The category list is", categoriesList);
 
     // create the category scale
-    this.categoryScale = d3.scaleOrdinal()
-                           .domain(categoriesList)
-                           .range(d3.schemeTableau10);
-                          //  .range(["#00693e", "#ffff00", "#c8a2c8", "#ff0031", "#0080ff", "#ff4f00"]);
-    
+    this.categoryScale = d3
+      .scaleOrdinal()
+      .domain(categoriesList)
+      .range(d3.schemeTableau10);
   }
 
   /**
    * Function for calculating the max value for different properties
    * @param {*} data - the project data
-   * @param {*} attribute - a particular property of the data 
+   * @param {*} attribute - a particular property of the data
    */
-  findMaxValue(data, attribute) 
-  {
-      let maxValueList = [];
-      data.forEach(element => {
-        let value = element[attribute];
-        maxValueList.push(value);
-      });
-      //console.log("The max value list for", attribute, "is", maxValueList);
-      let maxValue = d3.max(maxValueList);
-      // console.log("The max value for", attribute, "is", maxValue);
+  findMaxValue(data, attribute) {
+    let maxValueList = [];
+    data.forEach(element => {
+      let value = element[attribute];
+      maxValueList.push(value);
+    });
+    //console.log("The max value list for", attribute, "is", maxValueList);
+    let maxValue = d3.max(maxValueList);
+    // console.log("The max value for", attribute, "is", maxValue);
 
-      return maxValue;
+    return maxValue;
   }
-    
-    /**
-     * Function for calculating the min value for different properties
-     * @param {*} data - the project data
-     * @param {*} attribute - a particular property of the data
-     */
-    findMinValue(data, attribute) 
-    {
-      let minValueList = [];
-      data.forEach(element => {
-        let value = element[attribute];
-        minValueList.push(value);
-      });
-      //console.log("The min value list for", attribute, "is", minValueList);
-      let minValue = d3.min(minValueList);
-      // console.log("The min value for", attribute, "is", minValue);
 
-      return minValue;
-    }
+  /**
+   * Function for calculating the min value for different properties
+   * @param {*} data - the project data
+   * @param {*} attribute - a particular property of the data
+   */
+  findMinValue(data, attribute) {
+    let minValueList = [];
+    data.forEach(element => {
+      let value = element[attribute];
+      minValueList.push(value);
+    });
+    //console.log("The min value list for", attribute, "is", minValueList);
+    let minValue = d3.min(minValueList);
+    // console.log("The min value for", attribute, "is", minValue);
 
-    /**
-     * Function for gathering the different properties of the data without duplicates
-     * @param {*} data - the project data
-     * @param {*} attribute - a particular property of the data 
-     */
-    accessData(data, attribute)
-    {
-      let attributeValueSet = new Set();
-      let attributeValueList = [];
-      data.forEach(element => {
-        let value = element[attribute];
-        attributeValueSet.add(value);
-      });
+    return minValue;
+  }
 
-      attributeValueSet.forEach(element => {
-        attributeValueList.push(element)
-      });
-      //console.log("The attribute value list is", attributeValueSet);
-      //return attributeValueSet;
-      return attributeValueList;
-    }
+  /**
+   * Function for gathering the different properties of the data without duplicates
+   * @param {*} data - the project data
+   * @param {*} attribute - a particular property of the data
+   */
+  accessData(data, attribute) {
+    let attributeValueSet = new Set();
+    let attributeValueList = [];
+    data.forEach(element => {
+      let value = element[attribute];
+      attributeValueSet.add(value);
+    });
+
+    attributeValueSet.forEach(element => {
+      attributeValueList.push(element);
+    });
+    //console.log("The attribute value list is", attributeValueSet);
+    //return attributeValueSet;
+    return attributeValueList;
+  }
 
   /**
    * Function for drawing the the swarm chart
    */
-  drawChart()
-  {
+  drawChart() {
     console.log("Entered the draw chart function");
 
     // create that to access the functions and variables that have this on the front
     let that = this;
 
-    console.log("The data in the draw chart function is", this.politicalData)
+    console.log("The data in the draw chart function is", this.politicalData);
 
     // create scale for the circle size
     console.log("creating the circleScale scale");
-    const circleScale = d3.scaleLinear()
-                          .domain([d3.min(this.politicalData.map(d => +d.total)), d3.max(this.politicalData.map(d => +d.total))])
-                          .range([3, 12]);
+    const circleScale = d3
+      .scaleLinear()
+      .domain([
+        d3.min(this.politicalData.map(d => +d.total)),
+        d3.max(this.politicalData.map(d => +d.total))
+      ])
+      .range([3, 12]);
     // create the circles
     console.log("create the circles");
 
-    let group = d3.select("#chartView").select("#chartSVG").select(".wrapper-group").append("g");
-    group.attr("class", "circle-group")
-         .attr("transform", "translate(18, 180)");
-    let circles = group.selectAll("circle")
-         .data(that.politicalData)
-         .join("circle")
-         .classed("bubbles", true)
-         .attr("id", d => d.category);
-    
+    let group = d3
+      .select("#chartView")
+      .select("#chartSVG")
+      .select(".wrapper-group")
+      .append("g");
+    group.attr("class", "circle-group").attr("transform", "translate(18, 350)");
+    let circles = group
+      .selectAll("circle")
+      .data(that.politicalData)
+      .join("circle")
+      .classed("bubbles", true)
+      .attr("id", d => d.category);
+
     circles.attr("r", d => circleScale(d.total));
     circles.attr("cx", d => d.sourceX);
     circles.attr("cy", d => d.sourceY);
