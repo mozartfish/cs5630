@@ -75,50 +75,38 @@ class Chart {
     );
 
     // create the SVG
-    // console.log("creating the svg for the chart");
     let chartSVG = d3.select("#chartView").append("svg");
     chartSVG
       .attr("width", 2 * (this.width + this.margins.left + this.margins.right))
-      .attr("height", 2 * (this.height + this.margins.top + this.margins.bottom))
+      .attr(
+        "height",
+        2 * (this.height + this.margins.top + this.margins.bottom)
+      )
       .attr("id", "chartSVG");
 
-    // create a scale
-    // console.log("creating the scale");
-    // console.log("the value of politicalScaleMin is ", politicalScaleMin);
-    // console.log("the value of politicalScaleMax is", politicalScaleMax);
-    // console.log("the value of the width is", this.width);
-
+    // create the scale for the political axis
     this.politicalScale = d3
       .scaleLinear()
       .domain([politicalScaleMin, politicalScaleMax])
       .range([0, this.width])
       .nice();
-    //console.log("the value of this.political scale is", this.politicalScale);
 
-    // test the political scale
-    // console.log("the mapping of", politicalScaleMin, "is", this.politicalScale(politicalScaleMin));
-    // console.log("the mapping of", politicalScaleMax, "is", this.politicalScale(politicalScaleMax));
-
-    // console.log("creating an axis");
+    // create the political party axis
     let politicalScaleXAxis = d3
       .axisTop(this.politicalScale)
       .tickFormat(d => Math.abs(d));
-    // .tickFormat(function(d){
-    //   console.log("the value of d is", d);
-    //   return Math.abs(d);
-    // });
 
-    // append a group to the svg for the scale
-    // console.log("created an svg group");
+    // group for the svg and organizing stuff on the canvas
     let svgGroup = chartSVG.append("g").attr("class", "wrapper-group");
 
+    // append a group for the political axis
     svgGroup
       .append("g")
       .attr("transform", "translate(20,150)")
       .attr("class", "x-Axis")
       .call(politicalScaleXAxis);
 
-    // Create a set containing all the categories
+    // Create a list (in the format of a set) for determining the domain for the category scale
     let categoriesList = this.accessData(this.politicalData, this.category);
     console.log("The category list is", categoriesList);
 
@@ -140,10 +128,7 @@ class Chart {
       let value = element[attribute];
       maxValueList.push(value);
     });
-    //console.log("The max value list for", attribute, "is", maxValueList);
     let maxValue = d3.max(maxValueList);
-    // console.log("The max value for", attribute, "is", maxValue);
-
     return maxValue;
   }
 
@@ -158,10 +143,7 @@ class Chart {
       let value = element[attribute];
       minValueList.push(value);
     });
-    //console.log("The min value list for", attribute, "is", minValueList);
     let minValue = d3.min(minValueList);
-    // console.log("The min value for", attribute, "is", minValue);
-
     return minValue;
   }
 
@@ -177,12 +159,9 @@ class Chart {
       let value = element[attribute];
       attributeValueSet.add(value);
     });
-
     attributeValueSet.forEach(element => {
       attributeValueList.push(element);
     });
-    //console.log("The attribute value list is", attributeValueSet);
-    //return attributeValueSet;
     return attributeValueList;
   }
 
@@ -206,6 +185,7 @@ class Chart {
         d3.max(this.politicalData.map(d => +d.total))
       ])
       .range([3, 12]);
+
     // create the circles
     console.log("create the circles");
 
