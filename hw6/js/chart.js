@@ -142,7 +142,7 @@ class Chart {
     this.categoryScale = d3
       .scaleOrdinal()
       .domain(categoriesList)
-      .range(d3.schemeTableau10);
+      .range(d3.schemeTableau10); // color scheme chosen in honor of Pat Hanrahan after his inspiring lectures
   }
 
   /**
@@ -222,7 +222,7 @@ class Chart {
       .select("#chartSVG")
       .select(".wrapper-group")
       .append("g");
-    group.attr("class", "circle-group").attr("transform", "translate(18, 350)");
+    group.attr("class", "circle-group").attr("transform", "translate(18, 250)");
     let circles = group
       .selectAll("circle")
       .data(that.politicalData)
