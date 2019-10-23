@@ -102,7 +102,7 @@ class Chart {
     // group for the Grouped by Topic Label
     let groupByTopicGroup = svgGroup.append("g")
                                     .attr("class", "groupByTopic")
-                                    .attr("transform", "translate(45, 32)");
+                                    .attr("transform", "translate(45, 36)");
 
     // create the group by topic label 
     console.log("creating the group by topic text");
