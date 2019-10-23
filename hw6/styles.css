@@ -30,6 +30,11 @@
   font-size: 25px;
   font-weight: 700;
 }
+.groupByTopic {
+  font-family: "Robot", sans-serif;
+  font-size: 15px;
+  font-weight: 200;
+}
 
 /*
 Toggle CSS Article: https://www.w3schools.com/howto/howto_css_switch.asp
