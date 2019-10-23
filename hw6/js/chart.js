@@ -112,12 +112,13 @@ class Chart {
     
      // Create a set containing all the categories
      let categoriesList = this.accessData(this.politicalData, this.category);
-    //  console.log("The category list is", categoriesList);
+     console.log("The category list is", categoriesList);
 
     // create the category scale
     this.categoryScale = d3.scaleOrdinal()
                            .domain(categoriesList)
-                           .range(["#00693e", "#ffff00", "#c8a2c8", "#ff0031", "#0080ff", "#ff4f00"]);
+                           .range(d3.schemeTableau10);
+                          //  .range(["#00693e", "#ffff00", "#c8a2c8", "#ff0031", "#0080ff", "#ff4f00"]);
     
   }
 
@@ -198,30 +199,21 @@ class Chart {
     const circleScale = d3.scaleLinear()
                           .domain([d3.min(this.politicalData.map(d => +d.total)), d3.max(this.politicalData.map(d => +d.total))])
                           .range([3, 12]);
-    
-    // calculate the min and max for  source x
-    console.log("calculating the min and max for source x");
-    let sourceXMin = that.findMinValue(that.politicalData, that.sourceX);
-    let sourceXMax = that.findMaxValue(that.politicalData, that.sourceX);
-
-    let sourceYMin = that.findMinValue(that.politicalData, that.sourceY);
-    let sourceYMax = that.findMaxValue(that.politicalData, that.sourceY);
-
-    console.log("the value for sourceX min is", sourceXMin);
-    console.log("the value for sourceX max is", sourceXMax);
-
-    console.log("the value for sourceY min is", sourceYMin);
-    console.log("the value for sourceY max is", sourceYMax);
-
     // create the circles
     console.log("create the circles");
 
     let group = d3.select("#chartView").select("#chartSVG").select(".wrapper-group").append("g");
     group.attr("class", "circle-group")
+         .attr("transform", "translate(18, 180)");
     let circles = group.selectAll("circle")
          .data(that.politicalData)
          .join("circle")
          .classed("bubbles", true)
          .attr("id", d => d.category);
+    
+    circles.attr("r", d => circleScale(d.total));
+    circles.attr("cx", d => d.sourceX);
+    circles.attr("cy", d => d.sourceY);
+    circles.attr("fill", d => that.categoryScale(d.category));
   }
 }
