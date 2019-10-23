@@ -216,10 +216,12 @@ class Chart {
     // create the circles
     console.log("create the circles");
 
-    let group = d3.select("#chartView").select("#chartSVG").select(".wrapper-group");
-    group.selectAll("circle")
+    let group = d3.select("#chartView").select("#chartSVG").select(".wrapper-group").append("g");
+    group.attr("class", "circle-group")
+    let circles = group.selectAll("circle")
          .data(that.politicalData)
          .join("circle")
+         .classed("bubbles", true)
          .attr("id", d => d.category);
   }
 }
