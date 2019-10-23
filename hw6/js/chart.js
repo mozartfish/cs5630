@@ -216,6 +216,10 @@ class Chart {
     // create the circles
     console.log("create the circles");
 
-    let group = d3.select("#chartView").select("#ChartSVG")
+    let group = d3.select("#chartView").select("#chartSVG").select(".wrapper-group");
+    group.selectAll("circle")
+         .data(that.politicalData)
+         .join("circle")
+         .attr("id", d => d.category);
   }
 }
