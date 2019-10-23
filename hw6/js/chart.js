@@ -55,6 +55,10 @@ class Chart {
      * Instance variable for indexing into the total property of the data
      */
     this.total = "total";
+    /**
+     * Instance variable for determining whether to open or close the individual data for the categories
+     */
+    this.toggleCounter = 0;
   }
 
   /**
@@ -142,7 +146,7 @@ class Chart {
     this.categoryScale = d3
       .scaleOrdinal()
       .domain(categoriesList)
-      .range(d3.schemeTableau10); // color scheme chosen in honor of Pat Hanrahan after his inspiring lectures
+      .range(d3.schemeTableau10); // color scheme chosen in honor of Pat Hanrahan after his inspiring lectures at the 2019 Organick Lecture Series
   }
 
   /**
@@ -202,37 +206,52 @@ class Chart {
     // create that to access the functions and variables that have this on the front
     let that = this;
 
-    console.log("The data in the draw chart function is", this.politicalData);
+    //console.log("The data in the draw chart function is", this.politicalData);
+    console.log("calling the update chart method");
+    that.updateChart(this.politicalData, this.toggleCounter);
+
+
+
+  }
+
+
+  updateChart(politicalData, toggleCounter)
+  {
+    console.log("entered the update function");
+    console.log("the value of the data is", politicalData);
+    console.log("the value of the toggle counter is", toggleCounter);
 
     // create scale for the circle size
     //console.log("creating the circleScale scale");
     const circleScale = d3
       .scaleLinear()
       .domain([
-        d3.min(this.politicalData.map(d => +d.total)),
-        d3.max(this.politicalData.map(d => +d.total))
+        d3.min(politicalData.map(d => +d.total)),
+        d3.max(politicalData.map(d => +d.total))
       ])
       .range([3, 12]);
 
-    // create the circles
-    //console.log("create the circles");
-
-    let group = d3
+      let group = d3
       .select("#chartView")
       .select("#chartSVG")
       .select(".wrapper-group")
       .append("g");
     group.attr("class", "circle-group").attr("transform", "translate(18, 250)");
+
     let circles = group
       .selectAll("circle")
-      .data(that.politicalData)
+      .data(politicalData)
       .join("circle")
       .classed("bubbles", true)
       .attr("id", d => d.category);
 
-    circles.attr("r", d => circleScale(d.total));
-    circles.attr("cx", d => d.sourceX);
-    circles.attr("cy", d => d.sourceY);
-    circles.attr("fill", d => that.categoryScale(d.category));
+      circles.attr("r", d => circleScale(d.total));
+      if (toggleCounter === 0)
+      {
+        circles.attr("cx", d => d.sourceX);
+        circles.attr("cy", d => d.sourceY);
+      }
+
+      circles.attr("fill", d => this.categoryScale(d.category));
   }
 }
