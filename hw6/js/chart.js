@@ -222,6 +222,27 @@ class Chart {
       ])
       .range([3, 12]);
 
+    // group for the chart line
+    let lineGroup = d3
+      .select("#chartView")
+      .select("#chartSVG")
+      .select(".wrapper-group")
+      .append("g");
+    lineGroup
+      .attr("class", "line-group")
+      .attr("transform", "translate(17, 244)");
+
+    // the line for the chart
+    let chartLine = lineGroup.append("line");
+    chartLine
+      .attr("x1", 412.5)
+      .attr("y1", -80)
+      .attr("x2", 412.5)
+      .attr("y2", 35)
+      .attr("stroke", "black")
+      .attr("id", "chartLine")
+      .classed("swarmLine", true);
+
     // group for the circles
     let circleGroup = d3
       .select("#chartView")
@@ -230,7 +251,7 @@ class Chart {
       .append("g");
     circleGroup
       .attr("class", "circle-group")
-      .attr("transform", "translate(18, 250)");
+      .attr("transform", "translate(17, 224)");
 
     // circles encoding the data
     let circles = circleGroup
@@ -243,18 +264,6 @@ class Chart {
     circles.attr("cx", d => d.sourceX);
     circles.attr("cy", d => d.sourceY);
     circles.attr("fill", d => this.categoryScale(d.category));
-
-    // group for the chart line
-    let lineGroup = d3
-      .select("#chartView")
-      .select("#chartSVG")
-      .select(".wrapper-group")
-      .append("g");
-    lineGroup
-      .attr("class", "line-group")
-      .attr("transform", "translate(18, 250");
-
-    // the line for the chart
 
     // click functionality for the toggle
     // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
@@ -284,9 +293,16 @@ class Chart {
         .duration(500)
         .attr("cx", d => d.sourceX)
         .attr("cy", d => d.sourceY);
-
       swarmCircles.classed("category", false);
       swarmCircles.classed("swarm", true);
+
+      let swarmLine = d3.select("line");
+      swarmLine
+        .transition()
+        .duration(500)
+        .attr("y2", 280);
+      swarmLine.classed("categoryLine", false);
+      swarmLine.classed("swarmLine", true);
     } else {
       let categoryCircles = d3.selectAll("circle");
       categoryCircles
@@ -296,6 +312,14 @@ class Chart {
         .attr("cy", d => d.moveY);
       categoryCircles.classed("swarm", false);
       categoryCircles.classed("category", true);
+
+      let categoryLine = d3.select("line");
+      categoryLine
+        .transition()
+        .duration()
+        .attr("y2", 5 * (this.height + this.margins.top + this.margins.bottom));
+      categoryLine.classed("swarmLine", false);
+      categoryLine.classed("categoryLine", true);
     }
   }
 }
