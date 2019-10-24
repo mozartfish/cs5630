@@ -138,6 +138,10 @@ class Chart {
       .attr("class", "x-Axis")
       .call(politicalScaleXAxis);
 
+      // get rid of the bar on top of the numbers for the axis
+      // Article on removing the bar for the axis: https://observablehq.com/@d3/line-with-missing-data
+      d3.select(".x-Axis").select(".domain").remove();
+
     // Create a list (in the format of a set) for determining the domain for the category scale
     let categoriesList = this.accessData(this.politicalData, this.category);
     //console.log("The category list is", categoriesList);
@@ -206,14 +210,25 @@ class Chart {
     // create that to access the functions and variables that have this on the front
     let that = this;
     console.log("calling the update chart method");
-    that.updateChart(this.politicalData, this.toggleCounter);
 
+    that.updateChart(that.politicalData, that.toggleCounter);
+   
     // click functionality for the toggle
+    // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
+    // Article on checkboxes: https://developer.mozilla.org/en-US/docs/Archive/Mozilla/XUL/checkbox
     let toggleSwitch= d3.select("#toggle");
-    toggleSwitch.on("change", function(d){
-      console.log("the toggle was updated");
-    })
-
+    toggleSwitch.on("change", function(){
+      if (that.toggleCounter === 0)
+      {
+        that.toggleCounter = 1;
+        that.updateChart(that.politicalData, that.toggleCounter);
+      }
+      else
+      {
+        that.toggleCounter = 0;
+        that.updateChart(that.politicalData, that.toggleCounter);
+      }
+    });
   }
 
   updateChart(politicalData, toggleCounter)
@@ -239,20 +254,26 @@ class Chart {
       .append("g");
     group.attr("class", "circle-group").attr("transform", "translate(18, 250)");
 
-    let circles = group
-      .selectAll("circle")
-      .data(politicalData)
-      .join("circle")
-      .classed("bubbles", true)
-      .attr("id", d => d.category);
-
+    if (toggleCounter === 0)
+    {
+      let circles = group.selectAll("circle")
+                         .data(politicalData)
+                         .join("circle")
+                         .classed("swarm", true)
+                         .attr("id", d => d.category);
       circles.attr("r", d => circleScale(d.total));
-      if (toggleCounter === 0)
-      {
-        circles.attr("cx", d => d.sourceX);
-        circles.attr("cy", d => d.sourceY);
-      }
-
+      circles.attr("cx", d => d.sourceX);
+      circles.attr("cy", d => d.sourceY);
       circles.attr("fill", d => this.categoryScale(d.category));
+
+    }
+    else
+    {
+      d3.selectAll("circle")
+        .transition()
+        .duration(500)
+        .attr("cx", d => d.moveX)
+        .attr("cy", d => d.moveY);    
+    }
   }
 }
