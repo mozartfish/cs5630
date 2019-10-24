@@ -377,6 +377,15 @@ class Chart {
       educationText.text("Education")
                .classed("categoryLabel", true);
 
+      // add the health label
+      let healthGroup = categoryGroup.append("g");
+      healthGroup.attr("transform", "translate(" + that.margins.right + ", 710)")
+                .classed("categoryGroup", true);
+      let healthText = healthGroup.append("text");
+      healthText.text("Health care")
+               .classed("categoryLabel", true);
+  
+
     }
   }
 }
