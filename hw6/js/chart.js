@@ -266,6 +266,62 @@ class Chart {
     circles.attr("cy", d => d.sourceY);
     circles.attr("fill", d => this.categoryScale(d.category));
 
+    // group for the labels
+    let categoryGroup = d3.select("#chartView")
+    .select("#chartSVG")
+    .select(".wrapper-group")
+    .append("g")
+    .attr("transform", "translate(0, -890)")
+    .attr("id", "category-wrapper");
+
+    // add the economic label
+    let economicGroup = categoryGroup.append("g");
+    economicGroup.attr("transform", "translate(" + that.margins.right + ", 180)")
+                  .classed("economicGroup", true);
+    let economyText = economicGroup.append("text");
+    economyText.text("Economy/Fiscal Issues")
+               .classed("categoryLabel", true);
+    
+    // add the energy label
+    let energyGroup = categoryGroup.append("g");
+    energyGroup.attr("transform", "translate(" + that.margins.right + ", 305)")
+               .classed("energyGroup", true);
+    let energyText = energyGroup.append("text");
+        energyText.text("Energy/Environment")
+        .classed("categoryLabel", true);
+
+    // add the crime label
+    let crimeGroup = categoryGroup.append("g");
+    crimeGroup.attr("transform", "translate(" + that.margins.right + ", 440)")
+              .classed("crimeGroup", true);
+    let crimeText = crimeGroup.append("text");
+    crimeText.text("Crime/Justice")
+             .classed("categoryLabel", true);
+
+    // add the education label
+    let educationGroup = categoryGroup.append("g");
+    educationGroup.attr("transform", "translate(" + that.margins.right + ", 580)")
+              .classed("educationGroup", true);
+    let educationText = educationGroup.append("text");
+    educationText.text("Education")
+             .classed("categoryLabel", true);
+
+    // add the health label
+    let healthGroup = categoryGroup.append("g");
+    healthGroup.attr("transform", "translate(" + that.margins.right + ", 710)")
+              .classed("healthGroup", true);
+    let healthText = healthGroup.append("text");
+    healthText.text("Health Care")
+             .classed("categoryLabel", true);
+
+    // add the mental health label
+    let mentalHealthGroup = categoryGroup.append("g");
+    mentalHealthGroup.attr("transform", "translate(" + that.margins.right + ", 850)")
+              .classed("mentalHealthGroup", true);
+    let mentalHealthText = mentalHealthGroup.append("text");
+    mentalHealthText.text("Mental Health/Substance Abuse")
+             .classed("categoryLabel", true);
+
     // click functionality for the toggle
     // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
     // Article on checkboxes: https://developer.mozilla.org/en-US/docs/Archive/Mozilla/XUL/checkbox
@@ -291,13 +347,6 @@ class Chart {
 
     // this statement executes the swarmchart view
     if (toggleCounter === 0) {
-
-      // remove all the labels from the category chart
-      let categoryLabels = d3.select("#category-wrapper")
-      categoryLabels.transition()
-                    .duration(500)
-                    .remove();
-
       // update the chart line
       let swarmLine = d3.select("#chartLine");
       swarmLine.transition()
@@ -315,10 +364,17 @@ class Chart {
         .attr("cy", d => d.sourceY);
       swarmCircles.classed("category", false);
       swarmCircles.classed("swarm", true);
+
+         // update the labels group
+         let categoryLabels = d3.select("#category-wrapper");
+         categoryLabels.transition()
+                       .duration(300)
+                       .attr("transform", "translate(0, -3000)")
+                       .classed("swarmLabels", true);
+   
     } 
     // this statement executes the expanded category chart view
     else {
-
       // update the chart line 
       let categoryLine = d3.select("#chartLine");
       categoryLine.transition()
@@ -339,59 +395,13 @@ class Chart {
 
       // group for all the labels for the data
       console.log("the categories list", that.categoriesList);
-      let categoryGroup = d3.select("#chartView")
-      .select("#chartSVG")
-      .select(".wrapper-group")
-      .append("g")
-      .attr("id", "category-wrapper");
 
-      // add the economic label
-      let economicGroup = categoryGroup.append("g");
-      economicGroup.attr("transform", "translate(" + that.margins.right + ", 180)")
-                    .classed("categoryGroup", true);
-      let economyText = economicGroup.append("text");
-      economyText.text("Economy/Fiscal Issues")
-                 .classed("categoryLabel", true);
-      
-      // add the energy label
-      let energyGroup = categoryGroup.append("g");
-      energyGroup.attr("transform", "translate(" + that.margins.right + ", 305)")
-                 .classed("categoryGroup", true);
-      let energyText = energyGroup.append("text");
-          energyText.text("Energy/Environment")
-          .classed("categoryLabel", true);
-
-      // add the crime label
-      let crimeGroup = categoryGroup.append("g");
-      crimeGroup.attr("transform", "translate(" + that.margins.right + ", 440)")
-                .classed("categoryGroup", true);
-      let crimeText = crimeGroup.append("text");
-      crimeText.text("Crime/Justice")
-               .classed("categoryLabel", true);
-
-      // add the education label
-      let educationGroup = categoryGroup.append("g");
-      educationGroup.attr("transform", "translate(" + that.margins.right + ", 580)")
-                .classed("categoryGroup", true);
-      let educationText = educationGroup.append("text");
-      educationText.text("Education")
-               .classed("categoryLabel", true);
-
-      // add the health label
-      let healthGroup = categoryGroup.append("g");
-      healthGroup.attr("transform", "translate(" + that.margins.right + ", 710)")
-                .classed("categoryGroup", true);
-      let healthText = healthGroup.append("text");
-      healthText.text("Health Care")
-               .classed("categoryLabel", true);
-
-      // add the mental health label
-      let mentalHealthGroup = categoryGroup.append("g");
-      mentalHealthGroup.attr("transform", "translate(" + that.margins.right + ", 850)")
-                .classed("categoryGroup", true);
-      let mentalHealthText = mentalHealthGroup.append("text");
-      mentalHealthText.text("Mental Health/Substance Abuse")
-               .classed("categoryLabel", true);
+            // update the labels group
+            let categoryLabels = d3.select("#category-wrapper");
+            categoryLabels.transition()
+                          .duration(300)
+                          .attr("transform", "translate(0, 5")
+                          .classed("categoryLabels", true);
     }
   }
 }
