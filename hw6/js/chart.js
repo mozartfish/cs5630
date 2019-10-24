@@ -223,15 +223,6 @@ class Chart {
       .range([3, 12]);
 
     // group for the chart line
-    // let lineGroup = d3
-    //   .select("#chartView")
-    //   .select("#chartSVG")
-    //   .select(".wrapper-group")
-    //   .append("g");
-    // lineGroup
-    //   .attr("class", "line-group")
-    //   .attr("transform", "translate(17, 244)");
-
     let lineGroup = d3.select("#chartView")
                       .select("#chartSVG")
                       .select(".wrapper-group")
@@ -239,6 +230,7 @@ class Chart {
     lineGroup.attr("class", "line-group");
     lineGroup.attr("transform", "translate(17, 244)");
 
+    // line for the chart
     let chartLine = lineGroup.append("line");
     chartLine.attr("x1", 412.5)
              .attr("y1", -80)
@@ -247,16 +239,6 @@ class Chart {
              .attr("stroke", "black")
              .attr("id", "chartLine")
              .classed("swarmLine", true);
-
-    // the line for the chart
-    // let chartLine = lineGroup.append("line");
-    // chartLine
-    //   .attr("x1", 412.5)
-    //   .attr("y1", -80)
-    //   .attr("x2", 412.5)
-    //   .attr("y2", 35)
-    //   .attr("stroke", "black")
-    //   .classed("swarmLine", true);
 
     // group for the circles
     let circleGroup = d3
@@ -301,6 +283,13 @@ class Chart {
    */
   updateChart(toggleCounter) {
     if (toggleCounter === 0) {
+      let swarmLine = d3.select("#chartLine");
+      swarmLine.transition()
+               .duration(500)
+               .attr("y2", 35);
+      swarmLine.classed("categoryLine", false);
+      swarmLine.classed("swarmLine", true);
+
       let swarmCircles = d3.selectAll("circle");
       swarmCircles
         .transition()
@@ -309,14 +298,6 @@ class Chart {
         .attr("cy", d => d.sourceY);
       swarmCircles.classed("category", false);
       swarmCircles.classed("swarm", true);
-
-      // let swarmLine = d3.select("line");
-      // swarmLine
-      //   .transition()
-      //   .duration(500)
-      //   .attr("y2", 280);
-      // swarmLine.classed("categoryLine", false);
-      // swarmLine.classed("swarmLine", true);
     } else {
       let categoryLine = d3.select("#chartLine");
       categoryLine.transition()
