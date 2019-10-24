@@ -223,25 +223,40 @@ class Chart {
       .range([3, 12]);
 
     // group for the chart line
-    let lineGroup = d3
-      .select("#chartView")
-      .select("#chartSVG")
-      .select(".wrapper-group")
-      .append("g");
-    lineGroup
-      .attr("class", "line-group")
-      .attr("transform", "translate(17, 244)");
+    // let lineGroup = d3
+    //   .select("#chartView")
+    //   .select("#chartSVG")
+    //   .select(".wrapper-group")
+    //   .append("g");
+    // lineGroup
+    //   .attr("class", "line-group")
+    //   .attr("transform", "translate(17, 244)");
+
+    let lineGroup = d3.select("#chartView")
+                      .select("#chartSVG")
+                      .select(".wrapper-group")
+                      .append("g");
+    lineGroup.attr("class", "line-group");
+    lineGroup.attr("transform", "translate(17, 244)");
+
+    let chartLine = lineGroup.append("line");
+    chartLine.attr("x1", 412.5)
+             .attr("y1", -80)
+             .attr("x2", 412.5)
+             .attr("y2", 35)
+             .attr("stroke", "black")
+             .attr("id", "chartLine")
+             .classed("swarmLine", true);
 
     // the line for the chart
-    let chartLine = lineGroup.append("line");
-    chartLine
-      .attr("x1", 412.5)
-      .attr("y1", -80)
-      .attr("x2", 412.5)
-      .attr("y2", 35)
-      .attr("stroke", "black")
-      .attr("id", "chartLine")
-      .classed("swarmLine", true);
+    // let chartLine = lineGroup.append("line");
+    // chartLine
+    //   .attr("x1", 412.5)
+    //   .attr("y1", -80)
+    //   .attr("x2", 412.5)
+    //   .attr("y2", 35)
+    //   .attr("stroke", "black")
+    //   .classed("swarmLine", true);
 
     // group for the circles
     let circleGroup = d3
@@ -272,20 +287,19 @@ class Chart {
     toggleSwitch.on("change", function() {
       if (that.toggleCounter === 0) {
         that.toggleCounter = 1;
-        that.updateChart(that.politicalData, that.toggleCounter);
+        that.updateChart(that.toggleCounter);
       } else {
         that.toggleCounter = 0;
-        that.updateChart(that.politicalData, that.toggleCounter);
+        that.updateChart(that.toggleCounter);
       }
     });
   }
 
   /**
    * Function that updates the chart based on the toggle selection
-   * @param {*} politicalData - the data for the project
    * @param {*} toggleCounter - a counter for keeping track of the toggle selection
    */
-  updateChart(politicalData, toggleCounter) {
+  updateChart(toggleCounter) {
     if (toggleCounter === 0) {
       let swarmCircles = d3.selectAll("circle");
       swarmCircles
@@ -296,14 +310,21 @@ class Chart {
       swarmCircles.classed("category", false);
       swarmCircles.classed("swarm", true);
 
-      let swarmLine = d3.select("line");
-      swarmLine
-        .transition()
-        .duration(500)
-        .attr("y2", 280);
-      swarmLine.classed("categoryLine", false);
-      swarmLine.classed("swarmLine", true);
+      // let swarmLine = d3.select("line");
+      // swarmLine
+      //   .transition()
+      //   .duration(500)
+      //   .attr("y2", 280);
+      // swarmLine.classed("categoryLine", false);
+      // swarmLine.classed("swarmLine", true);
     } else {
+      let categoryLine = d3.select("#chartLine");
+      categoryLine.transition()
+                  .duration(500)
+                  .attr("y2", 2 * (this.height + this.margins.top + this.margins.bottom));
+      categoryLine.classed("swarmLine", false);
+      categoryLine.classed("categoryLine", true);
+
       let categoryCircles = d3.selectAll("circle");
       categoryCircles
         .transition()
@@ -312,14 +333,6 @@ class Chart {
         .attr("cy", d => d.moveY);
       categoryCircles.classed("swarm", false);
       categoryCircles.classed("category", true);
-
-      let categoryLine = d3.select("line");
-      categoryLine
-        .transition()
-        .duration()
-        .attr("y2", 5 * (this.height + this.margins.top + this.margins.bottom));
-      categoryLine.classed("swarmLine", false);
-      categoryLine.classed("categoryLine", true);
     }
   }
 }
