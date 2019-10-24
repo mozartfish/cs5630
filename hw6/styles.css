@@ -31,9 +31,15 @@
   font-weight: 700;
 }
 .groupByTopic {
-  font-family: "Robot", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 15px;
   font-weight: 200;
+}
+.categoryLabel {
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  fill: grey;
 }
 
 /*
@@ -99,5 +105,4 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
 

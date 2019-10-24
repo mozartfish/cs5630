@@ -366,11 +366,12 @@ class Chart {
       swarmCircles.classed("swarm", true);
 
          // update the labels group
-         let categoryLabels = d3.select("#category-wrapper");
-         categoryLabels.transition()
+         let swarmLabels = d3.select("#category-wrapper");
+         swarmLabels.transition()
                        .duration(300)
-                       .attr("transform", "translate(0, -3000)")
-                       .classed("swarmLabels", true);
+                       .attr("transform", "translate(0, -3000)");
+         swarmLabels.classed("categoryLabels", false);
+         swarmLabels.classed("swarmLabels", true);
    
     } 
     // this statement executes the expanded category chart view
@@ -400,8 +401,10 @@ class Chart {
             let categoryLabels = d3.select("#category-wrapper");
             categoryLabels.transition()
                           .duration(300)
-                          .attr("transform", "translate(0, 5")
-                          .classed("categoryLabels", true);
+                          .attr("transform", "translate(0, 5)");
+            categoryLabels.classed("swarmLabels", false);
+            categoryLabels.classed("categoryLabels", true);
+            
     }
   }
 }
