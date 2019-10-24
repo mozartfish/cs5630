@@ -213,7 +213,7 @@ class Chart {
     let that = this;
     console.log("calling the update chart method");
 
-    // create the group and scale for the circles
+    // scale for the circle size
     const circleScale = d3
       .scaleLinear()
       .domain([
@@ -222,6 +222,7 @@ class Chart {
       ])
       .range([3, 12]);
 
+    // group for the circles
     let circleGroup = d3
       .select("#chartView")
       .select("#chartSVG")
@@ -230,6 +231,8 @@ class Chart {
     circleGroup
       .attr("class", "circle-group")
       .attr("transform", "translate(18, 250)");
+
+    // circles encoding the data
     let circles = circleGroup
       .selectAll("circle")
       .data(that.politicalData)
@@ -240,6 +243,18 @@ class Chart {
     circles.attr("cx", d => d.sourceX);
     circles.attr("cy", d => d.sourceY);
     circles.attr("fill", d => this.categoryScale(d.category));
+
+    // group for the chart line
+    let lineGroup = d3
+      .select("#chartView")
+      .select("#chartSVG")
+      .select(".wrapper-group")
+      .append("g");
+    lineGroup
+      .attr("class", "line-group")
+      .attr("transform", "translate(18, 250");
+
+    // the line for the chart
 
     // click functionality for the toggle
     // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
