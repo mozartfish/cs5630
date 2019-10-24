@@ -237,9 +237,6 @@ circles.attr("cy", d => d.sourceY);
 circles.attr("fill", d => this.categoryScale(d.category));
 
 
-
-
-    // that.updateChart(that.politicalData, that.toggleCounter);
    
     // click functionality for the toggle
     // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
@@ -261,27 +258,6 @@ circles.attr("fill", d => this.categoryScale(d.category));
 
   updateChart(politicalData, toggleCounter)
   {
-    console.log("entered the update function");
-    console.log("the value of the data is", politicalData);
-    console.log("the value of the toggle counter is", toggleCounter);
-
-    // create scale for the circle size
-    //console.log("creating the circleScale scale");
-    // const circleScale = d3
-    //   .scaleLinear()
-    //   .domain([
-    //     d3.min(politicalData.map(d => +d.total)),
-    //     d3.max(politicalData.map(d => +d.total))
-    //   ])
-    //   .range([3, 12]);
-
-    //   let group = d3
-    //   .select("#chartView")
-    //   .select("#chartSVG")
-    //   .select(".wrapper-group")
-    //   .append("g");
-    // group.attr("class", "circle-group").attr("transform", "translate(18, 250)");
-
     if (toggleCounter === 0)
     {
       let swarmCircles = d3.selectAll("circle");
