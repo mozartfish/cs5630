@@ -59,6 +59,10 @@ class Chart {
      * Instance variable for determining whether to open or close the individual data for the categories
      */
     this.toggleCounter = 0;
+    /**
+     * Instance variable for keeping track of the categories
+     */
+    this.categoriesList = null;
   }
 
   /**
@@ -145,13 +149,13 @@ class Chart {
       .remove();
 
     // Create a list (in the format of a set) for determining the domain for the category scale
-    let categoriesList = this.accessData(this.politicalData, this.category);
+    this.categoriesList = this.accessData(this.politicalData, this.category);
     //console.log("The category list is", categoriesList);
 
     // create the category scale
     this.categoryScale = d3
       .scaleOrdinal()
-      .domain(categoriesList)
+      .domain(this.categoriesList)
       .range(d3.schemeTableau10); // color scheme chosen in honor of Pat Hanrahan after his inspiring lectures at the 2019 Organick Lecture Series
   }
 
@@ -282,7 +286,19 @@ class Chart {
    * @param {*} toggleCounter - a counter for keeping track of the toggle selection
    */
   updateChart(toggleCounter) {
+    // set that to this to access functions and variables that have this on the front
+    let that = this;
+
+    // this statement executes the swarmchart view
     if (toggleCounter === 0) {
+
+      // remove all the labels from the category chart
+      let categoryLabels = d3.select("#category-wrapper")
+      categoryLabels.transition()
+                    .duration(500)
+                    .remove();
+
+      // update the chart line
       let swarmLine = d3.select("#chartLine");
       swarmLine.transition()
                .duration(500)
@@ -290,6 +306,7 @@ class Chart {
       swarmLine.classed("categoryLine", false);
       swarmLine.classed("swarmLine", true);
 
+      // update the chart circles
       let swarmCircles = d3.selectAll("circle");
       swarmCircles
         .transition()
@@ -298,14 +315,19 @@ class Chart {
         .attr("cy", d => d.sourceY);
       swarmCircles.classed("category", false);
       swarmCircles.classed("swarm", true);
-    } else {
+    } 
+    // this statement executes the expanded category chart view
+    else {
+
+      // update the chart line 
       let categoryLine = d3.select("#chartLine");
       categoryLine.transition()
                   .duration(500)
-                  .attr("y2", (2 * (this.height + this.margins.top + this.margins.bottom)) - 348);
+                  .attr("y2", (2 * (that.height + that.margins.top + that.margins.bottom)) - 348);
       categoryLine.classed("swarmLine", false);
       categoryLine.classed("categoryLine", true);
 
+      // update the chart circle
       let categoryCircles = d3.selectAll("circle");
       categoryCircles
         .transition()
@@ -314,6 +336,47 @@ class Chart {
         .attr("cy", d => d.moveY);
       categoryCircles.classed("swarm", false);
       categoryCircles.classed("category", true);
+
+      // group for all the labels for the data
+      console.log("the categories list", that.categoriesList);
+      let categoryGroup = d3.select("#chartView")
+      .select("#chartSVG")
+      .select(".wrapper-group")
+      .append("g")
+      .attr("id", "category-wrapper");
+
+      // add the economic label
+      let economicGroup = categoryGroup.append("g");
+      economicGroup.attr("transform", "translate(" + that.margins.right + ", 180)")
+                    .classed("categoryGroup", true);
+      let economyText = economicGroup.append("text");
+      economyText.text("Economy/fiscal issues")
+                 .classed("categoryLabel", true);
+      
+      // add the energy label
+      let energyGroup = categoryGroup.append("g");
+      energyGroup.attr("transform", "translate(" + that.margins.right + ", 305)")
+                 .classed("categoryGroup", true);
+      let energyText = energyGroup.append("text");
+          energyText.text("Energy/environment")
+          .classed("categoryLabel", true);
+
+      // add the crime label
+      let crimeGroup = categoryGroup.append("g");
+      crimeGroup.attr("transform", "translate(" + that.margins.right + ", 440)")
+                .classed("categoryGroup", true);
+      let crimeText = crimeGroup.append("text");
+      crimeText.text("Crime/justice")
+               .classed("categoryLabel", true);
+
+      // add the education label
+      let educationGroup = categoryGroup.append("g");
+      educationGroup.attr("transform", "translate(" + that.margins.right + ", 580)")
+                .classed("categoryGroup", true);
+      let educationText = educationGroup.append("text");
+      educationText.text("Education")
+               .classed("categoryLabel", true);
+
     }
   }
 }
