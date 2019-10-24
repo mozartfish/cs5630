@@ -265,6 +265,10 @@ class Chart {
     circles.attr("cx", d => d.sourceX);
     circles.attr("cy", d => d.sourceY);
     circles.attr("fill", d => this.categoryScale(d.category));
+    circles.on("mouseover", function(d)
+    {
+      console.log("you hovered over a circle with position", d.position);
+    })
 
     // group for the labels
     let categoryGroup = d3.select("#chartView")
