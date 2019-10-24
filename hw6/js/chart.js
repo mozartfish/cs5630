@@ -211,7 +211,35 @@ class Chart {
     let that = this;
     console.log("calling the update chart method");
 
-    that.updateChart(that.politicalData, that.toggleCounter);
+    // create the group and scale for the circles
+    const circleScale = d3
+    .scaleLinear()
+    .domain([
+      d3.min(that.politicalData.map(d => +d.total)),
+      d3.max(that.politicalData.map(d => +d.total))
+    ])
+    .range([3, 12]);
+
+    let group = d3
+    .select("#chartView")
+    .select("#chartSVG")
+    .select(".wrapper-group")
+    .append("g");
+  group.attr("class", "circle-group").attr("transform", "translate(18, 250)");
+  let circles = group.selectAll("circle")
+  .data(that.politicalData)
+  .join("circle")
+  .classed("swarm", true)
+  .attr("id", d => d.category);
+circles.attr("r", d => circleScale(d.total));
+circles.attr("cx", d => d.sourceX);
+circles.attr("cy", d => d.sourceY);
+circles.attr("fill", d => this.categoryScale(d.category));
+
+
+
+
+    // that.updateChart(that.politicalData, that.toggleCounter);
    
     // click functionality for the toggle
     // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
@@ -239,41 +267,41 @@ class Chart {
 
     // create scale for the circle size
     //console.log("creating the circleScale scale");
-    const circleScale = d3
-      .scaleLinear()
-      .domain([
-        d3.min(politicalData.map(d => +d.total)),
-        d3.max(politicalData.map(d => +d.total))
-      ])
-      .range([3, 12]);
+    // const circleScale = d3
+    //   .scaleLinear()
+    //   .domain([
+    //     d3.min(politicalData.map(d => +d.total)),
+    //     d3.max(politicalData.map(d => +d.total))
+    //   ])
+    //   .range([3, 12]);
 
-      let group = d3
-      .select("#chartView")
-      .select("#chartSVG")
-      .select(".wrapper-group")
-      .append("g");
-    group.attr("class", "circle-group").attr("transform", "translate(18, 250)");
+    //   let group = d3
+    //   .select("#chartView")
+    //   .select("#chartSVG")
+    //   .select(".wrapper-group")
+    //   .append("g");
+    // group.attr("class", "circle-group").attr("transform", "translate(18, 250)");
 
     if (toggleCounter === 0)
     {
-      let circles = group.selectAll("circle")
-                         .data(politicalData)
-                         .join("circle")
-                         .classed("swarm", true)
-                         .attr("id", d => d.category);
-      circles.attr("r", d => circleScale(d.total));
-      circles.attr("cx", d => d.sourceX);
-      circles.attr("cy", d => d.sourceY);
-      circles.attr("fill", d => this.categoryScale(d.category));
-
+      let swarmCircles = d3.selectAll("circle");
+        swarmCircles.transition()
+                    .duration(500)
+                    .attr("cx", d => d.sourceX)
+                    .attr("cy", d => d.sourceY);
+        
+        swarmCircles.classed("category", false);
+        swarmCircles.classed("swarm", true)
     }
     else
     {
-      d3.selectAll("circle")
-        .transition()
-        .duration(500)
-        .attr("cx", d => d.moveX)
-        .attr("cy", d => d.moveY);    
+      let categoryCircles = d3.selectAll("circle");
+      categoryCircles.transition()
+                     .duration(500)
+                     .attr("cx", d => d.moveX)
+                     .attr("cy", d => d.moveY);
+      categoryCircles.classed("swarm", false);
+      categoryCircles.classed("category", true);
     }
   }
 }
