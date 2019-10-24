@@ -350,7 +350,7 @@ class Chart {
       economicGroup.attr("transform", "translate(" + that.margins.right + ", 180)")
                     .classed("categoryGroup", true);
       let economyText = economicGroup.append("text");
-      economyText.text("Economy/fiscal issues")
+      economyText.text("Economy/Fiscal Issues")
                  .classed("categoryLabel", true);
       
       // add the energy label
@@ -358,7 +358,7 @@ class Chart {
       energyGroup.attr("transform", "translate(" + that.margins.right + ", 305)")
                  .classed("categoryGroup", true);
       let energyText = energyGroup.append("text");
-          energyText.text("Energy/environment")
+          energyText.text("Energy/Environment")
           .classed("categoryLabel", true);
 
       // add the crime label
@@ -366,7 +366,7 @@ class Chart {
       crimeGroup.attr("transform", "translate(" + that.margins.right + ", 440)")
                 .classed("categoryGroup", true);
       let crimeText = crimeGroup.append("text");
-      crimeText.text("Crime/justice")
+      crimeText.text("Crime/Justice")
                .classed("categoryLabel", true);
 
       // add the education label
@@ -382,10 +382,16 @@ class Chart {
       healthGroup.attr("transform", "translate(" + that.margins.right + ", 710)")
                 .classed("categoryGroup", true);
       let healthText = healthGroup.append("text");
-      healthText.text("Health care")
+      healthText.text("Health Care")
                .classed("categoryLabel", true);
-  
 
+      // add the mental health label
+      let mentalHealthGroup = categoryGroup.append("g");
+      mentalHealthGroup.attr("transform", "translate(" + that.margins.right + ", 850)")
+                .classed("categoryGroup", true);
+      let mentalHealthText = mentalHealthGroup.append("text");
+      mentalHealthText.text("Mental Health/Substance Abuse")
+               .classed("categoryLabel", true);
     }
   }
 }
