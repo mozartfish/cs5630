@@ -302,7 +302,7 @@ class Chart {
       let categoryLine = d3.select("#chartLine");
       categoryLine.transition()
                   .duration(500)
-                  .attr("y2", 2 * (this.height + this.margins.top + this.margins.bottom));
+                  .attr("y2", (2 * (this.height + this.margins.top + this.margins.bottom)) - 348);
       categoryLine.classed("swarmLine", false);
       categoryLine.classed("categoryLine", true);
 
