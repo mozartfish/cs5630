@@ -138,6 +138,21 @@ class Chart {
       .attr("class", "x-Axis")
       .call(politicalScaleXAxis);
 
+    // append a group for the line for the axis
+    let lineGroup = svgGroup.append("g")
+            .attr("transform", "translate(100, 150)")
+            .attr("class", "line-group");
+    
+    // append a line for the scale
+    lineGroup.append("line")
+             .attr("x1", 150)
+             .attr("y1", 500)
+             .attr("x2", 150)
+             .attr("y2", 1000)
+             .attr("stroke-width", 50);
+
+          
+
       // get rid of the bar on top of the numbers for the axis
       // Article on removing the bar for the axis: https://observablehq.com/@d3/line-with-missing-data
       d3.select(".x-Axis").select(".domain").remove();
@@ -256,6 +271,11 @@ circles.attr("fill", d => this.categoryScale(d.category));
     });
   }
 
+  /**
+   * Function that updates the chart based on the toggle selection
+   * @param {*} politicalData - the data for the project
+   * @param {*} toggleCounter - a counter for keeping track of the toggle selection
+   */
   updateChart(politicalData, toggleCounter)
   {
     if (toggleCounter === 0)
