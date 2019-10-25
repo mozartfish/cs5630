@@ -63,8 +63,15 @@ class Table{
          * Counter for sorting the total in ascending or descending order
          */
         this.totalCounter = 0;
+/**
+     * Instance variable for keeping track of the categories
+     */
+    this.categoriesList = null;
+        /**
+     * Instance variable for indexing into the category property of the data
+     */
+    this.category = "category";
     }
-
     /**
      * Function that sets up the table. Set up includes creating the scales, axes, and svgs for the categories.
      */
@@ -74,14 +81,9 @@ class Table{
         console.log("the value of the data for the table is", this.tableData);
 
         // create the scale for the frequency
-        console.log("creating the frequency scale");
-
         let frequencyList = this.calculateFrequency(this.tableData);
         let frequencyListMin = d3.min(frequencyList);
         let frequencyListMax = d3.max(frequencyList);
-        console.log("the frequency list is", frequencyList);
-        console.log("frequency list min", frequencyListMin);
-        console.log("frequency list max", frequencyListMax);
 
         this.frequencyScale = d3.scaleLinear()
                                 .domain([0.0, frequencyListMax])
@@ -112,9 +114,16 @@ class Table{
                                              .attr("transform", "translate(0, 21)");
         let percentagesAxis = d3.axisTop(this.percentagesScale).ticks(5).tickFormat(d => Math.abs(d));
         percentagesGroup.call(percentagesAxis);
-        
-       
 
+           // Create a list (in the format of a set) for determining the domain for the category scale
+    this.categoriesList = this.accessData(this.tableData, this.category);
+    console.log("categoryList", this.categoriesList);
+
+    // create the category scale
+    this.categoryScale = d3
+    .scaleOrdinal()
+    .domain(this.categoriesList)
+    .range(d3.schemeTableau10); // color scheme chosen in honor of Pat Hanrahan after his inspiring lectures at the 2019 Organick Lecture Series
     }
 
   /**
