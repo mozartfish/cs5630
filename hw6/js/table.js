@@ -127,6 +127,8 @@ class Table{
     this.categoriesList = this.accessData(this.tableData, this.category);
     console.log("categoryList", this.categoriesList);
 
+    console.log(this.frequencyScale(0.18));
+
     // create the category scale
     this.categoryScale = d3
     .scaleOrdinal()
@@ -168,10 +170,11 @@ class Table{
                                   .data(function(d){
                                       // Frequency Column
                                       let frequencyObject = {};
-                                      let frequencyValue = that.round(d.total / 50, 4);
+                                      let frequencyValue = d.total / 50;
                                       frequencyObject["frequency"] = frequencyValue;
                                       frequencyObject["name"] = "frequency";
                                       frequencyObject["visType"] = "bar";
+                                      frequencyObject["category"] = d.category;
 
                                       // Percentages Column
                                       let percentagesObject = {};
@@ -179,6 +182,7 @@ class Table{
                                       percentagesObject["republican"] = that.republicanSpeeches;
                                       percentagesObject["name"] = "percentages";
                                       percentagesObject["visType"] = "bar"
+                                     
                                       
                                       // Total Column
                                       let totalObject = {};
@@ -198,6 +202,35 @@ class Table{
     console.log("frequencyObjectlist", frequencyObjectList);
     console.log("percentagesObjectList", percentagesObjectList);
     console.log("totalObjectList", totalObjectList);
+
+    console.log("make some EPIC charts");
+
+    // bart charts for the frequency
+    let frequencyCharts= tdElements.filter((d) => {
+        return d.name = "frequency";
+    })
+
+    // bind svg to the selected elements
+    frequencyCharts.selectAll("svg")
+                        .data(d => [d])
+                        .join("svg");
+
+    let frequencySVG = frequencyCharts.selectAll("svg");
+    frequencySVG.attr("width", that.cell.width + 2 * that.cell.buffer)
+                                      .attr("height", that.cell.height);
+
+    
+
+
+    // // Append the rectangles to the svg
+    let frequencyRectangles = frequencySVG.selectAll("rect")
+                                          .data(d => [d])
+                                          .join("rect");
+
+    frequencyRectangles.attr("width", d => that.frequencyScale(d.frequency))
+                       .attr("height", that.bar.height)
+                       .attr("fill", d => that.categoryScale(d.category))
+                       .attr("transform", "translate(30,0)");
     }
 
   /**
