@@ -69,8 +69,8 @@ class Chart {
    * Function that sets up the chart. Set up includes creating the scales, axis, and the svg for displaying the information.
    */
   createChart() {
-    console.log("Entered the create chart function");
-    console.log("The data is", this.politicalData);
+    // console.log("Entered the create chart function");
+    // console.log("The data is", this.politicalData);
 
     // Determine the min and max values for the political scale domain
     let politicalScaleMin = this.findMinValue(
@@ -114,7 +114,7 @@ class Chart {
       .attr("transform", "translate(45, 36)");
 
     // create the group by topic label
-    console.log("creating the group by topic text");
+    // console.log("creating the group by topic text");
     groupByTopicGroup.append("text").text("Grouped by Topic");
 
     // group for the democrat party label
@@ -171,7 +171,7 @@ class Chart {
       maxValueList.push(value);
     });
     let maxValue = d3.max(maxValueList);
-    console.log("maxValue", maxValue);
+    // console.log("maxValue", maxValue);
     return maxValue;
   }
 
@@ -187,7 +187,7 @@ class Chart {
       minValueList.push(value);
     });
     let minValue = d3.min(minValueList);
-    console.log("minValue", minValue);
+    // console.log("minValue", minValue);
     return minValue;
   }
 
@@ -213,11 +213,11 @@ class Chart {
    * Function for drawing the the swarm chart
    */
   drawChart() {
-    console.log("Entered the draw chart function");
+    // console.log("Entered the draw chart function");
 
     // create that to access the functions and variables that have this on the front
     let that = this;
-    console.log("calling the update chart method");
+    // console.log("calling the update chart method");
 
     // scale for the circle size
     const circleScale = d3
@@ -501,7 +501,7 @@ class Chart {
       categoryCircles.classed("category", true);
 
       // group for all the labels for the data
-      console.log("the categories list", that.categoriesList);
+      // console.log("the categories list", that.categoriesList);
 
       // update the labels group
       let categoryLabels = d3.select("#category-wrapper");

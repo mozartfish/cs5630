@@ -17,7 +17,7 @@ class Table{
         /**
          * Instance variable for storing the table headers
          */
-        this.tableHeaders = ["Phrase", "Frequency", "Percentage", "Total"];
+        this.tableHeaders = ["Phrase", "Frequency", "Percentages", "Total"];
 
         /**
          * Object for defining how to size the svgs in the table cells
@@ -63,6 +63,31 @@ class Table{
          * Counter for sorting the total in ascending or descending order
          */
         this.totalCounter = 0;
+    }
+
+    /**
+     * Function that sets up the table. Set up includes creating the scales, axes, and svgs for the categories.
+     */
+    createTable()
+    {
+        console.log("entered the create table function");
+        console.log("the value of the data for the table is", this.tableData);
+
+        // create the scale for the frequency
+        console.log("creating the frequency scale");
+
+        let frequencyList = this.calculateFrequency(this.tableData);
+        let frequencyListMin = d3.min(frequencyList);
+        let frequencyListMax = d3.max(frequencyList);
+        console.log("the frequency list is", frequencyList);
+        console.log("frequency list min", frequencyListMin);
+        console.log("frequency list max", frequencyListMax);
+
+        this.frequencyScale = d3.scaleLinear()
+                                .domain([0.0, frequencyListMax])
+                                .range([this.cell.buffer, 2 * this.cell.width - this.cell.buffer]);
+       
+
     }
 
   /**
@@ -113,6 +138,28 @@ class Table{
       attributeValueList.push(element);
     });
     return attributeValueList;
+  }
+  /**
+   * Rounding function article: https://www.jacklmoore.com/notes/rounding-in-javascript/
+   * @param {} value - the number to be rounded 
+   * @param {*} decimals - the decimal place we want to round to 
+   */
+  round(value, decimals) {
+    return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+  }
+  /**
+   * Function that calculates the word frequency for the data
+   * @param {*} data - the data for the project
+   */
+  calculateFrequency(data)
+  {
+    let frequencyList = [];
+    data.forEach(element => {
+        let dataTotal = element.total;
+        let totalFrequency = dataTotal / 50;
+        frequencyList.push(totalFrequency);
+    });
+    return frequencyList;
   }
 
 }
