@@ -22,7 +22,7 @@ class Table{
         /**
          * Object for defining how to size the svgs in the table cells
          */
-        this.cell = {"width": 70, "height": 20, "buffer":15};
+        this.cell = {"width": 100, "height": 20, "buffer": 30};
 
         /**
          * Instance variable for defining the size of the bars for the table
@@ -85,7 +85,19 @@ class Table{
 
         this.frequencyScale = d3.scaleLinear()
                                 .domain([0.0, frequencyListMax])
-                                .range([this.cell.buffer, 2 * this.cell.width - this.cell.buffer]);
+                                .range([this.cell.buffer,  this.cell.width + this.cell.buffer])
+                                .nice();
+        
+        let frequencySVG = d3.select("#frequencyHeader")
+                              .append("svg")
+                              .attr("width", this.cell.width + 2 * this.cell.buffer)
+                              .attr("height", this.cell.height)
+                              .attr("id", "frequencySVG");
+        let frequencyGroup = frequencySVG.append("g")
+                                         .attr("transform", "translate(0, 21)");
+        let frequencyAxis = d3.axisTop(this.frequencyScale).ticks(3);
+        frequencyGroup.call(frequencyAxis);
+        
        
 
     }
