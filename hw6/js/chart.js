@@ -227,22 +227,24 @@ class Chart {
       .range([3, 12]);
 
     // group for the chart line
-    let lineGroup = d3.select("#chartView")
-                      .select("#chartSVG")
-                      .select(".wrapper-group")
-                      .append("g");
+    let lineGroup = d3
+      .select("#chartView")
+      .select("#chartSVG")
+      .select(".wrapper-group")
+      .append("g");
     lineGroup.attr("class", "line-group");
     lineGroup.attr("transform", "translate(17, 244)");
 
     // line for the chart
     let chartLine = lineGroup.append("line");
-    chartLine.attr("x1", 412.5)
-             .attr("y1", -80)
-             .attr("x2", 412.5)
-             .attr("y2", 35)
-             .attr("stroke", "black")
-             .attr("id", "chartLine")
-             .classed("swarmLine", true);
+    chartLine
+      .attr("x1", 412.5)
+      .attr("y1", -80)
+      .attr("x2", 412.5)
+      .attr("y2", 35)
+      .attr("stroke", "black")
+      .attr("id", "chartLine")
+      .classed("swarmLine", true);
 
     // group for the circles
     let circleGroup = d3
@@ -254,12 +256,13 @@ class Chart {
       .attr("class", "circle-group")
       .attr("transform", "translate(17, 224)");
 
-      // create the div for the tooltip
-      // Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
-      let div = d3.select("body").append("div")
-                  .attr("class", "tooltip")
-                  .style("opacity", 0);
-
+    // create the div for the tooltip
+    // Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+    let div = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
 
     // circles encoding the data
     let circles = circleGroup
@@ -272,120 +275,151 @@ class Chart {
     circles.attr("cx", d => d.sourceX);
     circles.attr("cy", d => d.sourceY);
     circles.attr("fill", d => this.categoryScale(d.category));
-    circles.on("mouseover", function(d)
-    {
-      // Rounding article: https://www.jacklmoore.com/notes/rounding-in-javascript/
-      /**
-       * Function that rounds numbers to a specified decimal place
-       * @param {} value - the number to be rounded
-       * @param {*} decimals - the decimal place to round to
-       */
-      function round(value, decimals)
-      {
-        return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
-      }
-      // Democrat
-      if (d.position < 0)
-      {
-        let totalFrequency =  round(((d.total / 50) * 100), 4);
-        div.transition()
-           .duration(200)
-           .style("opacity", 0.9);
-        div.html("<text id=\"categoryName\">" + d.category + "</text>" + "<br/>"
-        + "<text id=\"politicalDifference\">" + "D+ " + round(Math.abs(d.position), 4) + "%"
-        + "</text>" + "<br/>" + "<text id=\"totalFrequency\">" + "In " + totalFrequency + "% of speeches" + "</text>")
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 28) + "px");
+    circles
+      .on("mouseover", function(d) {
+        // Rounding article: https://www.jacklmoore.com/notes/rounding-in-javascript/
+        /**
+         * Function that rounds numbers to a specified decimal place
+         * @param {} value - the number to be rounded
+         * @param {*} decimals - the decimal place to round to
+         */
+        function round(value, decimals) {
+          return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+        }
+        // Democrat
+        if (d.position < 0) {
+          let totalFrequency = round((d.total / 50) * 100, 4);
+          div
+            .transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          div
+            .html(
+              '<text id="categoryName">' +
+                d.phrase +
+                "</text>" +
+                "<br/>" +
+                '<text id="politicalDifference">' +
+                "D+ " +
+                round(Math.abs(d.position), 4) +
+                "%" +
+                "</text>" +
+                "<br/>" +
+                '<text id="totalFrequency">' +
+                "In " +
+                totalFrequency +
+                "% of speeches" +
+                "</text>"
+            )
+            .style("left", d3.event.pageX + "px")
+            .style("top", d3.event.pageY - 28 + "px");
 
-        // highlight the circle that was selected
-        let circleSelected = d3.select(this);
-        circleSelected.attr("stroke-width", 2)
-                      .attr("stroke", "black");
-      }
-      // Republican
-      else
-      {
-        let totalFrequency =  round(((d.total / 50) * 100), 4);
-       
-        div.transition()
-           .duration(200)
-           .style("opacity", 0.9);
-        div.html("<text id=\"categoryName\">" + d.category + "</text>" + "<br/>"
-        + "<text id=\"politicalDifference\">" + "R+ " + round(Math.abs(d.position), 4) + "%"
-        + "</text>" + "<br/>" + "<text id=\"totalFrequency\">" + "In " + totalFrequency + "% of speeches" + "</text>")
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 28) + "px");
-
-        // highlight the circle that was selected
-        let circleSelected = d3.select(this);
-        circleSelected.attr("stroke-width", 2)
-                      .attr("stroke", "black");
-      }
-    })
-    .on("mouseout", function() {		
-      div.transition()		
-          .duration(500)		
-          .style("opacity", 0);
-          // remove the selected circle fill 
+          // highlight the circle that was selected
           let circleSelected = d3.select(this);
-          circleSelected.attr("stroke", "none");
-  });
+          circleSelected.attr("stroke-width", 2).attr("stroke", "black");
+        }
+        // Republican
+        else {
+          let totalFrequency = round((d.total / 50) * 100, 4);
+
+          div
+            .transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          div
+            .html(
+              '<text id="categoryName">' +
+                d.phrase +
+                "</text>" +
+                "<br/>" +
+                '<text id="politicalDifference">' +
+                "R+ " +
+                round(Math.abs(d.position), 4) +
+                "%" +
+                "</text>" +
+                "<br/>" +
+                '<text id="totalFrequency">' +
+                "In " +
+                totalFrequency +
+                "% of speeches" +
+                "</text>"
+            )
+            .style("left", d3.event.pageX + "px")
+            .style("top", d3.event.pageY - 28 + "px");
+
+          // highlight the circle that was selected
+          let circleSelected = d3.select(this);
+          circleSelected.attr("stroke-width", 2).attr("stroke", "black");
+        }
+      })
+      .on("mouseout", function() {
+        div
+          .transition()
+          .duration(500)
+          .style("opacity", 0);
+        // remove the selected circle fill
+        let circleSelected = d3.select(this);
+        circleSelected.attr("stroke", "none");
+      });
 
     // group for the labels
-    let categoryGroup = d3.select("#chartView")
-    .select("#chartSVG")
-    .select(".wrapper-group")
-    .append("g")
-    .attr("transform", "translate(0, -890)")
-    .attr("id", "category-wrapper");
+    let categoryGroup = d3
+      .select("#chartView")
+      .select("#chartSVG")
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(0, -890)")
+      .attr("id", "category-wrapper");
 
     // add the economic label
     let economicGroup = categoryGroup.append("g");
-    economicGroup.attr("transform", "translate(" + that.margins.right + ", 180)")
-                  .classed("economicGroup", true);
+    economicGroup
+      .attr("transform", "translate(" + that.margins.right + ", 180)")
+      .classed("economicGroup", true);
     let economyText = economicGroup.append("text");
-    economyText.text("Economy/Fiscal Issues")
-               .classed("categoryLabel", true);
-    
+    economyText.text("Economy/Fiscal Issues").classed("categoryLabel", true);
+
     // add the energy label
     let energyGroup = categoryGroup.append("g");
-    energyGroup.attr("transform", "translate(" + that.margins.right + ", 305)")
-               .classed("energyGroup", true);
+    energyGroup
+      .attr("transform", "translate(" + that.margins.right + ", 305)")
+      .classed("energyGroup", true);
     let energyText = energyGroup.append("text");
-        energyText.text("Energy/Environment")
-        .classed("categoryLabel", true);
+    energyText.text("Energy/Environment").classed("categoryLabel", true);
 
     // add the crime label
     let crimeGroup = categoryGroup.append("g");
-    crimeGroup.attr("transform", "translate(" + that.margins.right + ", 440)")
-              .classed("crimeGroup", true);
+    crimeGroup
+      .attr("transform", "translate(" + that.margins.right + ", 440)")
+      .classed("crimeGroup", true);
     let crimeText = crimeGroup.append("text");
-    crimeText.text("Crime/Justice")
-             .classed("categoryLabel", true);
+    crimeText.text("Crime/Justice").classed("categoryLabel", true);
 
     // add the education label
     let educationGroup = categoryGroup.append("g");
-    educationGroup.attr("transform", "translate(" + that.margins.right + ", 580)")
-              .classed("educationGroup", true);
+    educationGroup
+      .attr("transform", "translate(" + that.margins.right + ", 580)")
+      .classed("educationGroup", true);
     let educationText = educationGroup.append("text");
-    educationText.text("Education")
-             .classed("categoryLabel", true);
+    educationText.text("Education").classed("categoryLabel", true);
 
     // add the health label
     let healthGroup = categoryGroup.append("g");
-    healthGroup.attr("transform", "translate(" + that.margins.right + ", 710)")
-              .classed("healthGroup", true);
+    healthGroup
+      .attr("transform", "translate(" + that.margins.right + ", 710)")
+      .classed("healthGroup", true);
     let healthText = healthGroup.append("text");
-    healthText.text("Health Care")
-             .classed("categoryLabel", true);
+    healthText.text("Health Care").classed("categoryLabel", true);
 
     // add the mental health label
     let mentalHealthGroup = categoryGroup.append("g");
-    mentalHealthGroup.attr("transform", "translate(" + that.margins.right + ", 850)")
-              .classed("mentalHealthGroup", true);
+    mentalHealthGroup
+      .attr("transform", "translate(" + that.margins.right + ", 850)")
+      .classed("mentalHealthGroup", true);
     let mentalHealthText = mentalHealthGroup.append("text");
-    mentalHealthText.text("Mental Health/Substance Abuse")
-             .classed("categoryLabel", true);
+    mentalHealthText
+      .text("Mental Health/Substance Abuse")
+      .classed("categoryLabel", true);
 
     // click functionality for the toggle
     // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
@@ -414,9 +448,10 @@ class Chart {
     if (toggleCounter === 0) {
       // update the chart line
       let swarmLine = d3.select("#chartLine");
-      swarmLine.transition()
-               .duration(500)
-               .attr("y2", 35);
+      swarmLine
+        .transition()
+        .duration(500)
+        .attr("y2", 35);
       swarmLine.classed("categoryLine", false);
       swarmLine.classed("swarmLine", true);
 
@@ -430,22 +465,26 @@ class Chart {
       swarmCircles.classed("category", false);
       swarmCircles.classed("swarm", true);
 
-         // update the labels group
-         let swarmLabels = d3.select("#category-wrapper");
-         swarmLabels.transition()
-                       .duration(300)
-                       .attr("transform", "translate(0, -3000)");
-         swarmLabels.classed("categoryLabels", false);
-         swarmLabels.classed("swarmLabels", true);
-   
-    } 
+      // update the labels group
+      let swarmLabels = d3.select("#category-wrapper");
+      swarmLabels
+        .transition()
+        .duration(300)
+        .attr("transform", "translate(0, -3000)");
+      swarmLabels.classed("categoryLabels", false);
+      swarmLabels.classed("swarmLabels", true);
+    }
     // this statement executes the expanded category chart view
     else {
-      // update the chart line 
+      // update the chart line
       let categoryLine = d3.select("#chartLine");
-      categoryLine.transition()
-                  .duration(500)
-                  .attr("y2", (2 * (that.height + that.margins.top + that.margins.bottom)) - 348);
+      categoryLine
+        .transition()
+        .duration(500)
+        .attr(
+          "y2",
+          2 * (that.height + that.margins.top + that.margins.bottom) - 348
+        );
       categoryLine.classed("swarmLine", false);
       categoryLine.classed("categoryLine", true);
 
@@ -462,13 +501,14 @@ class Chart {
       // group for all the labels for the data
       console.log("the categories list", that.categoriesList);
 
-            // update the labels group
-            let categoryLabels = d3.select("#category-wrapper");
-            categoryLabels.transition()
-                          .duration(300)
-                          .attr("transform", "translate(0, 5)");
-            categoryLabels.classed("swarmLabels", false);
-            categoryLabels.classed("categoryLabels", true);
+      // update the labels group
+      let categoryLabels = d3.select("#category-wrapper");
+      categoryLabels
+        .transition()
+        .duration(300)
+        .attr("transform", "translate(0, 5)");
+      categoryLabels.classed("swarmLabels", false);
+      categoryLabels.classed("categoryLabels", true);
     }
   }
 }
