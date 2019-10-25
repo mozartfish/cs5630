@@ -171,6 +171,7 @@ class Chart {
       maxValueList.push(value);
     });
     let maxValue = d3.max(maxValueList);
+    console.log("maxValue", maxValue);
     return maxValue;
   }
 
@@ -186,6 +187,7 @@ class Chart {
       minValueList.push(value);
     });
     let minValue = d3.min(minValueList);
+    console.log("minValue", minValue);
     return minValue;
   }
 
@@ -254,7 +256,7 @@ class Chart {
       .append("g");
     circleGroup
       .attr("class", "circle-group")
-      .attr("transform", "translate(17, 224)");
+      .attr("transform", "translate(-5, 224)");
 
     // create the div for the tooltip
     // Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
