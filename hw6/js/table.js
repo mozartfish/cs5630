@@ -140,6 +140,14 @@ class Table{
                              .data(that.tableData)
                              .join("tr")
                              .attr("id", d => d.phrase);
+        
+        // add the element names
+        let tableHeaderElements = tableRows.selectAll("th")
+                                           .data(d => [d])
+                                           .join("th");
+        tableHeaderElements.html(function(d){
+            return d.phrase;
+        })
     }
 
   /**
