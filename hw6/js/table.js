@@ -28,6 +28,41 @@ class Table{
          * Instance variable for defining the size of the bars for the table
          */
         this.bar = {"height": 20};
+
+        /**
+         * Scale for the categories
+         */
+        this.categoryScale = null;
+
+        /**
+         * Scale for the frequency
+         */
+        this.frequencyScale = null;
+
+        /**
+         * Scale for the percentages
+         */
+        this.percentagesScale = null;
+
+        /**
+         * Counter for sorting the phrases in ascending or descending order
+         */
+        this.phraseCounter = 0;
+
+        /**
+         * Counter fo sorting the frequency in ascending or descending order
+         */
+        this.frequencyCounter = 0;
+
+        /**
+         * Counter for sorting the percentages in ascending or descending order
+         */
+        this.percentagesCounter = 0;
+
+        /**
+         * Counter for sorting the total in ascending or descending order
+         */
+        this.totalCounter = 0;
     }
 
       /**
