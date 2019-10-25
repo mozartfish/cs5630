@@ -71,6 +71,14 @@ class Table{
      * Instance variable for indexing into the category property of the data
      */
     this.category = "category";
+    /**
+     * Instance variable used for keeping track of the democrat speeches
+     */
+    this.democratSpeeches = "percent_of_d_speeches";
+    /**
+     * Instant variable used for keeping track of the republican speeches
+     */
+    this.republicanSpeeches = "percent_of_r_speeches";
     }
     /**
      * Function that sets up the table. Set up includes creating the scales, axes, and svgs for the categories.
@@ -144,10 +152,52 @@ class Table{
         // add the element names
         let tableHeaderElements = tableRows.selectAll("th")
                                            .data(d => [d])
-                                           .join("th");
+                                           .join("th")
+                                           .classed("phraseNames", true);
         tableHeaderElements.html(function(d){
             return d.phrase;
         })
+
+        // for debugging purposes
+        let frequencyObjectList = [];
+        let percentagesObjectList = [];
+        let totalObjectList = [];
+
+        // add all the table data elements
+        let tdElements = tableRows.selectAll("td")
+                                  .data(function(d){
+                                      // Frequency Column
+                                      let frequencyObject = {};
+                                      let frequencyValue = that.round(d.total / 50, 4);
+                                      frequencyObject["frequency"] = frequencyValue;
+                                      frequencyObject["name"] = "frequency";
+                                      frequencyObject["visType"] = "bar";
+
+                                      // Percentages Column
+                                      let percentagesObject = {};
+                                      percentagesObject["democrat"] = that.democratSpeeches;
+                                      percentagesObject["republican"] = that.republicanSpeeches;
+                                      percentagesObject["name"] = "percentages";
+                                      percentagesObject["visType"] = "bar"
+                                      
+                                      // Total Column
+                                      let totalObject = {};
+                                      totalObject["total"] = d.total;
+                                      totalObject["name"] = "total"
+                                      totalObject["visType"] = "text";
+
+                                      frequencyObjectList.push(frequencyObject);
+                                      percentagesObjectList.push(percentagesObject);
+                                      totalObjectList.push(totalObject);
+
+                                      return[frequencyObject, percentagesObject, totalObject];
+                                  })
+                                  .join("td")
+                                  .attr("id", d => d.visType);
+        
+    console.log("frequencyObjectlist", frequencyObjectList);
+    console.log("percentagesObjectList", percentagesObjectList);
+    console.log("totalObjectList", totalObjectList);
     }
 
   /**
