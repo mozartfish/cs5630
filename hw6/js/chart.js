@@ -287,7 +287,7 @@ class Chart {
       // Democrat
       if (d.position < 0)
       {
-        let totalFrequency = (d.total / 50) * 100;
+        let totalFrequency =  round(((d.total / 50) * 100), 4);
         div.transition()
            .duration(200)
            .style("opacity", 0.9);
@@ -305,7 +305,8 @@ class Chart {
       // Republican
       else
       {
-        let totalFrequency = (d.total / 50) * 100;
+        let totalFrequency =  round(((d.total / 50) * 100), 4);
+       
         div.transition()
            .duration(200)
            .style("opacity", 0.9);

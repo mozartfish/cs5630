@@ -43,7 +43,7 @@
 }
 #categoryName{
   font-family: "Roboto", sans-serif;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 800;
 }
 
@@ -118,8 +118,8 @@ Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
 div.tooltip {	
   position: absolute;			
   text-align: center;			
-  width: 200px;					
-  height: 46px;					
+  width: 300px;					
+  height: 60px;					
   padding: 2px;				
   font: 12px sans-serif;		
   background: white;	
