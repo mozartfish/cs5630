@@ -126,6 +126,22 @@ class Table{
     .range(d3.schemeTableau10); // color scheme chosen in honor of Pat Hanrahan after his inspiring lectures at the 2019 Organick Lecture Series
     }
 
+    updateTable()
+    {
+        console.log("entered the updateTable function");
+
+        // define that so we can access functions and variables that have this on the front
+        let that = this;
+
+        // create table rows
+        let table = d3.select("#politicalTable");
+        let tableRows = table.select("tbody")
+                             .selectAll("tr")
+                             .data(that.tableData)
+                             .join("tr")
+                             .attr("id", d => d.phrase);
+    }
+
   /**
    * Function for calculating the max value for different properties
    * @param {*} data - the project data
