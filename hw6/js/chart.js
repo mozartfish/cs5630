@@ -254,6 +254,13 @@ class Chart {
       .attr("class", "circle-group")
       .attr("transform", "translate(17, 224)");
 
+      // create the div for the tooltip
+      // Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+      let div = d3.select("body").append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+
+
     // circles encoding the data
     let circles = circleGroup
       .selectAll("circle")
@@ -267,8 +274,55 @@ class Chart {
     circles.attr("fill", d => this.categoryScale(d.category));
     circles.on("mouseover", function(d)
     {
-      console.log("you hovered over a circle with position", d.position);
+      // Rounding article: https://www.jacklmoore.com/notes/rounding-in-javascript/
+      /**
+       * Function that rounds numbers to a specified decimal place
+       * @param {} value - the number to be rounded
+       * @param {*} decimals - the decimal place to round to
+       */
+      function round(value, decimals)
+      {
+        return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+      }
+      // Democrat
+      if (d.position < 0)
+      {
+        let totalFrequency = (d.total / 50) * 100;
+        div.transition()
+           .duration(200)
+           .style("opacity", 0.9);
+        div.html("<text id=\"categoryName\"/>" + d.category + "<br/>"
+        + "<text id=\"politicalDifference\"/>" + "D+ " + round(Math.abs(d.position), 4) + "%"
+        + "<br/>" + "<text id=\"totalFrequency\"/>" + "In " + totalFrequency + "% of speeches")
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+
+        let circleSelected = d3.select(this);
+        circleSelected.attr("stroke-width", 2)
+                      .attr("stroke", "black");
+      }
+      // Republican
+      else
+      {
+        let totalFrequency = (d.total / 50) * 100;
+        div.transition()
+           .duration(200)
+           .style("opacity", 0.9);
+        div.html("<text id=\"categoryName\"/>" + d.category + "<br/>"
+        + "<text id=\"politicalDifference\"/>" + "R+ " + round(Math.abs(d.position), 3) + "%"
+        + "<br/>" + "<text id=\"totalFrequency\"/>" + "In " + totalFrequency + "% of speeches")
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+      }
     })
+    .on("mouseout", function() {		
+      div.transition()		
+          .duration(500)		
+          .style("opacity", 0);
+          let circleSelected = d3.select(this);
+          circleSelected.attr("stroke", "none");
+
+  });
 
     // group for the labels
     let categoryGroup = d3.select("#chartView")

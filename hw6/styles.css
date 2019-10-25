@@ -106,3 +106,19 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+/*
+Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+*/
+div.tooltip {	
+  position: absolute;			
+  text-align: center;			
+  width: 200px;					
+  height: 46px;					
+  padding: 2px;				
+  font: 12px sans-serif;		
+  background: white;	
+  border: 0px;		
+  border-radius: 8px;			
+  pointer-events: none;			
+}
+
