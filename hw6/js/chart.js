@@ -291,9 +291,9 @@ class Chart {
         div.transition()
            .duration(200)
            .style("opacity", 0.9);
-        div.html("<text id=\"categoryName\"/>" + d.category + "<br/>"
-        + "<text id=\"politicalDifference\"/>" + "D+ " + round(Math.abs(d.position), 4) + "%"
-        + "<br/>" + "<text id=\"totalFrequency\"/>" + "In " + totalFrequency + "% of speeches")
+        div.html("<text id=\"categoryName\">" + d.category + "</text>" + "<br/>"
+        + "<text id=\"politicalDifference\">" + "D+ " + round(Math.abs(d.position), 4) + "%"
+        + "</text>" + "<br/>" + "<text id=\"totalFrequency\">" + "In " + totalFrequency + "% of speeches" + "</text>")
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
 
