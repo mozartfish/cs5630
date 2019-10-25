@@ -97,6 +97,21 @@ class Table{
                                          .attr("transform", "translate(0, 21)");
         let frequencyAxis = d3.axisTop(this.frequencyScale).ticks(3);
         frequencyGroup.call(frequencyAxis);
+
+        this.percentagesScale = d3.scaleLinear()
+                                  .domain([-100, 100])
+                                  .range([this.cell.buffer, 2 * this.cell.width + this.cell.buffer])
+                                  .nice();
+        let percentagesSVG = d3.select("#percentagesHeader")
+                               .append("svg")
+                               .attr("width", this.cell.buffer + 2 * this.cell.width + this.cell.buffer)
+                               .attr("height", this.cell.height)
+                               .attr("id", "percentagesSVG");
+
+        let percentagesGroup = percentagesSVG.append("g")
+                                             .attr("transform", "translate(0, 21)");
+        let percentagesAxis = d3.axisTop(this.percentagesScale).ticks(5).tickFormat(d => Math.abs(d));
+        percentagesGroup.call(percentagesAxis);
         
        
 
