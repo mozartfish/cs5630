@@ -65,6 +65,38 @@ class Table{
         this.totalCounter = 0;
     }
 
+  /**
+   * Function for calculating the max value for different properties
+   * @param {*} data - the project data
+   * @param {*} attribute - a particular property of the data
+   */
+  findMaxValue(data, attribute) {
+    let maxValueList = [];
+    data.forEach(element => {
+      let value = element[attribute];
+      maxValueList.push(value);
+    });
+    let maxValue = d3.max(maxValueList);
+    console.log("maxValue", maxValue);
+    return maxValue;
+  }
+
+  /**
+   * Function for calculating the min value for different properties
+   * @param {*} data - the project data
+   * @param {*} attribute - a particular property of the data
+   */
+  findMinValue(data, attribute) {
+    let minValueList = [];
+    data.forEach(element => {
+      let value = element[attribute];
+      minValueList.push(value);
+    });
+    let minValue = d3.min(minValueList);
+    console.log("minValue", minValue);
+    return minValue;
+  }
+
       /**
    * Function for gathering the different properties of the data without duplicates
    * @param {*} data - the project data
