@@ -41,6 +41,12 @@
   font-weight: 700;
   fill: grey;
 }
+#categoryName{
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+
 
 /*
 Toggle CSS Article: https://www.w3schools.com/howto/howto_css_switch.asp

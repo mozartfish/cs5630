@@ -297,6 +297,7 @@ class Chart {
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
 
+        // highlight the circle that was selected
         let circleSelected = d3.select(this);
         circleSelected.attr("stroke-width", 2)
                       .attr("stroke", "black");
@@ -308,20 +309,25 @@ class Chart {
         div.transition()
            .duration(200)
            .style("opacity", 0.9);
-        div.html("<text id=\"categoryName\"/>" + d.category + "<br/>"
-        + "<text id=\"politicalDifference\"/>" + "R+ " + round(Math.abs(d.position), 3) + "%"
-        + "<br/>" + "<text id=\"totalFrequency\"/>" + "In " + totalFrequency + "% of speeches")
+        div.html("<text id=\"categoryName\">" + d.category + "</text>" + "<br/>"
+        + "<text id=\"politicalDifference\">" + "R+ " + round(Math.abs(d.position), 4) + "%"
+        + "</text>" + "<br/>" + "<text id=\"totalFrequency\">" + "In " + totalFrequency + "% of speeches" + "</text>")
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
+
+        // highlight the circle that was selected
+        let circleSelected = d3.select(this);
+        circleSelected.attr("stroke-width", 2)
+                      .attr("stroke", "black");
       }
     })
     .on("mouseout", function() {		
       div.transition()		
           .duration(500)		
           .style("opacity", 0);
+          // remove the selected circle fill 
           let circleSelected = d3.select(this);
           circleSelected.attr("stroke", "none");
-
   });
 
     // group for the labels
@@ -462,7 +468,6 @@ class Chart {
                           .attr("transform", "translate(0, 5)");
             categoryLabels.classed("swarmLabels", false);
             categoryLabels.classed("categoryLabels", true);
-            
     }
   }
 }
