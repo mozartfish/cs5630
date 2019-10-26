@@ -22,7 +22,7 @@ class Table{
         /**
          * Object for defining how to size the svgs in the table cells
          */
-        this.cell = {"width": 100, "height": 20, "buffer": 30};
+        this.cell = {"width":140, "height": 20, "buffer": 7};
 
         /**
          * Instance variable for defining the size of the bars for the table
@@ -100,7 +100,7 @@ class Table{
         
         let frequencySVG = d3.select("#frequencyHeader")
                               .append("svg")
-                              .attr("width", this.cell.width + 2 * this.cell.buffer)
+                              .attr("width", this.cell.width + 2 * this.cell.buffer + 10)
                               .attr("height", this.cell.height)
                               .attr("id", "frequencySVG");
         let frequencyGroup = frequencySVG.append("g")
@@ -114,12 +114,12 @@ class Table{
                                   .nice();
         let percentagesSVG = d3.select("#percentagesHeader")
                                .append("svg")
-                               .attr("width", this.cell.buffer + 2 * this.cell.width + this.cell.buffer)
+                               .attr("width", this.cell.buffer + 2 * this.cell.width + this.cell.buffer + 10)
                                .attr("height", this.cell.height)
                                .attr("id", "percentagesSVG");
 
         let percentagesGroup = percentagesSVG.append("g")
-                                             .attr("transform", "translate(0, 21)");
+                                             .attr("transform", "translate(5, 21)");
         let percentagesAxis = d3.axisTop(this.percentagesScale).ticks(5).tickFormat(d => Math.abs(d));
         percentagesGroup.call(percentagesAxis);
 
@@ -127,7 +127,7 @@ class Table{
     this.categoriesList = this.accessData(this.tableData, this.category);
     console.log("categoryList", this.categoriesList);
 
-    console.log(this.frequencyScale(0.18));
+    console.log(this.frequencyScale(0.5));
 
     // create the category scale
     this.categoryScale = d3
@@ -230,7 +230,7 @@ class Table{
     frequencyRectangles.attr("width", d => that.frequencyScale(d.frequency))
                        .attr("height", that.bar.height)
                        .attr("fill", d => that.categoryScale(d.category))
-                       .attr("transform", "translate(30,0)");
+                       .attr("transform", "translate(5,0)");
     }
 
   /**
