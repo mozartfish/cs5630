@@ -22,7 +22,7 @@ class Table{
         /**
          * Object for defining how to size the svgs in the table cells
          */
-        this.cell = {"width":140, "height": 20, "buffer": 7};
+        this.cell = {"width":150, "height": 20, "buffer": 15};
 
         /**
          * Instance variable for defining the size of the bars for the table
@@ -100,26 +100,26 @@ class Table{
         
         let frequencySVG = d3.select("#frequencyHeader")
                               .append("svg")
-                              .attr("width", this.cell.width + 2 * this.cell.buffer + 10)
+                              .attr("width", this.cell.width + 2 * this.cell.buffer + 60)
                               .attr("height", this.cell.height)
                               .attr("id", "frequencySVG");
         let frequencyGroup = frequencySVG.append("g")
-                                         .attr("transform", "translate(0, 21)");
+                                         .attr("transform", "translate(5, 21)");
         let frequencyAxis = d3.axisTop(this.frequencyScale).ticks(3);
         frequencyGroup.call(frequencyAxis);
 
         this.percentagesScale = d3.scaleLinear()
                                   .domain([-100, 100])
-                                  .range([this.cell.buffer, 2 * this.cell.width + this.cell.buffer])
+                                  .range([15, 300])
                                   .nice();
         let percentagesSVG = d3.select("#percentagesHeader")
                                .append("svg")
-                               .attr("width", this.cell.buffer + 2 * this.cell.width + this.cell.buffer + 10)
+                               .attr("width", this.cell.buffer + 2 * this.cell.width + this.cell.buffer + 100)
                                .attr("height", this.cell.height)
                                .attr("id", "percentagesSVG");
 
         let percentagesGroup = percentagesSVG.append("g")
-                                             .attr("transform", "translate(5, 21)");
+                                             .attr("transform", "translate(40, 21)");
         let percentagesAxis = d3.axisTop(this.percentagesScale).ticks(5).tickFormat(d => Math.abs(d));
         percentagesGroup.call(percentagesAxis);
 
@@ -178,8 +178,8 @@ class Table{
 
                                       // Percentages Column
                                       let percentagesObject = {};
-                                      percentagesObject["democrat"] = that.democratSpeeches;
-                                      percentagesObject["republican"] = that.republicanSpeeches;
+                                      percentagesObject["democrat"] = d[that.democratSpeeches];
+                                      percentagesObject["republican"] = d[that.republicanSpeeches];
                                       percentagesObject["name"] = "percentages";
                                       percentagesObject["visType"] = "bar"
                                      
@@ -207,30 +207,79 @@ class Table{
 
     // bart charts for the frequency
     let frequencyCharts= tdElements.filter((d) => {
-        return d.name = "frequency";
-    })
+        return d.name === "frequency";
+    });
 
     // bind svg to the selected elements
     frequencyCharts.selectAll("svg")
                         .data(d => [d])
                         .join("svg");
 
-    let frequencySVG = frequencyCharts.selectAll("svg");
-    frequencySVG.attr("width", that.cell.width + 2 * that.cell.buffer)
-                                      .attr("height", that.cell.height);
-
     
+    let frequencySVG = frequencyCharts.selectAll("svg");
+    frequencySVG.attr("width", that.cell.width + 2 * that.cell.buffer + 60)
+                .attr("height", that.cell.height);
 
-
-    // // Append the rectangles to the svg
     let frequencyRectangles = frequencySVG.selectAll("rect")
                                           .data(d => [d])
                                           .join("rect");
-
     frequencyRectangles.attr("width", d => that.frequencyScale(d.frequency))
                        .attr("height", that.bar.height)
                        .attr("fill", d => that.categoryScale(d.category))
-                       .attr("transform", "translate(5,0)");
+                       .attr("transform", "translate(15, 0)");
+
+
+        // bart charts for the frequency
+        let percentageChartsRepublican= tdElements.filter((d) => {
+            return d.name === "percentages";
+        });
+
+        percentageChartsRepublican.selectAll("svg")
+                        .data(d => [d])
+                        .join("svg");
+        
+       let percentageSVG = percentageChartsRepublican.selectAll("svg");
+       percentageSVG.attr("width", that.cell.buffer + 2 * that.cell.width + that.cell.buffer + 10)
+                    .attr("height", that.cell.height)
+                    .attr("id", "percentageSVG");
+
+
+
+        let percentageRect = percentageSVG.selectAll("rect")
+                                          .data(function(d){
+                                              let republican = {};
+                                            //   republican["speech"] =
+                                            // console.log("the value of d is", d["republican"]);
+
+                                            republican["rspeech"] = d["republican"];
+
+                                            return [republican];
+                                          })
+                                          .join("rect");
+            percentageRect.attr("width", d => that.percentagesScale(d["rspeech"]) / 4)
+                          .attr("height", that.bar.height)
+                          .attr("fill", "red")
+                          .attr("transform", "translate(200, 0)")
+                          .classed("republican", true);
+        
+        let democratRectangles = d3.selectAll("#percentageSVG")
+                                    .append("rect");
+            democratRectangles.attr("width", d => that.percentagesScale(d["democrat"]) / 4)
+                              .attr("height", that.bar.height)
+                              .attr("fill", "blue")
+                              .attr("transform", "translate(130, 0)");
+            
+        let totalText= tdElements.filter((d) => {
+            return d.name === "total";
+        });
+
+        totalText.selectAll("text")
+                 .data(d => [d])
+                 .join("text");
+        
+        totalText.attr("width", that.cell.width)
+                 .attr("height", that.cell.height)
+                 .text(d => d.total);
     }
 
   /**
