@@ -280,6 +280,42 @@ class Table{
         totalText.attr("width", that.cell.width)
                  .attr("height", that.cell.height)
                  .text(d => d.total);
+
+    
+          
+          let politicalPhraseHeader= d3.select("#Phrase")
+          .data(["Phrase"]);
+
+             politicalPhraseHeader.on("click", function(d){
+                 that.SortPhrases();
+                })
+    }
+    
+    SortPhrases()
+    {
+        // define that so we can access functions that have this on the front
+        let that = this;
+
+        console.log("entered the sort headers function");
+
+        // check if we need to sort in ascending or descending order
+        if (that.phraseCounter === 0)
+        {
+            console.log("sort in ascending order");
+
+            that.tableData.sort((a, b) => d3.ascending(a.key, b.key));
+            that.phraseCounter = 1;
+        }
+     
+        else
+        {
+            console.log("sort in descending order");
+
+            that.tableData.sort((a, b) => d3.descending(a.key, b.key));
+            that.teamCounter = 0;
+        }
+
+        that.updateTable();
     }
 
   /**
