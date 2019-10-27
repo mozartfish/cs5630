@@ -141,6 +141,68 @@ class Table {
     // d3.selectAll(".domain").remove();
   }
   /**
+   * Updates the table contents with a row for each element in the global variable tableElements
+   */
+  updateTable() {
+    console.log("entered the update function");
+    // define that so we can access functions and variable that have this on the front
+    let that = this;
+
+    // Create table rows
+    let tableRows = d3
+      .select("#tableBody")
+      .selectAll("tr")
+      .data(that.tableElements)
+      .join("tr")
+      .attr("id", d => d.phrase);
+
+    // Add the names of the phrases
+    let tableHeaderElements = tableRows
+      .selectAll("th")
+      .data(d => [d])
+      .join("th");
+    tableHeaderElements.html(d => d.phrase);
+
+    // Add td elements for the remaining columns
+    // lists for keeping track of objects of particular types
+    let frequencyObjectList = [];
+    let percentagesObjectList = [];
+    let totalObjectList = [];
+
+    let tdElements = tableRows
+      .selectAll("td")
+      .data(function(d) {
+        // frequency objects
+        let frequencyObject = {};
+        let frequencyValue = d.total / 50;
+        frequencyObject["frequency"] = frequencyValue;
+        frequencyObject["name"] = "frequency";
+        frequencyObject["visType"] = "bar";
+        frequencyObject["category"] = d.category;
+        // percentages objects
+        let percentagesObject = {};
+        percentagesObject["republican"] = d[that.republican];
+        percentagesObject["democrat"] = d[that.democrat];
+        percentagesObject["name"] = "percentages";
+        percentagesObject["visType"] = "bar";
+        // total objects
+        let totalObject = {};
+        totalObject["total"] = d.total;
+        totalObject["name"] = "total";
+        totalObject["visType"] = "text";
+
+        // update lists
+        frequencyObjectList.push(frequencyObject);
+        percentagesObjectList.push(percentagesObject);
+        totalObjectList.push(totalObject);
+
+        return [frequencyObject, percentagesObject, totalObject];
+      })
+      .join("td")
+      .attr("id", d => d.visType);
+  }
+
+  /**
    * Function for calculating the max value for different properties
    * @param {*} data - the project data
    * @param {*} attribute - a particular property of the data

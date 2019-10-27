@@ -14,4 +14,5 @@ d3.json("/data/words.json").then(data => {
   // Create new Table Object
   let table = new Table(data);
   table.createTable();
+  table.updateTable();
 });
