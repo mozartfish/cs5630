@@ -227,10 +227,10 @@ class Table {
     }
     // Sort the Percentages
     // There are four cases for the percentages
-    // 1) Counter = 0 => Sort democrat ascending
-    // 2) Counter = 1 => Sort Democrats Descending
-    // 3) Counter = 2 => Sort Republicans Ascending
-    // 4) Counter = 3 => Sort Republicans Descending
+    // 1) Counter = 0 => Sort republicans ascending
+    // 2) Counter = 1 => Sort republicans descending
+    // 3) Counter = 2 => Sort democrats ascending
+    // 4) Counter = 3 => Sort democrats descending
     else {
       // In order to sort the percentages we have to sort by the area of the rectangles
       // The following blocks of code do this and modify the data set to sort by area of rectangles
@@ -259,28 +259,28 @@ class Table {
 
       // Sort the Percentages by Area
       if (that.percentagesCounter === 0) {
-        console.log("sorting the democrats in ascending order");
+        console.log("sorting the republicans in ascending order");
         that.tableElements.sort(
           (a, b) => a["republicanArea"] - b["republicanArea"]
         );
         that.percentagesCounter = 1;
       } else if (that.percentagesCounter === 1) {
-        console.log("sorting the democrats in descending order");
+        console.log("sorting the republicans in descending order");
         that.tableElements.sort(
           (a, b) => b["republicanArea"] - a["republicanArea"]
         );
         that.percentagesCounter = 2;
-      }
-      else if(that.percentagesCounter === 2)
-      {
+      } else if (that.percentagesCounter === 2) {
         console.log("sorting the democrats in ascending order");
-        that.tableElements.sort((a, b) => a["democratArea"] - b["democratArea"]);
+        that.tableElements.sort(
+          (a, b) => a["democratArea"] - b["democratArea"]
+        );
         that.percentagesCounter = 3;
-      }
-      else
-      {
-        console.log("sorting the republicans in descending order");
-        that.tableElements.sort((a, b) => b["democratArea"] - a["democratArea"]);
+      } else {
+        console.log("sorting the democrats in descending order");
+        that.tableElements.sort(
+          (a, b) => b["democratArea"] - a["democratArea"]
+        );
         that.percentagesCounter = 0;
       }
       // Sort the Percentages by Area
