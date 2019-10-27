@@ -200,6 +200,43 @@ class Table {
       })
       .join("td")
       .attr("id", d => d.visType);
+
+    console.log("Make some epic SVG plots!");
+
+    // Bar Charts for Frequency Graphs
+    let frequencyBarCharts = tdElements.filter(d => {
+      return d.name === "frequency";
+    });
+
+    // Bind SVG elements to the objects selected objects
+    frequencyBarCharts
+      .selectAll("svg")
+      .data(d => [d])
+      .join("svg")
+      .attr("id", "fBarSVG");
+    let frequencyBarSVG = frequencyBarCharts
+      .selectAll("svg")
+      .attr("width", 2 * that.cell.width + that.cell.buffer + 90)
+      .attr("height", that.cell.height + 10);
+    let frequencyChartGroup = frequencyBarSVG
+      .selectAll("g")
+      .data(d => [d])
+      .join("g")
+      .attr("id", "fBarGroup");
+    frequencyChartGroup.attr("transform", "translate(45," + 5 + ")");
+
+    // Add rectangles
+    let frequencyChartRectangles = frequencyChartGroup
+      .selectAll("rect")
+      .data(d => [d])
+      .join("rect");
+
+    frequencyChartRectangles
+      .attr("x", 0.0)
+      .attr("y", 8)
+      .attr("width", d => that.frequencyScale(d.frequency))
+      .attr("height", that.cell.height - 10)
+      .attr("fill", d => that.categoryScale(d.category));
   }
 
   /**
