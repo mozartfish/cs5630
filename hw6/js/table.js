@@ -115,10 +115,10 @@ class Table {
       .range([0, this.cell.width])
       .nice();
     // Democrat Scale
-    this.democrateScale = d3
+    this.democratScale = d3
       .scaleLinear()
       .domain([0, 100])
-      .range([0, 2 * this.cell.width + 20])
+      .range([0, this.cell.width])
       .nice();
     // Categories Scale
     this.categoriesList = this.accessData(this.politicalData, this.category);
@@ -274,29 +274,29 @@ class Table {
       .selectAll("svg")
       .attr("width", 2 * that.cell.width + that.cell.buffer + 90)
       .attr("height", that.cell.height + 10);
-    let percentagesChartGroupRepublican = percentagesBarSVG
-      .selectAll("g")
-      .data(d => [d])
-      .join("g")
-      .attr("id", "republicanGroup");
-    percentagesChartGroupRepublican.attr(
-      "transform",
-      "translate(45," + 5 + ")"
-    );
 
-    // Add Rectangles for Republicans
-    let republicanRectangles = percentagesChartGroupRepublican
-      .selectAll("rect")
-      .data(d => [d])
-      .join("rect");
-
-    republicanRectangles
-      .attr("x", 76)
+    // Republican Bars
+    let percentagesBarRepublican = percentagesBarSVG
+      .append("rect")
+      .attr("id", "republican");
+    percentagesBarRepublican
+      .attr("transform", "translate(-30, 5)")
+      .attr("x", 180)
       .attr("y", 8)
       .attr("width", d => that.republicanScale(d.republican))
-      .attr("height", that.cell.height)
-      .attr("fill", "red")
-      .classed("republicanRectangles", true);
+      .attr("height", that.bar.height)
+      .attr("fill", "red");
+
+    let percentagesBarDemocrat = percentagesBarSVG
+      .append("rect")
+      .attr("id", "democrat");
+    percentagesBarDemocrat
+      .attr("transform", "translate(100, 5)")
+      .attr("x", -8)
+      .attr("y", 8)
+      .attr("width", d => that.democratScale(d.democrat))
+      .attr("height", that.bar.height)
+      .attr("fill", "blue");
   }
 
   /**
