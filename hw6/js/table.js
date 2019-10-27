@@ -144,7 +144,7 @@ class Table {
     // Percentages X Axis
     let percentagesXAxis = d3
       .axisTop(this.percentagesScale)
-      .ticks(5)
+      .ticks(3)
       .tickFormat(d => Math.abs(d));
     let percentagesAxisHeader = d3.select("#percentagesHeader");
     let percentagesAxisSVG = percentagesAxisHeader
@@ -275,13 +275,13 @@ class Table {
       .attr("width", 2 * that.cell.width + that.cell.buffer + 90)
       .attr("height", that.cell.height + 10);
 
-    // Republican Bars
+    // // Republican Bars
     let percentagesBarRepublican = percentagesBarSVG
       .append("rect")
       .attr("id", "republican");
     percentagesBarRepublican
-      .attr("transform", "translate(-30, 5)")
-      .attr("x", 180)
+      .attr("transform", "translate(43, 5)")
+      .attr("x", 76)
       .attr("y", 8)
       .attr("width", d => that.republicanScale(d.republican))
       .attr("height", that.bar.height)
@@ -291,12 +291,13 @@ class Table {
       .append("rect")
       .attr("id", "democrat");
     percentagesBarDemocrat
-      .attr("transform", "translate(100, 5)")
-      .attr("x", -8)
+      .attr("transform", "translate(195, 5)" + "scale(-1, 1)")
+      .attr("x", 76)
       .attr("y", 8)
       .attr("width", d => that.democratScale(d.democrat))
       .attr("height", that.bar.height)
       .attr("fill", "blue");
+
   }
 
   /**

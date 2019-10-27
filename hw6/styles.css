@@ -178,6 +178,9 @@ tbody td {
   border-left: solid 1px #000;
   color: black;
 }
+/* #democrat {
+  transform: scale(1, -1);
+} */
 /* tbody tr:hover {
   background-color: #feebe2;
 } */
