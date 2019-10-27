@@ -275,7 +275,7 @@ class Table {
       .attr("width", 2 * that.cell.width + that.cell.buffer + 90)
       .attr("height", that.cell.height + 10);
 
-    // // Republican Bars
+    // Republican Bars
     let percentagesBarRepublican = percentagesBarSVG
       .append("rect")
       .attr("id", "republican");
@@ -285,8 +285,9 @@ class Table {
       .attr("y", 8)
       .attr("width", d => that.republicanScale(d.republican))
       .attr("height", that.bar.height)
-      .attr("fill", "red");
+      .attr("fill", "#ff4d4d");
 
+    // Democrat Bars
     let percentagesBarDemocrat = percentagesBarSVG
       .append("rect")
       .attr("id", "democrat");
@@ -296,7 +297,7 @@ class Table {
       .attr("y", 8)
       .attr("width", d => that.democratScale(d.democrat))
       .attr("height", that.bar.height)
-      .attr("fill", "blue");
+      .attr("fill", "#3477eb");
 
   }
 
