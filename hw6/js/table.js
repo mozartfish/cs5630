@@ -71,6 +71,14 @@ class Table {
      * Instance variable for indexing into the republican speech percentages
      */
     this.republicanSpeeches = "percent_of_r_speeches";
+    /**
+     * Scale for republican speech percentages
+     */
+    this.republicanScale = null;
+    /**
+     * Scale for democrat speech percentages
+     */
+    this.democratScale = null;
   }
   /**
    * Function that sets up the table including headers that when clicked all for the table to be sorted by the chosen attribute
@@ -100,6 +108,19 @@ class Table {
       .domain([-100, 100])
       .range([0, 2 * this.cell.width + 20])
       .nice();
+    // Republican Scale
+    this.republicanScale = d3
+      .scaleLinear()
+      .domain([0, 100])
+      .range([0, this.cell.width])
+      .nice();
+    // Democrat Scale
+    this.democrateScale = d3
+      .scaleLinear()
+      .domain([0, 100])
+      .range([0, 2 * this.cell.width + 20])
+      .nice();
+    // Categories Scale
     this.categoriesList = this.accessData(this.politicalData, this.category);
     console.log("categories", this.categoriesList);
     this.categoryScale = d3
@@ -181,8 +202,8 @@ class Table {
         frequencyObject["category"] = d.category;
         // percentages objects
         let percentagesObject = {};
-        percentagesObject["republican"] = d[that.republican];
-        percentagesObject["democrat"] = d[that.democrat];
+        percentagesObject["republican"] = d[that.republicanSpeeches];
+        percentagesObject["democrat"] = d[that.democratSpeeches];
         percentagesObject["name"] = "percentages";
         percentagesObject["visType"] = "bar";
         // total objects
@@ -223,7 +244,7 @@ class Table {
       .data(d => [d])
       .join("g")
       .attr("id", "fBarGroup");
-    frequencyChartGroup.attr("transform", "translate(45," + 5 + ")");
+    frequencyChartGroup.attr("transform", "translate(40," + 5 + ")");
 
     // Add rectangles
     let frequencyChartRectangles = frequencyChartGroup
@@ -237,6 +258,45 @@ class Table {
       .attr("width", d => that.frequencyScale(d.frequency))
       .attr("height", that.cell.height)
       .attr("fill", d => that.categoryScale(d.category));
+
+    // Bar Charts for Percentages Graph
+    let percentagesBarCharts = tdElements.filter(d => {
+      return d.name === "percentages";
+    });
+
+    // Bind SVG elements to the objects selected objects
+    percentagesBarCharts
+      .selectAll("svg")
+      .data(d => [d])
+      .join("svg")
+      .attr("id", "percentagesSVG");
+    let percentagesBarSVG = percentagesBarCharts
+      .selectAll("svg")
+      .attr("width", 2 * that.cell.width + that.cell.buffer + 90)
+      .attr("height", that.cell.height + 10);
+    let percentagesChartGroupRepublican = percentagesBarSVG
+      .selectAll("g")
+      .data(d => [d])
+      .join("g")
+      .attr("id", "republicanGroup");
+    percentagesChartGroupRepublican.attr(
+      "transform",
+      "translate(45," + 5 + ")"
+    );
+
+    // Add Rectangles for Republicans
+    let republicanRectangles = percentagesChartGroupRepublican
+      .selectAll("rect")
+      .data(d => [d])
+      .join("rect");
+
+    republicanRectangles
+      .attr("x", 76)
+      .attr("y", 8)
+      .attr("width", d => that.republicanScale(d.republican))
+      .attr("height", that.cell.height)
+      .attr("fill", "red")
+      .classed("republicanRectangles", true);
   }
 
   /**
