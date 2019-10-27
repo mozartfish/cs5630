@@ -1,3 +1,6 @@
+/*
+*Styling for the Swarm Chart
+*/
 .VisTitle {
   text-align: left;
   font-family: "Roboto", sans-serif;
@@ -9,16 +12,6 @@
   height: 25px;
   top: 100px;
   float: right;
-}
-#tableView {
-  font-family: "Roboto", sans-serif;
-  width: 800px;
-  margin-top: 100px;
-  margin-left: 1830px;
-}
-.tableHead{
-  /* background-color: #c0362c; */
-  background-color:lightskyblue;
 }
 #boldText {
   font-family: "Roboto";
@@ -51,12 +44,11 @@
   font-weight: 700;
   fill: grey;
 }
-#categoryName{
+#categoryName {
   font-family: "Roboto", sans-serif;
   font-size: 18px;
   font-weight: 800;
 }
-
 
 /*
 Toggle CSS Article: https://www.w3schools.com/howto/howto_css_switch.asp
@@ -68,7 +60,7 @@ Modified the code in the article to create a toggle for the visualization
   width: 50px;
   height: 23px;
 }
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -82,8 +74,8 @@ Modified the code in the article to create a toggle for the visualization
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -94,16 +86,16 @@ Modified the code in the article to create a toggle for the visualization
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -125,16 +117,67 @@ input:checked + .slider:before {
 /*
 Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
 */
-div.tooltip {	
-  position: absolute;			
-  text-align: center;			
-  width: 300px;					
-  height: 60px;					
-  padding: 2px;				
-  font: 12px sans-serif;		
-  background: white;	
-  border: 0px;		
-  border-radius: 8px;			
-  pointer-events: none;			
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 300px;
+  height: 60px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: white;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
 }
 
+/*
+* Styling for the Table
+*/
+/* #tableView {
+  font-family: "Roboto", sans-serif;
+  width: 800px;
+  margin-top: 100px;
+  margin-left: 1830px;
+  overflow-y: scroll;
+  height: 1300px;
+} */
+/*.tableHead {
+  /* background-color: #c0362c; */
+/* background-color: lightskyblue;
+} */
+
+#tableView {
+  border-collapse: collapse;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  width: 800px;
+  margin-top: 100px;
+  margin-left: 1830px;
+}
+
+th {
+  font-weight: normal;
+  text-align: right;
+  padding-right: 6px;
+  min-width: 125px;
+}
+thead td,
+th {
+  cursor: s-resize;
+}
+tbody tr:first-child td {
+  padding-top: 5px;
+}
+tbody th {
+  cursor: pointer;
+  font-weight: bold;
+}
+tbody td {
+  padding-right: 5px;
+  padding-left: 5px;
+  border-left: solid 1px #000;
+  color: black;
+}
+tbody tr:hover {
+  background-color: #feebe2;
+}

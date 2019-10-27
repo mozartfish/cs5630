@@ -1,323 +1,145 @@
 /**
  * This script defines the table and its functionality as specified by the README
  */
-class Table{
-
+class Table {
+  /**
+   * Constructor for the Table
+   * @param {*} politicalData - the project data
+   */
+  constructor(politicalData) {
     /**
-     * Constructor for the table object
-     * @param {} politicalData - the data for the project
+     * Instance variable for elements that will populate the table
      */
-    constructor(politicalData)
-    {
-        /**
-         * Instance variable for storing the table data
-         */
-        this.tableData = politicalData;
-
-        /**
-         * Instance variable for storing the table headers
-         */
-        this.tableHeaders = ["Phrase", "Frequency", "Percentages", "Total"];
-
-        /**
-         * Object for defining how to size the svgs in the table cells
-         */
-        this.cell = {"width":150, "height": 20, "buffer": 15};
-
-        /**
-         * Instance variable for defining the size of the bars for the table
-         */
-        this.bar = {"height": 20};
-
-        /**
-         * Scale for the categories
-         */
-        this.categoryScale = null;
-
-        /**
-         * Scale for the frequency
-         */
-        this.frequencyScale = null;
-
-        /**
-         * Scale for the percentages
-         */
-        this.percentagesScale = null;
-
-        /**
-         * Counter for sorting the phrases in ascending or descending order
-         */
-        this.phraseCounter = 0;
-
-        /**
-         * Counter fo sorting the frequency in ascending or descending order
-         */
-        this.frequencyCounter = 0;
-
-        /**
-         * Counter for sorting the percentages in ascending or descending order
-         */
-        this.percentagesCounter = 0;
-
-        /**
-         * Counter for sorting the total in ascending or descending order
-         */
-        this.totalCounter = 0;
-/**
-     * Instance variable for keeping track of the categories
+    this.tableElements = politicalData;
+    /**
+     * Instance variable that stores all the data
+     */
+    this.politicalData = politicalData;
+    /**
+     * Instance variable that stores all the column header values for use in sorting
+     */
+    this.tableHeaders = ["Phrase", "Frequency", "Percentages", "Total"];
+    /**
+     * Instance variable object that defines sizing for cells
+     */
+    this.cell = { width: 70, height: 20, buffer: 15 };
+    /**
+     * Instance variable that defines the height of the bars
+     */
+    this.bar = { height: 20 };
+    /**
+     * Category Scale
+     */
+    this.categoryScale = null;
+    /**
+     * Frequency Scale
+     */
+    this.frequencyScale = null;
+    /**
+     * Percentages Scale
+     */
+    this.percentagesScale = null;
+    /**
+     * Phrase Counter
+     */
+    this.phraseCounter = 0;
+    /**
+     * Frequency Counter
+     */
+    this.frequencyCounter = 0;
+    /**
+     * Percentages Counter
+     */
+    this.percentagesCounter = 0;
+    /**
+     * Total Counter
+     */
+    this.totalCounter = 0;
+    /**
+     * List for keeping track of categories
      */
     this.categoriesList = null;
-        /**
-     * Instance variable for indexing into the category property of the data
+    /**
+     * Instance variable for indexing into the categories
      */
     this.category = "category";
     /**
-     * Instance variable used for keeping track of the democrat speeches
+     * Instance variable for indexing into the democrat speech percentages
      */
     this.democratSpeeches = "percent_of_d_speeches";
     /**
-     * Instant variable used for keeping track of the republican speeches
+     * Instance variable for indexing into the republican speech percentages
      */
     this.republicanSpeeches = "percent_of_r_speeches";
-    }
-    /**
-     * Function that sets up the table. Set up includes creating the scales, axes, and svgs for the categories.
-     */
-    createTable()
-    {
-        console.log("entered the create table function");
-        console.log("the value of the data for the table is", this.tableData);
+  }
+  /**
+   * Function that sets up the table including headers that when clicked all for the table to be sorted by the chosen attribute
+   */
+  createTable() {
+    // print the data
+    console.log("the political data", this.politicalData);
 
-        // create the scale for the frequency
-        let frequencyList = this.calculateFrequency(this.tableData);
-        let frequencyListMin = d3.min(frequencyList);
-        let frequencyListMax = d3.max(frequencyList);
+    // Set that equal to this to use the anonymous functions and variables that have this on the front
+    let that = this;
 
-        this.frequencyScale = d3.scaleLinear()
-                                .domain([0.0, frequencyListMax])
-                                .range([this.cell.buffer,  this.cell.width + this.cell.buffer])
-                                .nice();
-        
-        let frequencySVG = d3.select("#frequencyHeader")
-                              .append("svg")
-                              .attr("width", this.cell.width + 2 * this.cell.buffer + 60)
-                              .attr("height", this.cell.height)
-                              .attr("id", "frequencySVG");
-        let frequencyGroup = frequencySVG.append("g")
-                                         .attr("transform", "translate(5, 21)");
-        let frequencyAxis = d3.axisTop(this.frequencyScale).ticks(3);
-        frequencyGroup.call(frequencyAxis);
-
-        this.percentagesScale = d3.scaleLinear()
-                                  .domain([-100, 100])
-                                  .range([15, 300])
-                                  .nice();
-        let percentagesSVG = d3.select("#percentagesHeader")
-                               .append("svg")
-                               .attr("width", this.cell.buffer + 2 * this.cell.width + this.cell.buffer + 100)
-                               .attr("height", this.cell.height)
-                               .attr("id", "percentagesSVG");
-
-        let percentagesGroup = percentagesSVG.append("g")
-                                             .attr("transform", "translate(40, 21)");
-        let percentagesAxis = d3.axisTop(this.percentagesScale).ticks(5).tickFormat(d => Math.abs(d));
-        percentagesGroup.call(percentagesAxis);
-
-           // Create a list (in the format of a set) for determining the domain for the category scale
-    this.categoriesList = this.accessData(this.tableData, this.category);
-    console.log("categoryList", this.categoriesList);
-
-    console.log(this.frequencyScale(0.5));
-
-    // create the category scale
+    // Determine the scales and axes for the Categories, Frequency and the Percentages
+    // Frequency Scale
+    let frequencyList = this.calculateFrequency(this.politicalData);
+    let frequencyMin = d3.min(frequencyList);
+    let frequencyMax = d3.max(frequencyList);
+    console.log("frequency min", frequencyMin);
+    console.log("frequency max", frequencyMax);
+    this.frequencyScale = d3
+      .scaleLinear()
+      .domain([0.0, 1.0])
+      .range([0, 2 * this.cell.width + 20])
+      .nice();
+    // Percentages Scale
+    this.percentagesScale = d3
+      .scaleLinear()
+      .domain([-100, 100])
+      .range([0, 2 * this.cell.width + 20])
+      .nice();
+    this.categoriesList = this.accessData(this.politicalData, this.category);
+    console.log("categories", this.categoriesList);
     this.categoryScale = d3
-    .scaleOrdinal()
-    .domain(this.categoriesList)
-    .range(d3.schemeTableau10); // color scheme chosen in honor of Pat Hanrahan after his inspiring lectures at the 2019 Organick Lecture Series
-    }
+      .scaleOrdinal()
+      .domain(this.categoriesList)
+      .range(d3.schemeTableau10); // color scheme chosen in honor of Pat Hanrahan for his amazing lectures during the 2019 Organick Lecture Series
 
-    updateTable()
-    {
-        console.log("entered the updateTable function");
+    // Frequency X Axis
+    let frequencyXAxis = d3.axisTop(this.frequencyScale).ticks(3);
+    let frequencyAxisHeader = d3.select("#frequencyHeader");
+    let frequencyAxisSVG = frequencyAxisHeader
+      .append("svg")
+      .attr("width", 2 * this.cell.width + this.cell.buffer + 90)
+      .attr("height", this.cell.height + 10)
+      .attr("id", "frequencyAxisSVG");
+    let frequencyHeaderGroup = frequencyAxisSVG
+      .append("g")
+      .attr("transform", "translate(45," + (this.cell.buffer + 5) + ")")
+      .call(frequencyXAxis);
 
-        // define that so we can access functions and variables that have this on the front
-        let that = this;
+    // Percentages X Axis
+    let percentagesXAxis = d3
+      .axisTop(this.percentagesScale)
+      .ticks(5)
+      .tickFormat(d => Math.abs(d));
+    let percentagesAxisHeader = d3.select("#percentagesHeader");
+    let percentagesAxisSVG = percentagesAxisHeader
+      .append("svg")
+      .attr("width", 2 * this.cell.width + this.cell.buffer + 90)
+      .attr("height", this.cell.height + 10)
+      .attr("id", "percentagesSVG");
+    let percentagesGroup = percentagesAxisSVG
+      .append("g")
+      .attr("transform", "translate(45," + (this.cell.buffer + 5) + ")")
+      .call(percentagesXAxis);
 
-        // create table rows
-        let table = d3.select("#politicalTable");
-        let tableRows = table.select("tbody")
-                             .selectAll("tr")
-                             .data(that.tableData)
-                             .join("tr")
-                             .attr("id", d => d.phrase);
-        
-        // add the element names
-        let tableHeaderElements = tableRows.selectAll("th")
-                                           .data(d => [d])
-                                           .join("th")
-                                           .classed("phraseNames", true);
-        tableHeaderElements.html(function(d){
-            return d.phrase;
-        })
-
-        // for debugging purposes
-        let frequencyObjectList = [];
-        let percentagesObjectList = [];
-        let totalObjectList = [];
-
-        // add all the table data elements
-        let tdElements = tableRows.selectAll("td")
-                                  .data(function(d){
-                                      // Frequency Column
-                                      let frequencyObject = {};
-                                      let frequencyValue = d.total / 50;
-                                      frequencyObject["frequency"] = frequencyValue;
-                                      frequencyObject["name"] = "frequency";
-                                      frequencyObject["visType"] = "bar";
-                                      frequencyObject["category"] = d.category;
-
-                                      // Percentages Column
-                                      let percentagesObject = {};
-                                      percentagesObject["democrat"] = d[that.democratSpeeches];
-                                      percentagesObject["republican"] = d[that.republicanSpeeches];
-                                      percentagesObject["name"] = "percentages";
-                                      percentagesObject["visType"] = "bar"
-                                     
-                                      
-                                      // Total Column
-                                      let totalObject = {};
-                                      totalObject["total"] = d.total;
-                                      totalObject["name"] = "total"
-                                      totalObject["visType"] = "text";
-
-                                      frequencyObjectList.push(frequencyObject);
-                                      percentagesObjectList.push(percentagesObject);
-                                      totalObjectList.push(totalObject);
-
-                                      return[frequencyObject, percentagesObject, totalObject];
-                                  })
-                                  .join("td")
-                                  .attr("id", d => d.visType);
-        
-    console.log("frequencyObjectlist", frequencyObjectList);
-    console.log("percentagesObjectList", percentagesObjectList);
-    console.log("totalObjectList", totalObjectList);
-
-    console.log("make some EPIC charts");
-
-    // bart charts for the frequency
-    let frequencyCharts= tdElements.filter((d) => {
-        return d.name === "frequency";
-    });
-
-    // bind svg to the selected elements
-    frequencyCharts.selectAll("svg")
-                        .data(d => [d])
-                        .join("svg");
-
-    
-    let frequencySVG = frequencyCharts.selectAll("svg");
-    frequencySVG.attr("width", that.cell.width + 2 * that.cell.buffer + 60)
-                .attr("height", that.cell.height);
-
-    let frequencyRectangles = frequencySVG.selectAll("rect")
-                                          .data(d => [d])
-                                          .join("rect");
-    frequencyRectangles.attr("width", d => that.frequencyScale(d.frequency))
-                       .attr("height", that.bar.height)
-                       .attr("fill", d => that.categoryScale(d.category))
-                       .attr("transform", "translate(15, 0)");
-
-
-        // bart charts for the frequency
-        let percentageChartsRepublican= tdElements.filter((d) => {
-            return d.name === "percentages";
-        });
-
-        percentageChartsRepublican.selectAll("svg")
-                        .data(d => [d])
-                        .join("svg");
-        
-       let percentageSVG = percentageChartsRepublican.selectAll("svg");
-       percentageSVG.attr("width", that.cell.buffer + 2 * that.cell.width + that.cell.buffer + 10)
-                    .attr("height", that.cell.height)
-                    .attr("id", "percentageSVG");
-
-
-
-        let percentageRect = percentageSVG.selectAll("rect")
-                                          .data(function(d){
-                                              let republican = {};
-                                            //   republican["speech"] =
-                                            // console.log("the value of d is", d["republican"]);
-
-                                            republican["rspeech"] = d["republican"];
-
-                                            return [republican];
-                                          })
-                                          .join("rect");
-            percentageRect.attr("width", d => that.percentagesScale(d["rspeech"]) / 4)
-                          .attr("height", that.bar.height)
-                          .attr("fill", "red")
-                          .attr("transform", "translate(200, 0)")
-                          .classed("republican", true);
-        
-        let democratRectangles = d3.selectAll("#percentageSVG")
-                                    .append("rect");
-            democratRectangles.attr("width", d => that.percentagesScale(d["democrat"]) / 4)
-                              .attr("height", that.bar.height)
-                              .attr("fill", "blue")
-                              .attr("transform", "translate(130, 0)");
-            
-        let totalText= tdElements.filter((d) => {
-            return d.name === "total";
-        });
-
-        totalText.selectAll("text")
-                 .data(d => [d])
-                 .join("text");
-        
-        totalText.attr("width", that.cell.width)
-                 .attr("height", that.cell.height)
-                 .text(d => d.total);
-
-    
-          
-          let politicalPhraseHeader= d3.select("#Phrase")
-          .data(["Phrase"]);
-
-             politicalPhraseHeader.on("click", function(d){
-                 that.SortPhrases();
-                })
-    }
-    
-    SortPhrases()
-    {
-        // define that so we can access functions that have this on the front
-        let that = this;
-
-        console.log("entered the sort headers function");
-
-        // check if we need to sort in ascending or descending order
-        if (that.phraseCounter === 0)
-        {
-            console.log("sort in ascending order");
-
-            that.tableData.sort((a, b) => d3.ascending(a.key, b.key));
-            that.phraseCounter = 1;
-        }
-     
-        else
-        {
-            console.log("sort in descending order");
-
-            that.tableData.sort((a, b) => d3.descending(a.key, b.key));
-            that.teamCounter = 0;
-        }
-
-        that.updateTable();
-    }
-
+    // Remove the bar from the Frequency and Percentages Axes
+    // Article on removing the bar for the axis: https://observablehq.com/@d3/line-with-missing-data
+    // d3.selectAll(".domain").remove();
+  }
   /**
    * Function for calculating the max value for different properties
    * @param {*} data - the project data
@@ -330,10 +152,9 @@ class Table{
       maxValueList.push(value);
     });
     let maxValue = d3.max(maxValueList);
-    console.log("maxValue", maxValue);
+    // console.log("maxValue", maxValue);
     return maxValue;
   }
-
   /**
    * Function for calculating the min value for different properties
    * @param {*} data - the project data
@@ -346,11 +167,10 @@ class Table{
       minValueList.push(value);
     });
     let minValue = d3.min(minValueList);
-    console.log("minValue", minValue);
+    // console.log("minValue", minValue);
     return minValue;
   }
-
-      /**
+  /**
    * Function for gathering the different properties of the data without duplicates
    * @param {*} data - the project data
    * @param {*} attribute - a particular property of the data
@@ -368,26 +188,16 @@ class Table{
     return attributeValueList;
   }
   /**
-   * Rounding function article: https://www.jacklmoore.com/notes/rounding-in-javascript/
-   * @param {} value - the number to be rounded 
-   * @param {*} decimals - the decimal place we want to round to 
-   */
-  round(value, decimals) {
-    return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
-  }
-  /**
    * Function that calculates the word frequency for the data
    * @param {*} data - the data for the project
    */
-  calculateFrequency(data)
-  {
+  calculateFrequency(politicalData) {
     let frequencyList = [];
-    data.forEach(element => {
-        let dataTotal = element.total;
-        let totalFrequency = dataTotal / 50;
-        frequencyList.push(totalFrequency);
+    politicalData.forEach(element => {
+      let dataTotal = element.total;
+      let totalFrequency = dataTotal / 50;
+      frequencyList.push(totalFrequency);
     });
     return frequencyList;
   }
-
 }
