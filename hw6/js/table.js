@@ -235,7 +235,7 @@ class Table {
       .attr("x", 0.0)
       .attr("y", 8)
       .attr("width", d => that.frequencyScale(d.frequency))
-      .attr("height", that.cell.height - 10)
+      .attr("height", that.cell.height)
       .attr("fill", d => that.categoryScale(d.category));
   }
 
