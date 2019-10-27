@@ -18,7 +18,7 @@ class Table {
     /**
      * Instance variable that stores all the column header values for use in sorting
      */
-    this.tableHeaders = ["Phrase", "Frequency", "Percentages", "Total"];
+    this.tableHeaders = ["Frequency", "Percentages", "Total"];
     /**
      * Instance variable object that defines sizing for cells
      */
@@ -159,8 +159,46 @@ class Table {
 
     // Remove the bar from the Frequency and Percentages Axes
     // Article on removing the bar for the axis: https://observablehq.com/@d3/line-with-missing-data
-    // d3.selectAll(".domain").remove();
+    d3.selectAll(".domain").remove();
+
+    // Click functionality
+    console.log("starting the click functionality");
+
+    // click functionality for the phrase
+    let politicalPhraseHeader= d3.selectAll("thead th")
+                                 .data(["Phrase"]);
+    politicalPhraseHeader.on("click", function(d){
+      console.log("clicked the", d, "header");
+      that.sortPhrases();
+    })
   }
+
+  /**
+   * Helper function that sorts the phrases
+   */
+  sortPhrases()
+  {
+    // define that so we can access functions and variables that have this on the front
+    let that = this;
+
+    console.log("entered the sort phrase function");
+
+    if (that.phraseCounter === 0)
+    {
+      console.log("sort phrases in ascending order");
+      that.tableElements.sort((a, b) => d3.ascending(a.phrase, b.phrase));
+      that.phraseCounter = 1;
+    }
+    else
+    {
+      console.log("sort phrases in descending order");
+      that.tableElements.sort((a, b) => d3.descending(a.phrase, b.phrase));
+      that.phraseCounter = 0;
+    }
+
+    that.updateTable();
+  }
+
   /**
    * Updates the table contents with a row for each element in the global variable tableElements
    */
@@ -318,10 +356,6 @@ class Table {
                .attr("height", that.cell.height)
                .text(d => d.total)
                .attr("id", "totalText");
-
-
-  
-
   }
 
   /**
