@@ -86,7 +86,6 @@ class Table {
   createTable() {
     // print the data
     console.log("the political data", this.politicalData);
-
     // Set that equal to this to use the anonymous functions and variables that have this on the front
     let that = this;
 
@@ -112,13 +111,13 @@ class Table {
     this.republicanScale = d3
       .scaleLinear()
       .domain([0, 100])
-      .range([0, this.cell.width])
+      .range([0, this.cell.width + 10])
       .nice();
     // Democrat Scale
     this.democratScale = d3
       .scaleLinear()
       .domain([0, 100])
-      .range([0, this.cell.width])
+      .range([0, this.cell.width + 10])
       .nice();
     // Categories Scale
     this.categoriesList = this.accessData(this.politicalData, this.category);
@@ -161,36 +160,158 @@ class Table {
     // Article on removing the bar for the axis: https://observablehq.com/@d3/line-with-missing-data
     d3.selectAll(".domain").remove();
 
-    // Click functionality
-    console.log("starting the click functionality");
-
-    // click functionality for the phrase
-    let politicalPhraseHeader= d3.selectAll("thead th")
-                                 .data(["Phrase"]);
-    politicalPhraseHeader.on("click", function(d){
+    // Click Functionality for the Phrase Header
+    let politicalPhraseHeader = d3.selectAll("thead th").data(["Phrase"]);
+    politicalPhraseHeader.on("click", function(d) {
       console.log("clicked the", d, "header");
       that.sortPhrases();
-    })
+    });
+
+    // Click Functionality for the rest of the headers
+    let politicalTableHeaders = d3
+      .selectAll("thead td")
+      .data(this.tableHeaders);
+    politicalTableHeaders.on("click", function(d) {
+      console.log("clicked the ", d, "header!");
+      that.sortPoliticalTableHeaders(d);
+    });
+  }
+  /**
+   * Function that sorts the Frequency, Percentages and Total Columns
+   * @param {*} tableHeaderName
+   */
+  sortPoliticalTableHeaders(tableHeaderName) {
+    // define tht so we can access function and variables that have this on the front
+    let that = this;
+
+    // Sort the Frequency
+    if (tableHeaderName === "Frequency") {
+      if (that.frequencyCounter === 0) {
+        console.log("sort frequency in ascending order");
+        that.tableElements.sort((a, b) =>
+          d3.ascending(a.total / 50, b.total / 50)
+        );
+        that.frequencyCounter = 1;
+      } else {
+        console.log("sort frequency in descending order");
+        that.tableElements.sort((a, b) =>
+          d3.descending(a.total / 50, b.total / 50)
+        );
+        that.frequencyCounter = 0;
+      }
+    }
+
+    // Sort the Total
+    else if (tableHeaderName === "Total") {
+      // Experiment for sorting the total
+      // In the case of total ascending and descending doesn't work properly for some reasons
+      // let totalList = [];
+      // that.tableElements.forEach(element => {
+      //   let value = element.total;
+      //   // console.log("value is", value);
+      //   totalList.push(value);
+      // });
+      // console.log("total list", totalList);
+      // let ascendingList = totalList.sort((a, b) => a - b);
+      // console.log("list sorted in ascending order", ascendingList);
+
+      if (that.totalCounter === 0) {
+        console.log("sort the total in ascending order");
+        that.tableElements.sort((a, b) => a.total - b.total);
+        that.totalCounter = 1;
+      } else {
+        console.log("sort the total in descending order");
+        that.tableElements.sort((a, b) => b.total - a.total);
+        that.totalCounter = 0;
+      }
+    }
+    // Sort the Percentages
+    // There are four cases for the percentages
+    // 1) Counter = 0 => Sort democrat ascending
+    // 2) Counter = 1 => Sort Democrats Descending
+    // 3) Counter = 2 => Sort Republicans Ascending
+    // 4) Counter = 3 => Sort Republicans Descending
+    else {
+      // In order to sort the percentages we have to sort by the area of the rectangles
+      // The following blocks of code do this and modify the data set to sort by area of rectangles
+      let democratRectangles = d3.selectAll("#democrat");
+      let areaListDemocrat = [];
+      democratRectangles.each(function() {
+        let width = this.getAttribute("width");
+        let height = this.getAttribute("height");
+        let area = width * height;
+        areaListDemocrat.push(area);
+      });
+      let republicanRectangles = d3.selectAll("#republican");
+      let areaListRepublican = [];
+      republicanRectangles.each(function() {
+        let width = this.getAttribute("width");
+        let height = this.getAttribute("height");
+        let area = width * height;
+        areaListRepublican.push(area);
+      });
+      for (let j = 0; j < this.tableElements.length; j++) {
+        let currentObject = this.tableElements[j];
+        currentObject["democratArea"] = areaListDemocrat[j];
+        currentObject["republicanArea"] = areaListRepublican[j];
+      }
+      // console.log("table elements updated", that.tableElements);
+
+      // Sort the Percentages by Area
+      if (that.percentagesCounter === 0) {
+        console.log("sorting the democrats in ascending order");
+        that.tableElements.sort(
+          (a, b) => a["republicanArea"] - b["republicanArea"]
+        );
+        that.percentagesCounter = 1;
+      } else if (that.percentagesCounter === 1) {
+        console.log("sorting the democrats in descending order");
+        that.tableElements.sort(
+          (a, b) => b["republicanArea"] - a["republicanArea"]
+        );
+        that.percentagesCounter = 2;
+      }
+      else if(that.percentagesCounter === 2)
+      {
+        console.log("sorting the democrats in ascending order");
+        that.tableElements.sort((a, b) => a["democratArea"] - b["democratArea"]);
+        that.percentagesCounter = 3;
+      }
+      else
+      {
+        console.log("sorting the republicans in descending order");
+        that.tableElements.sort((a, b) => b["democratArea"] - a["democratArea"]);
+        that.percentagesCounter = 0;
+      }
+      // Sort the Percentages by Area
+      // if (that.percentagesCounter === 0) {
+      //   console.log("sort the percentages in ascending order");
+      //   let elementAreaList = [];
+      //   that.tableElements.forEach(element => {
+      //     let value = element["totalArea"];
+      //     elementAreaList.push(value);
+      //   });
+      //   console.log("element area list", elementAreaList);
+      //   let ascendingAreaList = elementAreaList.sort((a, b) => a - b);
+      //   console.log("ascending area", ascendingAreaList);
+    }
+    that.updateTable();
   }
 
   /**
-   * Helper function that sorts the phrases
+   * Function that sorts the Phrases
    */
-  sortPhrases()
-  {
+  sortPhrases() {
     // define that so we can access functions and variables that have this on the front
     let that = this;
 
     console.log("entered the sort phrase function");
 
-    if (that.phraseCounter === 0)
-    {
+    if (that.phraseCounter === 0) {
       console.log("sort phrases in ascending order");
       that.tableElements.sort((a, b) => d3.ascending(a.phrase, b.phrase));
       that.phraseCounter = 1;
-    }
-    else
-    {
+    } else {
       console.log("sort phrases in descending order");
       that.tableElements.sort((a, b) => d3.descending(a.phrase, b.phrase));
       that.phraseCounter = 0;
@@ -236,14 +357,14 @@ class Table {
         let frequencyValue = d.total / 50;
         frequencyObject["frequency"] = frequencyValue;
         frequencyObject["name"] = "frequency";
-        frequencyObject["visType"] = "bar";
+        frequencyObject["visType"] = "frequencybar";
         frequencyObject["category"] = d.category;
         // percentages objects
         let percentagesObject = {};
         percentagesObject["republican"] = d[that.republicanSpeeches];
         percentagesObject["democrat"] = d[that.democratSpeeches];
         percentagesObject["name"] = "percentages";
-        percentagesObject["visType"] = "bar";
+        percentagesObject["visType"] = "percentagesbar";
         // total objects
         let totalObject = {};
         totalObject["total"] = d.total;
@@ -279,7 +400,7 @@ class Table {
       .selectAll("svg")
       .attr("width", 2 * that.cell.width + that.cell.buffer + 90)
       .attr("height", that.cell.height + 10);
-    
+
     // Add a group to the svgs
     let frequencyChartGroup = frequencyBarSVG
       .selectAll("g")
@@ -317,9 +438,11 @@ class Table {
       .attr("width", 2 * that.cell.width + that.cell.buffer + 90)
       .attr("height", that.cell.height + 10);
 
-    // Republican Bars
+    // // Republican Bars
     let percentagesBarRepublican = percentagesBarSVG
-      .append("rect")
+      .selectAll("rect")
+      .data(d => [d])
+      .join("rect")
       .attr("id", "republican");
     percentagesBarRepublican
       .attr("transform", "translate(43, 5)")
@@ -329,33 +452,44 @@ class Table {
       .attr("height", that.bar.height)
       .attr("fill", "#ff4d4d");
 
-    // Democrat Bars
-    let percentagesBarDemocrat = percentagesBarSVG
-      .append("rect")
-      .attr("id", "democrat");
-    percentagesBarDemocrat
-      .attr("transform", "translate(195, 5)" + "scale(-1, 1)")
+    // Add group for the democrats
+    let democratGroup = percentagesBarSVG
+      .selectAll("g")
+      .data(d => [d])
+      .join("g")
+      .attr("id", "democratGroup");
+
+    democratGroup.attr("transform", "translate(195, 5)" + "scale(-1, 1)");
+
+    // Create rectangles for the democrats bar chart
+    let percentagesBarDemocrat = democratGroup
+      .selectAll("rect")
+      .data(d => [d])
+      .join("rect")
+      .attr("id", "democrat")
       .attr("x", 76)
       .attr("y", 8)
       .attr("width", d => that.democratScale(d.democrat))
       .attr("height", that.bar.height)
       .attr("fill", "#3477eb");
 
-      // Total Visualization
-      let totalText = tdElements.filter(d => {
-        return d.name === "total";
-      });
+    // Total Visualization
+    let totalText = tdElements.filter(d => {
+      return d.name === "total";
+    });
 
-      // bind text elements to total data
-      totalText.selectAll("text")
-               .data(d => [d])
-               .join("text");
-      
-      // Set the properties of the text
-      totalText.attr("width", that.cell.width)
-               .attr("height", that.cell.height)
-               .text(d => d.total)
-               .attr("id", "totalText");
+    // bind text elements to total data
+    totalText
+      .selectAll("text")
+      .data(d => [d])
+      .join("text");
+
+    // Set the properties of the text
+    totalText
+      .attr("width", that.cell.width)
+      .attr("height", that.cell.height)
+      .text(d => d.total)
+      .attr("id", "totalText");
   }
 
   /**

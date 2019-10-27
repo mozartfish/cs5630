@@ -23,12 +23,12 @@
   height: 300px;
   float: left;
 }
-.democrat {
+.democratTitle {
   font-family: "Roboto", sans-serif;
   font-size: 25px;
   font-weight: 700;
 }
-.republican {
+.republicanTitle {
   font-family: "Roboto", sans-serif;
   font-size: 25px;
   font-weight: 700;

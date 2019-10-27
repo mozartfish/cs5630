@@ -120,7 +120,7 @@ class Chart {
     // group for the democrat party label
     let democrateGroup = svgGroup
       .append("g")
-      .attr("class", "democrat")
+      .attr("class", "democratTitle")
       .attr("transform", "translate(40, 100)");
 
     // create the democrate title
@@ -129,7 +129,7 @@ class Chart {
     // group for the republic party label
     let republicanGroup = svgGroup
       .append("g")
-      .attr("class", "republican")
+      .attr("class", "republicanTitle")
       .attr("transform", "translate(700, 100)");
 
     // create the republican title
