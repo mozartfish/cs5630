@@ -15,5 +15,4 @@ d3.json("/data/words.json").then(data => {
   let chart = new Chart(data, table);
   chart.createChart();
   chart.drawChart();
- 
 });

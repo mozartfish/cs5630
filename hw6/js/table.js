@@ -203,18 +203,6 @@ class Table {
 
     // Sort the Total
     else if (tableHeaderName === "Total") {
-      // Experiment for sorting the total
-      // In the case of total ascending and descending doesn't work properly for some reasons
-      // let totalList = [];
-      // that.tableElements.forEach(element => {
-      //   let value = element.total;
-      //   // console.log("value is", value);
-      //   totalList.push(value);
-      // });
-      // console.log("total list", totalList);
-      // let ascendingList = totalList.sort((a, b) => a - b);
-      // console.log("list sorted in ascending order", ascendingList);
-
       if (that.totalCounter === 0) {
         console.log("sort the total in ascending order");
         that.tableElements.sort((a, b) => a.total - b.total);
@@ -283,17 +271,6 @@ class Table {
         );
         that.percentagesCounter = 0;
       }
-      // Sort the Percentages by Area
-      // if (that.percentagesCounter === 0) {
-      //   console.log("sort the percentages in ascending order");
-      //   let elementAreaList = [];
-      //   that.tableElements.forEach(element => {
-      //     let value = element["totalArea"];
-      //     elementAreaList.push(value);
-      //   });
-      //   console.log("element area list", elementAreaList);
-      //   let ascendingAreaList = elementAreaList.sort((a, b) => a - b);
-      //   console.log("ascending area", ascendingAreaList);
     }
     that.updateTable();
   }
