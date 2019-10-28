@@ -242,6 +242,12 @@ class Chart {
     lineGroup.attr("class", "line-group");
     lineGroup.attr("transform", "translate(17, 244)");
 
+    const xyBrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(10, 160)")
+      .classed("brush", true);
+
     // line for the chart
     let chartLine = lineGroup.append("line");
     chartLine
@@ -252,7 +258,6 @@ class Chart {
       .attr("stroke", "black")
       .attr("id", "chartLine")
       .classed("swarmLine", true);
-
     // group for the circles
     let circleGroup = d3
       .select("#chartView")
@@ -262,6 +267,8 @@ class Chart {
     circleGroup
       .attr("class", "circle-group")
       .attr("transform", "translate(-6, 224)");
+
+    const swarmGroupCircles = d3.select(".circle-group");
 
     // create the div for the tooltip
     // Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
@@ -369,6 +376,26 @@ class Chart {
         circleSelected.attr("stroke", "none");
       });
 
+    let activeBrush = null;
+    let activeBrushNode = null;
+    // group for the brush
+    xyBrushGroup.each(function() {
+      const selectionThis = this;
+      const selection = d3.select(this);
+
+      const xyBrush = d3
+        .brush()
+        .extent([[0, 0], [900 + 3, 1000]])
+        .on("start", function() {
+          if (activeBrush && selection === swarmGroupCircles) {
+            activeBrushNode.call(activeBrush.move, null);
+          }
+          activeBrush = xyBrush;
+          activeBrushNode = selection;
+        });
+      selection.call(xyBrush);
+    });
+
     // group for the labels
     let categoryGroup = d3
       .select("#chartView")
@@ -427,16 +454,6 @@ class Chart {
     mentalHealthText
       .text("Mental Health/Substance Abuse")
       .classed("categoryLabel", true);
-
-    const xbrushGroup = d3
-      .select(".wrapper-group")
-      .append("g")
-      .attr("transform", "translate(10, 160)")
-      .classed("brush", true);
-
-    const xBrush = d3.brush().extent([[0, 0], [this.width + 3, 1000]]);
-
-    xbrushGroup.call(xBrush);
 
     // click functionality for the toggle
     // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
