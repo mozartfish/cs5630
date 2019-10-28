@@ -385,21 +385,28 @@ class Chart {
       .on("start", function(){
         console.log("started brush");
       })
-      .on("brush", function(){
-        const selection = d3.select(this);
-        console.log("the selection", selection);
-        let selectionCircles = d3.select(".circle-group");
-        selectionCircles.on("click", function(){
-          console.log("clicked the circles");
-          selection.call(xyBrush.move, null)
-        })
-        console.log("brushing");
-      })
+      .on("brush", brushed)
       .on("end", function(){
         console.log("ending brush");
       })
       xyBrushGroup.call(xyBrush);
 
+      // function for brushing
+      function brushed(){
+        // store the selection
+        const selection = d3.select(this);
+
+        // remove the brush if the  circles are clicked
+        let selectionCircles = d3.select(".circle-group");
+        selectionCircles.on("click", function(){
+          console.log("clicked the circles");
+          selection.call(xyBrush.move, null)
+        })
+
+        
+
+        console.log("brushing");
+      }
    
 
     // group for the labels
@@ -466,7 +473,9 @@ class Chart {
     // Article on checkboxes: https://developer.mozilla.org/en-US/docs/Archive/Mozilla/XUL/checkbox
     let toggleSwitch = d3.select("#toggle");
     toggleSwitch.on("change", function() {
+      // group that selects the active brushes for the toggle
       const brushGroup = d3.select(".brush");
+      //remove all the active brushes when the toggle is clicked
       brushGroup.each(function(){
         const toggleSelection = d3.select(this);
         toggleSelection.call(xyBrush.move, null);
