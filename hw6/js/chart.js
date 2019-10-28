@@ -242,11 +242,17 @@ class Chart {
     lineGroup.attr("class", "line-group");
     lineGroup.attr("transform", "translate(17, 244)");
 
-    const xyBrushGroup = d3
+    let xyBrushGroup = d3
       .select(".wrapper-group")
       .append("g")
       .attr("transform", "translate(10, 160)")
-      .classed("brush", true);
+      .classed("brush", true)
+      .on("click", clicked);
+
+    function clicked()
+    {
+      console.log("hello clicked this thintg");
+    }
 
     // line for the chart
     let chartLine = lineGroup.append("line");
@@ -397,16 +403,25 @@ class Chart {
     const xyBrush = d3
       .brush()
       .extent([[0, 0], [900 + 3, 1000]])
-      .on("start", function() {
-        console.log("started brushing");
-      });
-    xyBrushGroup.call(xyBrush);
+      .on("start", function(){
+        console.log("started brush");
+      })
+      .on("brush", function(){
+        const selection = d3.select(this);
+        console.log("the selection", selection);
+        let selectionCircles = d3.select(".circle-group");
+        selectionCircles.on("click", function(){
+          console.log("clicked the circles");
+          selection.call(xyBrush.move, null);
+        })
+        console.log("brushing");
+      })
+      .on("end", function(){
+        console.log("ending brush");
+      })
+      xyBrushGroup.call(xyBrush);
 
-    let endingBrushing = d3.select(".circle-group");
-    endingBrushing.on("click", function(){
-      console.log("clicked the circle group");
-      xyBrush.call(xyBrush.move,);
-    })
+   
 
     // group for the labels
     let categoryGroup = d3
