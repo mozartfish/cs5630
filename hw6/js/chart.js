@@ -258,6 +258,7 @@ class Chart {
       .attr("stroke", "black")
       .attr("id", "chartLine")
       .classed("swarmLine", true);
+
     // group for the circles
     let circleGroup = d3
       .select("#chartView")
@@ -267,9 +268,6 @@ class Chart {
     circleGroup
       .attr("class", "circle-group")
       .attr("transform", "translate(-6, 224)");
-
-    const swarmGroupCircles = d3.select(".circle-group");
-
     // create the div for the tooltip
     // Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
     let div = d3
@@ -376,25 +374,39 @@ class Chart {
         circleSelected.attr("stroke", "none");
       });
 
-    let activeBrush = null;
-    let activeBrushNode = null;
-    // group for the brush
-    xyBrushGroup.each(function() {
-      const selectionThis = this;
-      const selection = d3.select(this);
+    // let activeBrush = null;
+    // let activeBrushNode = null;
+    // // group for the brush
+    // xyBrushGroup.each(function() {
+    //   const selectionThis = this;
+    //   const selection = d3.select(this);
 
-      const xyBrush = d3
-        .brush()
-        .extent([[0, 0], [900 + 3, 1000]])
-        .on("start", function() {
-          if (activeBrush && selection === swarmGroupCircles) {
-            activeBrushNode.call(activeBrush.move, null);
-          }
-          activeBrush = xyBrush;
-          activeBrushNode = selection;
-        });
-      selection.call(xyBrush);
-    });
+    //   const xyBrush = d3
+    //     .brush()
+    //     .extent([[0, 0], [900 + 3, 1000]])
+    //     .on("start", function() {
+    //       if (activeBrush && selection === swarmGroupCircles) {
+    //         activeBrushNode.call(activeBrush.move, null);
+    //       }
+    //       activeBrush = xyBrush;
+    //       activeBrushNode = selection;
+    //     });
+    //   selection.call(xyBrush);
+    // });
+
+    const xyBrush = d3
+      .brush()
+      .extent([[0, 0], [900 + 3, 1000]])
+      .on("start", function() {
+        console.log("started brushing");
+      });
+    xyBrushGroup.call(xyBrush);
+
+    let endingBrushing = d3.select(".circle-group");
+    endingBrushing.on("click", function(){
+      console.log("clicked the circle group");
+      xyBrush.call(xyBrush.move,);
+    })
 
     // group for the labels
     let categoryGroup = d3
