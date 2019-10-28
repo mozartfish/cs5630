@@ -412,7 +412,7 @@ class Chart {
         let selectionCircles = d3.select(".circle-group");
         selectionCircles.on("click", function(){
           console.log("clicked the circles");
-          selection.call(xyBrush.move, null);
+          selection.call(xyBrush.move, null)
         })
         console.log("brushing");
       })
@@ -487,6 +487,12 @@ class Chart {
     // Article on checkboxes: https://developer.mozilla.org/en-US/docs/Archive/Mozilla/XUL/checkbox
     let toggleSwitch = d3.select("#toggle");
     toggleSwitch.on("change", function() {
+      const brushGroup = d3.select(".brush");
+      brushGroup.each(function(){
+        const toggleSelection = d3.select(this);
+        toggleSelection.call(xyBrush.move, null);
+      })
+    
       if (that.toggleCounter === 0) {
         that.toggleCounter = 1;
         that.updateChart(that.toggleCounter);
