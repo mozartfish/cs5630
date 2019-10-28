@@ -379,27 +379,6 @@ class Chart {
         let circleSelected = d3.select(this);
         circleSelected.attr("stroke", "none");
       });
-
-    // let activeBrush = null;
-    // let activeBrushNode = null;
-    // // group for the brush
-    // xyBrushGroup.each(function() {
-    //   const selectionThis = this;
-    //   const selection = d3.select(this);
-
-    //   const xyBrush = d3
-    //     .brush()
-    //     .extent([[0, 0], [900 + 3, 1000]])
-    //     .on("start", function() {
-    //       if (activeBrush && selection === swarmGroupCircles) {
-    //         activeBrushNode.call(activeBrush.move, null);
-    //       }
-    //       activeBrush = xyBrush;
-    //       activeBrushNode = selection;
-    //     });
-    //   selection.call(xyBrush);
-    // });
-
     const xyBrush = d3
       .brush()
       .extent([[0, 0], [900 + 3, 1000]])
