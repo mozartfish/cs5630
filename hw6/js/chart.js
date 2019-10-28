@@ -7,14 +7,19 @@
  */
 class Chart {
   /**
-   * Constructor for a Chart Object
-   * @param {} politicalData - the data being visualized
+   * Constructor a Chart Object
+   * @param {*} politicalData - the data used in the project
+   * @param {*} table - a reference to the table
    */
-  constructor(politicalData) {
+  constructor(politicalData, table) {
     /**
      * Instance variable that stores the data
      */
     this.politicalData = politicalData;
+    /**
+     * Instance variable that stores a reference to the table
+     */
+    this.table = table;
     /**
      * Object that defines the margins for the chart
      */
@@ -422,6 +427,16 @@ class Chart {
     mentalHealthText
       .text("Mental Health/Substance Abuse")
       .classed("categoryLabel", true);
+
+    const xbrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(10, 160)")
+      .classed("brush", true);
+
+    const xBrush = d3.brush().extent([[0, 0], [this.width + 3, 1000]]);
+
+    xbrushGroup.call(xBrush);
 
     // click functionality for the toggle
     // Article on using checkboxes with d3: https://bl.ocks.org/johnnygizmo/3d593d3bf631e102a2dbee64f62d9de4
