@@ -395,6 +395,7 @@ class Chart {
       function brushed(){
         // store the selection
         const selection = d3.select(this);
+        const selectCircle = d3.event.selection;
 
         // remove the brush if the  circles are clicked
         let selectionCircles = d3.select(".circle-group");
@@ -403,9 +404,19 @@ class Chart {
           selection.call(xyBrush.move, null)
         })
 
-        
+     
+        if (!d3.event.sourceEvent || !selectCircle)
+        {
+          return;
+        }
+        const foo = selectCircle.map(d => circleScale.invert(d));
+        console.log("foo", foo);
 
-        console.log("brushing");
+
+        // console.log("foo 0", foo[0][0]);
+        // let barB = circleScale.invert(foo[0[0]]);
+
+        // console.log("brushing");
       }
    
 
