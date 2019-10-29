@@ -434,6 +434,13 @@ class Chart {
       selection.call(brush);
     });
 
+    // some stuff for finding the circles
+    console.log("some stuff for finding the circles");
+    const politicalDataSet = this.politicalData.map(d =>({
+      x: d["sourceX"],
+      y: d["sourceY"]
+    }));
+
     // function for brushing
     function brushed() {
       // store the selection
@@ -457,11 +464,30 @@ class Chart {
         }
       });
 
-      if (!d3.event.sourceEvent || !d3.event.selection) {
-        return;
+
+      const currentSelection = d3.brushSelection(this);
+      const currentSelectionIndices = [];
+      if (currentSelection)
+      {
+        const[left, right] = currentSelection;
+        //console.log("current selection", currentSelection);
+        politicalDataSet.forEach((d,i)=> {
+          if (d.x <= circleScale.invert(left) && d.y <= circleScale.invert(right))
+          {
+            currentSelectionIndices.push(i);
+          }
+        });
       }
-      let circleSelection = d3.selectAll(this)
-      console.log("circle selection", circleSelection);
+
+      if (currentSelectionIndices.lenght > 0)
+      {
+        let foo = circles.filter((_, i) => {
+          return currentSelectionIndices.includes(i);
+        });
+        console.log("value of foo is", foo);
+      }
+   
+      //console.log("political data set", politicalDataSet);
 
       console.log("brushing");
     }
