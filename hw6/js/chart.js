@@ -1,7 +1,6 @@
 /**
  * This script defines the swarm chart and its functionality as specified by the README
  */
-
 /**
  * Class that defines a Chart Object
  */
@@ -68,6 +67,10 @@ class Chart {
      * Instance variable for keeping track of the categories
      */
     this.categoriesList = null;
+    /**
+     * Instance variable for when the toggle is triggered
+     */
+    this.toggleSwitch = false;
   }
 
   /**
@@ -246,13 +249,58 @@ class Chart {
       .select(".wrapper-group")
       .append("g")
       .attr("transform", "translate(10, 160)")
-      .classed("brush", true)
-      .on("click", clicked);
+      .classed("brush", true);
 
-    function clicked()
-    {
-      console.log("hello clicked this thintg");
-    }
+    // Groups for the different brushes
+    // Swarm Group Brush
+    let swarmBrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(8, 160)")
+      .attr("id", "swarmBrushGroup")
+      .classed("brush", true);
+    // Economic Group Brush
+    let economicBrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(10, 160)")
+      .attr("id", "economicBrushGroup")
+      .classed("brush", true);
+    // Energy Group Brush
+    let energyBrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(10, 290)")
+      .attr("id", "energyBrushGroup")
+      .classed("brush", true);
+    // Crime Group Brush
+    let crimeBrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(10, 420)")
+      .attr("id", "crimeBrushGroup")
+      .classed("brush", true);
+    // Education Group Brush
+    let educationBrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(10, 560)")
+      .attr("id", "educationBrushGroup")
+      .classed("brush", true);
+    // Health Group Brush
+    let healthBrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(10, 690)")
+      .attr("id", "healthBrushGroup")
+      .classed("brush", true);
+    // Mental Health Group Brush
+    let mentalHealthBrushGroup = d3
+      .select(".wrapper-group")
+      .append("g")
+      .attr("transform", "translate(10, 830)")
+      .attr("id", "mentalHealthBrushGroup")
+      .classed("brush", true);
 
     // line for the chart
     let chartLine = lineGroup.append("line");
@@ -379,46 +427,58 @@ class Chart {
         let circleSelected = d3.select(this);
         circleSelected.attr("stroke", "none");
       });
-    const xyBrush = d3
-      .brush()
-      .extent([[0, 0], [900 + 3, 1000]])
-      .on("start", function(){
-        console.log("started brush");
-      })
-      .on("brush", brushed)
-      .on("end", function(){
-        console.log("ending brush");
-      })
-      xyBrushGroup.call(xyBrush);
 
-      // function for brushing
-      function brushed(){
-        // store the selection
-        const selection = d3.select(this);
-        const selectCircle = d3.event.selection;
-
-        // remove the brush if the  circles are clicked
-        let selectionCircles = d3.select(".circle-group");
-        selectionCircles.on("click", function(){
-          console.log("clicked the circles");
-          selection.call(xyBrush.move, null)
+    // Make the brush
+    let activeBrush = null;
+    let activeBrushNode = null;
+    const brushGroups = d3.selectAll(".brush");
+    brushGroups.each(function() {
+      const selectionThis = this;
+      const selection = d3.select(this);
+      const brush = d3
+        .brushX()
+        .extent([[0, 0], [900, 130]])
+        .on("start", function() {
+          if (activeBrush && selection !== activeBrushNode) {
+            activeBrushNode.call(activeBrush.move, null);
+          }
+          activeBrush = brush;
+          activeBrushNode = selection;
         })
+        .on("brush", brushed);
+      selection.call(brush);
+    });
 
-     
-        if (!d3.event.sourceEvent || !selectCircle)
-        {
-          return;
+    // function for brushing
+    function brushed() {
+      // store the selection
+      const selection = d3.select(this);
+      // remove the brush if the  circles are clicked
+      let selectionCircles = d3.select(".circle-group");
+      selectionCircles.on("click", function() {
+        console.log("clicked the circles");
+        selection.call(activeBrush.move, null);
+      });
+      let toggleChange = d3.select("input");
+      toggleChange.on("change", function(){
+        selection.call(activeBrush.move, null);
+        if (that.toggleCounter === 0) {
+          that.toggleCounter = 1;
+          that.updateChart(that.toggleCounter);
+        } else {
+          that.toggleCounter = 0;
+          that.updateChart(that.toggleCounter);
         }
-        const foo = selectCircle.map(d => circleScale.invert(d));
-        console.log("foo", foo);
+      });
 
+      // if (!d3.event.sourceEvent || !d3.event.selection) {
+      //   return;
+      // }
+      // let circleSelection = d3.event.selection.map(circleScale.invert);
+      // console.log("circle selection", circleSelection);
 
-        // console.log("foo 0", foo[0][0]);
-        // let barB = circleScale.invert(foo[0[0]]);
-
-        // console.log("brushing");
-      }
-   
+      console.log("brushing");
+    }
 
     // group for the labels
     let categoryGroup = d3
@@ -484,14 +544,6 @@ class Chart {
     // Article on checkboxes: https://developer.mozilla.org/en-US/docs/Archive/Mozilla/XUL/checkbox
     let toggleSwitch = d3.select("#toggle");
     toggleSwitch.on("change", function() {
-      // group that selects the active brushes for the toggle
-      const brushGroup = d3.select(".brush");
-      //remove all the active brushes when the toggle is clicked
-      brushGroup.each(function(){
-        const toggleSelection = d3.select(this);
-        toggleSelection.call(xyBrush.move, null);
-      })
-    
       if (that.toggleCounter === 0) {
         that.toggleCounter = 1;
         that.updateChart(that.toggleCounter);
@@ -509,6 +561,7 @@ class Chart {
   updateChart(toggleCounter) {
     // set that to this to access functions and variables that have this on the front
     let that = this;
+    that.toggleSwitch = false;
 
     // this statement executes the swarmchart view
     if (toggleCounter === 0) {
