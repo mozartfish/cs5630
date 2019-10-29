@@ -67,10 +67,6 @@ class Chart {
      * Instance variable for keeping track of the categories
      */
     this.categoriesList = null;
-    /**
-     * Instance variable for when the toggle is triggered
-     */
-    this.toggleSwitch = false;
   }
 
   /**
@@ -245,26 +241,15 @@ class Chart {
     lineGroup.attr("class", "line-group");
     lineGroup.attr("transform", "translate(17, 244)");
 
-    let xyBrushGroup = d3
-      .select(".wrapper-group")
-      .append("g")
-      .attr("transform", "translate(10, 160)")
-      .classed("brush", true);
+
 
     // Groups for the different brushes
-    // Swarm Group Brush
-    let swarmBrushGroup = d3
-      .select(".wrapper-group")
-      .append("g")
-      .attr("transform", "translate(8, 160)")
-      .attr("id", "swarmBrushGroup")
-      .classed("brush", true);
-    // Economic Group Brush
+    // Swarm / Economic Group Brush
     let economicBrushGroup = d3
       .select(".wrapper-group")
       .append("g")
       .attr("transform", "translate(10, 160)")
-      .attr("id", "economicBrushGroup")
+      .attr("id", "swarmEconomicBrushGroup")
       .classed("brush", true);
     // Energy Group Brush
     let energyBrushGroup = d3
@@ -459,8 +444,9 @@ class Chart {
         console.log("clicked the circles");
         selection.call(activeBrush.move, null);
       });
+      // remove the brush if the toggle is changed
       let toggleChange = d3.select("input");
-      toggleChange.on("change", function(){
+      toggleChange.on("change", function() {
         selection.call(activeBrush.move, null);
         if (that.toggleCounter === 0) {
           that.toggleCounter = 1;
@@ -471,11 +457,11 @@ class Chart {
         }
       });
 
-      // if (!d3.event.sourceEvent || !d3.event.selection) {
-      //   return;
-      // }
-      // let circleSelection = d3.event.selection.map(circleScale.invert);
-      // console.log("circle selection", circleSelection);
+      if (!d3.event.sourceEvent || !d3.event.selection) {
+        return;
+      }
+      let circleSelection = d3.selectAll(this)
+      console.log("circle selection", circleSelection);
 
       console.log("brushing");
     }
