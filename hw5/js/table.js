@@ -12,7 +12,7 @@ class Table {
         /**List of all elements that will populate the table.*/
         // Initially, the tableElements will be identical to the teamData
         // this.tableElements = null;
-        this.tableElements = teamData;
+        this.tableElements = teamData.slice();
 
         ///** Store all match data for the 2018 Fifa cup */
         this.teamData = teamData;
@@ -35,22 +35,64 @@ class Table {
         this.goalsMadeHeader = 'Goals Made';
         this.goalsConcededHeader = 'Goals Conceded';
 
-        /** Setup the scales*/
-        this.goalScale = null;
+        /**
+         * The maximum number of goals made
+         */
+        this.goalsMadeMax = this.findMax(this.teamData, this.goalsMadeHeader);
+        
+        /**
+         * The maximum number of goals conceded
+         */
+         this.goalsConcededMax = this.findMax(this.teamData, this.goalsConcededHeader);
 
+        /**
+         * List for storing the goal values
+         */
+        this.goalValuesList = [this.goalsMadeMax, this.goalsConcededMax];
+
+        /**
+         * Max for the Goal Scale Domain
+         */
+        this.goalScaleDomainMax = d3.max(this.goalValuesList);
+
+        /** Setup the scales*/
+        this.goalScale = d3.scaleLinear()
+                           .domain([0, this.goalScaleDomainMax])
+                           .range([0, 2 * this.cell.width + 20])
+                           .nice();
+
+        /**
+         * Max Value for the number of total games played
+         */
+        this.totalGamesDomainMax = this.findMax(this.teamData, "TotalGames");
 
         /** Used for games/wins/losses*/
-        this.gameScale = null;
+        this.gameScale = d3.scaleLinear()
+                           .domain([0, this.totalGamesDomainMax])
+                           .range([0, this.cell.width])
+                           .nice();
+
+        // Aggregate in this data refers to how the teams did overall across all their matches
+        // The categories represented by aggregate are Wins, Losses, and TotalGames
+        // Based upon analysis of the different categories for the aggregate values
+        // there are values in the aggregate categories that make it difficult to decide how to represent
+        // all the aggregate categories with one scale
+        // Since all the values for all the aggregate categories are [0, 7], we can use the totalGamesDomainMax
+        // for the aggregate color scale domain max
 
         /**Color scales*/
         /**For aggregate columns*/
         /** Use colors '#feebe2' and '#690000' for the range*/
-        this.aggregateColorScale = null;
+        this.aggregateColorScale = d3.scaleLinear()
+                                     .domain([0, this.totalGamesDomainMax])
+                                     .range(['#feebe2', '#690000']);
 
 
         /**For goal Column*/
         /** Use colors '#cb181d' and '#034e7b' for the range */
-        this.goalColorScale = null;
+        this.goalColorScale = d3.scaleOrdinal()
+                                .domain([-1, 1])
+                                .range(['#cb181d', '#034e7b']);
 
         /**Counters for determining whether we should sort in ascending or descending order
         */
@@ -77,46 +119,46 @@ class Table {
         let that = this;
 
         // A set of helper functions to determine the min and max value for scales and encoding
-        function findMax(data, attribute)
-        {
-            // List for storing the particular attribute associated with each object in the data
-            let dataList = [];
-            data.forEach(element => {
-                let value = element.value[attribute];
-                dataList.push(value);
-            });
-            // console.log(attribute, "MAX");
-            // console.log("Max Value Data List", dataList);
-             let maxValue = d3.max(dataList);
-             return maxValue;
-        }
+        // function findMax(data, attribute)
+        // {
+        //     // List for storing the particular attribute associated with each object in the data
+        //     let dataList = [];
+        //     data.forEach(element => {
+        //         let value = element.value[attribute];
+        //         dataList.push(value);
+        //     });
+        //     // console.log(attribute, "MAX");
+        //     // console.log("Max Value Data List", dataList);
+        //      let maxValue = d3.max(dataList);
+        //      return maxValue;
+        // }
 
-        function findMin(data, attribute)
-        {
-            // List for stroing the particular attribute associated with each object in the data
-            let dataList = [];
-            data.forEach(element => {
-                let value = element.value[attribute];
-                dataList.push(value);
-            });
+        // function findMin(data, attribute)
+        // {
+        //     // List for stroing the particular attribute associated with each object in the data
+        //     let dataList = [];
+        //     data.forEach(element => {
+        //         let value = element.value[attribute];
+        //         dataList.push(value);
+        //     });
 
-            // console.log(attribute, "MIN");
-            // console.log("Min Value Data List", dataList);
-            let minValue = d3.min(dataList);
-            return minValue;
-        }
+        //     // console.log(attribute, "MIN");
+        //     // console.log("Min Value Data List", dataList);
+        //     let minValue = d3.min(dataList);
+        //     return minValue;
+        // }
 
-        // Function for analyzing different attributes of the team data
-        function GenerateList(data, attribute)
-        {
-          let attributeList = [];
-        //   console.log("the data", data);
-          data.forEach(element => {
-            let value = element.value[attribute]
-            attributeList.push(value);
-          });
-          return attributeList;
-        }
+        // // Function for analyzing different attributes of the team data
+        // function GenerateList(data, attribute)
+        // {
+        //   let attributeList = [];
+        // //   console.log("the data", data);
+        //   data.forEach(element => {
+        //     let value = element.value[attribute]
+        //     attributeList.push(value);
+        //   });
+        //   return attributeList;
+        // }
 
         // View the data
         // console.log("The team data", this.teamData);
@@ -124,59 +166,59 @@ class Table {
         //Update Scale Domains
         // console.log("Update Scale Domain and Range");
 
-        // Update Goal Scale Domain and Range
-        // console.log("Updating the Goal Scale Domain and Range");
-        let goalsMadeMax = findMax(this.teamData, this.goalsMadeHeader);
-        let goalsConcededMax = findMax(this.teamData, this.goalsConcededHeader);
-        let goalValuesList = [goalsMadeMax, goalsConcededMax];
-        let goalScaleDomainMax = d3.max(goalValuesList);
-        //console.log("The deltaGoals Min value is", deltaGoalsDomainMin);
-        // console.log("Goals Made MAX = ", goalsMadeMax);
-        // console.log("Goals Conceded MAX = ", goalsConcededMax);
-        this.goalScale = d3.scaleLinear()
-                           .domain([0, goalScaleDomainMax])
-                           .range([0, 2 * this.cell.width + 20])
-                           .nice();
+        // // Update Goal Scale Domain and Range
+        // // console.log("Updating the Goal Scale Domain and Range");
+        // let goalsMadeMax = findMax(this.teamData, this.goalsMadeHeader);
+        // let goalsConcededMax = findMax(this.teamData, this.goalsConcededHeader);
+        // let goalValuesList = [goalsMadeMax, goalsConcededMax];
+        // let goalScaleDomainMax = d3.max(goalValuesList);
+        // //console.log("The deltaGoals Min value is", deltaGoalsDomainMin);
+        // // console.log("Goals Made MAX = ", goalsMadeMax);
+        // // console.log("Goals Conceded MAX = ", goalsConcededMax);
+        // this.goalScale = d3.scaleLinear()
+        //                    .domain([0, goalScaleDomainMax])
+        //                    .range([0, 2 * this.cell.width + 20])
+        //                    .nice();
 
-        // Update Game Scale Domain and Range
-        // console.log("Updating the Game Scale Domain and Range");
-        let totalGamesDomainMax = findMax(this.teamData, "TotalGames");
-        // console.log("TotalGames MAX = ", totalGamesMax);
-        this.gameScale = d3.scaleLinear()
-                           .domain([0, totalGamesDomainMax])
-                           .range([0, this.cell.width])
-                           .nice();
+        // // Update Game Scale Domain and Range
+        // // console.log("Updating the Game Scale Domain and Range");
+        // let totalGamesDomainMax = findMax(this.teamData, "TotalGames");
+        // // console.log("TotalGames MAX = ", totalGamesMax);
+        // this.gameScale = d3.scaleLinear()
+        //                    .domain([0, totalGamesDomainMax])
+        //                    .range([0, this.cell.width])
+        //                    .nice();
 
-        // Update the Aggregate Color Scale Domain and Range
-        // console.log("Updating the aggregate color scale domain and range");
-        // Aggregate in this data refers to how the teams did overall across all their matches
-        // The categories represented by aggregate are Wins, Losses, and TotalGames
-        // Based upon analysis of the different categories for the aggregate values
-        // there are values in the aggregate categories that make it difficult to decide how to represent
-        // all the aggregate categories with one scale
-        // Since all the values for all the aggregate categories are [0, 7], we can use the totalGamesDomainMax
-        // for the aggregate color scale domain max
+        // // Update the Aggregate Color Scale Domain and Range
+        // // console.log("Updating the aggregate color scale domain and range");
+        // // Aggregate in this data refers to how the teams did overall across all their matches
+        // // The categories represented by aggregate are Wins, Losses, and TotalGames
+        // // Based upon analysis of the different categories for the aggregate values
+        // // there are values in the aggregate categories that make it difficult to decide how to represent
+        // // all the aggregate categories with one scale
+        // // Since all the values for all the aggregate categories are [0, 7], we can use the totalGamesDomainMax
+        // // for the aggregate color scale domain max
 
-        let WinsList = GenerateList(this.teamData, "Wins");
-        let LossesList = GenerateList(this.teamData, "Losses");
-        let TotalGamesList = GenerateList(this.teamData, "TotalGames");
-        // console.log("The Wins list", WinsList);
-        // console.log("The Losses list", LossesList);
-        // console.log("The  Total Games list", TotalGamesList);
-        this.aggregateColorScale = d3.scaleLinear()
-                                     .domain([0, totalGamesDomainMax])
-                                     .range(['#feebe2', '#690000']);
+        // let WinsList = GenerateList(this.teamData, "Wins");
+        // let LossesList = GenerateList(this.teamData, "Losses");
+        // let TotalGamesList = GenerateList(this.teamData, "TotalGames");
+        // // console.log("The Wins list", WinsList);
+        // // console.log("The Losses list", LossesList);
+        // // console.log("The  Total Games list", TotalGamesList);
+        // this.aggregateColorScale = d3.scaleLinear()
+        //                              .domain([0, totalGamesDomainMax])
+        //                              .range(['#feebe2', '#690000']);
         
-        // Update the Goal Color Scale Domain and Range
-        // console.log("Updating the goal color scale domain and range");
-        // We use the delta goals to encode the difference between goals made and goals conceded
-        // color choice was to find the smallest value for the min delta and the largest value for the max delta
-        // since the delta is goals is encoded by the color of a positive or negative delta goals value
-        let deltaGoalsDomainMin = findMin(this.teamData, "Delta Goals");
-        let deltaGoalsDomainMax = findMax(this.teamData, "Delta Goals");
-        this.goalColorScale = d3.scaleLinear()
-                                .domain([deltaGoalsDomainMin,0, deltaGoalsDomainMax])
-                                .range(['#cb181d', '#034e7b']);
+        // // Update the Goal Color Scale Domain and Range
+        // // console.log("Updating the goal color scale domain and range");
+        // // We use the delta goals to encode the difference between goals made and goals conceded
+        // // color choice was to find the smallest value for the min delta and the largest value for the max delta
+        // // since the delta is goals is encoded by the color of a positive or negative delta goals value
+        // let deltaGoalsDomainMin = findMin(this.teamData, "Delta Goals");
+        // let deltaGoalsDomainMax = findMax(this.teamData, "Delta Goals");
+        // this.goalColorScale = d3.scaleOrdinal()
+        //                         .domain([deltaGoalsDomainMin, deltaGoalsDomainMax])
+        //                         .range(['#cb181d', '#034e7b']);
         
         // Create the axes
         // console.log("Create the axes");
@@ -716,4 +758,58 @@ class Table {
 
     }
 
+    /**
+     * Helper function for finding the max
+     * @param {*} data - the data for the visualization
+     * @param {*} attribute - a particular property of the data
+     */
+    findMax(data, attribute)
+    {
+        // List for storing the particular attribute associated with each object in the data
+        let dataList = [];
+        data.forEach(element => {
+            let value = element.value[attribute];
+            dataList.push(value);
+        });
+        // console.log(attribute, "MAX");
+        // console.log("Max Value Data List", dataList);
+         let maxValue = d3.max(dataList);
+         return maxValue;
+    }
+
+    /**
+     * Helper function for finding the min
+     * @param {*} data - the data for the visualization
+     * @param {*} attribute - a particular property of the data
+     */
+    findMin(data, attribute)
+    {
+        // List for stroing the particular attribute associated with each object in the data
+        let dataList = [];
+        data.forEach(element => {
+            let value = element.value[attribute];
+            dataList.push(value);
+        });
+
+        // console.log(attribute, "MIN");
+        // console.log("Min Value Data List", dataList);
+        let minValue = d3.min(dataList);
+        return minValue;
+    }
+
+    /**
+     * Function for generating lists of data with a particular attribute
+     * @param {*} data - the data for the visualization
+     * @param {*} attribute - a particular property of the data set
+     */
+    GenerateList(data, attribute)
+    {
+        let attributeList = [];
+        //   console.log("the data", data);
+        data.forEach(element => {
+            let value = element.value[attribute]
+            attributeList.push(value);
+        });
+        return attributeList;
+    }
 }
