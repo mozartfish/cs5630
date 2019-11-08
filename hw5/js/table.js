@@ -101,7 +101,7 @@ class Table {
     /**For goal Column*/
     /** Use colors '#cb181d' and '#034e7b' for the range */
     this.goalColorScale = d3
-      .scaleOrdinal()
+      .scaleQuantize()
       .domain([-1, 1])
       .range(["#cb181d", "#034e7b"]);
 
@@ -301,12 +301,12 @@ class Table {
       .attr("id", d => d.key);
 
     // Apply an event listener for the rows for highlighting the links in the tree
-    console.log("Applying the event listener for the tree");
+    // console.log("Applying the event listener for the tree");
     tableRows.on("mouseover", d => that.tree.updateTree(d));
     tableRows.on("mouseout", d => that.tree.clearTree());
 
     // Apply an event listener for the row(s) that was clicked for displaying the games associated with that row
-    console.log("Applying the event listener for the row click");
+    // console.log("Applying the event listener for the row click");
     tableRows.on("click", (d, i) => that.updateList(i));
 
     //Append th elements for the Team Names
@@ -326,6 +326,7 @@ class Table {
         return "game";
       }
     });
+
     tableHeaderElements.html(function(d) {
       if (d.value.type === "aggregate") {
         return d.key;
@@ -431,7 +432,7 @@ class Table {
     // console.log("Losses column data", lossesDataObjectList);
     // console.log("totalGames column data", totalGamesDataObjectList);
 
-    console.log("Make some epic SVG plots!");
+    // console.log("Make some epic SVG plots!");
 
     // Bar charts
     // console.log("setting up the bar charts for wins, losses and total games");
