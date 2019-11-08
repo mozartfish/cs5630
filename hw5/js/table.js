@@ -252,6 +252,7 @@ class Table {
       }
     }
 
+    that.collapseList();
     that.updateTable();
   }
 
@@ -278,6 +279,7 @@ class Table {
       that.teamCounter = 0;
     }
 
+    that.collapseList();
     that.updateTable();
   }
   /**
@@ -620,11 +622,9 @@ class Table {
     // ******* TODO: PART IV *******
     // define that to use functions that have this in front of them
     let that = this;
-    
     // variable for keeping track of the row
     let nextRow;
     if (that.tableElements[i].value.type === "aggregate") {
-      console.log("aggregate row clicked");
       if (i === that.tableElements.length - 1) {
         nextRow = i;
       } else {
@@ -643,8 +643,6 @@ class Table {
       }
       // update the table
       that.updateTable();
-    } else {
-      console.log("clicked a game row");
     }
   }
 
