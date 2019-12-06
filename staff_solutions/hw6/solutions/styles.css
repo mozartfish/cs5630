@@ -1,0 +1,269 @@
+* {
+  font-family: "Work Sans", sans-serif;
+}
+
+header {
+  text-align: left;
+  padding-bottom: 40px;
+  padding-right:40px;
+  display:inline-block;
+  float:left;
+  
+}
+
+header div {
+  text-align: right;
+  float: left;
+  display: block;
+  font-size: 13px;
+  padding-left: 150px;
+  
+}
+
+th{
+  text-anchor: middle;
+  font-weight: 700;
+}
+
+#header-wrap{
+  padding-top:10px;
+  width: 95%;
+  margin: 0 auto;
+  align-content: center;
+  }
+
+  #wrapper{
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  #table {
+    margin-right: 30px;
+    padding-top:25px;
+    width:540px;
+    height: 810px;
+    overflow-y: scroll;
+    float: left;
+    
+  }
+  
+  #table svg {
+    width: 100%;
+  }
+  
+  #bubble-chart {
+    width:960px;
+    height: 100%;
+    float: left;
+  }
+  
+  #tooltip {
+    position: absolute;
+    text-align: center;
+    min-width: 50px;
+    min-height: 28px;
+    padding: 5px;
+    background: white;
+    stroke: gray;
+    border-radius: 8px;
+    pointer-events: none;
+  }
+  
+  #x-axis .domain {
+    opacity: 0;
+  }
+
+.text-blurb {
+  display:inline-block;
+  float:left;
+  padding-top:5px;
+  padding-left:10px;
+  max-width: 690px;
+  min-height: 100px;
+  font-size: 13px;
+}
+.text-blurb span {
+  font-size: 18px;
+}
+
+body {
+  padding: 10px;
+}
+
+.background {
+  fill: #fff;
+}
+.background:hover {
+  fill: #e8e1e1;
+}
+
+.th {
+  font-size: 11px;
+  cursor: pointer;
+}
+.tbody {
+  font-size: 11px;
+}
+.th rect {
+  fill: aliceblue;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.td rect {
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+
+
+.rep rect {
+  fill: #e74c3c;
+  stroke: #fff;
+  stroke-width: 2px;
+  opacity: 0.7;
+}
+.dem rect {
+  fill: #2874a6;
+  stroke: #fff;
+  stroke-width: 2px;
+  opacity: 0.7;
+}
+
+
+
+.background-circle {
+  fill: gray !important;
+  stroke: none !important;
+  opacity: 0.4 !important;
+}
+
+.header {
+  text-align: center;
+}
+
+.toolbar{
+  width:100%;
+  padding-left:25px;
+  height:30px;
+  float:left;
+}
+
+.pane {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.pane svg {
+  width: 100%;
+  height: 100%;
+}
+
+.pane svg rect.pane-rect {
+  width: 100%;
+  height: 100%;
+  fill: #fff;
+}
+
+#x-axis {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.center-line {
+  stroke: #aaa;
+  opacity: 0.5;
+}
+
+.political-label {
+  font-size: 18px;
+  font-weight: bold;
+  dominant-baseline: hanging;
+}
+
+.category-label {
+  font-size: 16px;
+  font-weight: 600;
+  dominant-baseline: hanging;
+  fill: gray;
+}
+.democrat {
+  text-anchor: start;
+}
+
+.republican {
+  text-anchor: end;
+}
+
+/*For the slider*/
+.toggle-text {
+  padding-right: 20px;
+  padding-top: 5px;
+  font-size: 12px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
