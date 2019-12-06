@@ -1,0 +1,21 @@
+header {
+  text-align: left;
+  padding-bottom: 40px;
+  padding-right: 40px;
+  display: inline-block;
+  float: left;
+}
+
+header div {
+  text-align: right;
+  float: left;
+  display: block;
+  font-size: 13px;
+  padding-left: 150px;
+}
+#header-wrap {
+  padding-top: 10px;
+  width: 95%;
+  margin: 0 auto;
+  align-content: center;
+}
