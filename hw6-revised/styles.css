@@ -1,0 +1,186 @@
+/*
+*Styling for the Swarm Chart
+*/
+.VisTitle {
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+}
+#VisText {
+  font-family: "Roboto", sans-serif;
+  font-size: 10px;
+  width: 550px;
+  height: 25px;
+  top: 100px;
+  float: right;
+}
+#boldText {
+  font-family: "Roboto";
+  font-weight: 700;
+  font-size: 12px;
+}
+#chartView {
+  width: 500px;
+  height: 300px;
+  float: left;
+}
+.democratTitle {
+  font-family: "Roboto", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+}
+.republicanTitle {
+  font-family: "Roboto", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+}
+.groupByTopic {
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 200;
+}
+.categoryLabel {
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  fill: grey;
+}
+#categoryName {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/*
+Toggle CSS Article: https://www.w3schools.com/howto/howto_css_switch.asp
+Modified the code in the article to create a toggle for the visualization 
+*/
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 23px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+  transform: translate(200px, 50px);
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*
+Tooltip div article: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+*/
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 300px;
+  height: 60px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: white;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+/*
+* Styling for the Table
+*/
+/* #tableView {
+  font-family: "Roboto", sans-serif;
+  width: 800px;
+  margin-top: 100px;
+  margin-left: 1830px;
+  overflow-y: scroll;
+  height: 1300px;
+} */
+/*.tableHead {
+  /* background-color: #c0362c; */
+/* background-color: lightskyblue;
+} */
+
+#tableView {
+  border-collapse: collapse;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  width: 800px;
+  margin-top: 100px;
+  margin-left: 1830px;
+}
+
+th {
+  font-weight: normal;
+  text-align: right;
+  padding-right: 6px;
+  min-width: 125px;
+}
+thead td,
+th {
+  cursor: s-resize;
+}
+tbody tr:first-child td {
+  padding-top: 5px;
+}
+tbody th {
+  cursor: pointer;
+  font-weight: bold;
+}
+tbody td {
+  padding-right: 5px;
+  padding-left: 5px;
+  border-left: solid 1px #000;
+  color: black;
+}
+/*
+Brush Style
+*/
+/* .overlay{
+  cursor: default;
+} */
